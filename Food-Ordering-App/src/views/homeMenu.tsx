@@ -17,7 +17,9 @@ export default function HomeMenu() {
                 <h2 className={'font-bold text-red-600 text-4xl italic'}>Menu</h2>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 p-8">
+            <div className="grid grid-cols-4 gap-4 p-8">
+                <MenuCard/>
+                <MenuCard/>
                 <MenuCard/>
                 <MenuCard/>
                 <MenuCard/>
