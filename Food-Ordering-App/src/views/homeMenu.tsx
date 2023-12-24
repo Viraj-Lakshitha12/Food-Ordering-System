@@ -1,3 +1,5 @@
+import MenuCard from "../components/menuCard.tsx";
+
 export default function HomeMenu() {
     return (
         <section>
@@ -16,17 +18,11 @@ export default function HomeMenu() {
             </div>
 
             <div className="grid grid-cols-3 gap-4 p-8">
-                <div
-                    className="col-span-1 mx-auto bg-gray-200 rounded-lg text-center p-2 flex flex-col items-center max-w-[300px]">
-                    <img className="w-[280px] h-[280px] object-cover rounded-3xl"
-                         src="src/assets/images/peparoniPizza.png" alt="pizza"/>
-                    <h1 className="font-semibold">Pepperoni pizza</h1>
-                    <p className="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, quos, veniam. Itaque
-                        molestiae recusandae voluptatem!</p>
-                    <button className="rounded-full bg-red-600 px-5 py-3 m-3 text-center text-white">Add to cart
-                    </button>
-                </div>
+                <MenuCard/>
+                <MenuCard/>
+                <MenuCard/>
             </div>
+
 
         </section>
     )
