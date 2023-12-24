@@ -23,6 +23,9 @@ export default function HomeMenu() {
                 <MenuCard/>
                 <MenuCard/>
                 <MenuCard/>
+                <MenuCard/>
+                <MenuCard/>
+                <MenuCard/>
             </div>
 
 

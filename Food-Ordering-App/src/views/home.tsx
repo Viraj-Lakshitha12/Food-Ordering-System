@@ -1,6 +1,7 @@
 import Header from "../layout/header.tsx";
 import Hero from "../layout/hero.tsx";
 import HomeMenu from "./homeMenu.tsx";
+import About from "./about.tsx";
 
 export default function Home(){
     return(
@@ -8,6 +9,7 @@ export default function Home(){
             <Header />
             <Hero />
             <HomeMenu />
+            <About />
         </div>
     )
 }
