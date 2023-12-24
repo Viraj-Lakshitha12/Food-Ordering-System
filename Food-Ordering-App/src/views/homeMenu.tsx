@@ -14,7 +14,20 @@ export default function HomeMenu() {
                 <h3>CHECK OUT</h3>
                 <h2 className={'font-bold text-red-600 text-4xl italic'}>Menu</h2>
             </div>
-        </section>
 
+            <div className="grid grid-cols-3 gap-4 p-8">
+                <div
+                    className="col-span-1 mx-auto bg-gray-200 rounded-lg text-center p-2 flex flex-col items-center max-w-[300px]">
+                    <img className="w-[180px] h-[180px] object-cover rounded-3xl"
+                         src="src/assets/images/peparoniPizza.jpg" alt="pizza"/>
+                    <h1 className="font-semibold">Pepperoni pizza</h1>
+                    <p className="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, quos, veniam. Itaque
+                        molestiae recusandae voluptatem!</p>
+                    <button className="rounded-full bg-red-600 px-5 py-3 m-3 text-center text-white">Add to cart
+                    </button>
+                </div>
+            </div>
+
+        </section>
     )
 }
