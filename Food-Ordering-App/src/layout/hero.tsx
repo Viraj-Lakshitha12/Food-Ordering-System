@@ -2,7 +2,7 @@ import Right from "../assets/icons/right.tsx";
 
 export default function Hero() {
     return (
-        <section className={'grid grid-cols-2 p-14 leading-10'}>
+        <section className={'grid sm:grid-cols-1 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 p-14 leading-10'}>
             <div className={'p-8 mt-[4vh]'}>
                 <h1 className={'font-bold text-6xl '}>Everything<br/> is better<br/> with
                     a <span className={'text-red-600'}>
