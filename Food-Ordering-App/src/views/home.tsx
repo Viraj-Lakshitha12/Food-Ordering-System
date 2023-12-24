@@ -1,7 +1,9 @@
+import Header from "../layout/header.tsx";
 
-export default function RootLayout(){
+export default function Home(){
     return(
         <div>
+            <Header />
         </div>
     )
 }
