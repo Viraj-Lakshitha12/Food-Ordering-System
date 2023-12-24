@@ -5,7 +5,7 @@ export default function About() {
                 <h3>OUR STORY</h3>
                 <h2 className="font-bold text-red-600 text-4xl italic">About Us</h2>
             </div>
-            <div className="text-gray-500 max-w-6xl mx-auto mt-6 flex flex-col gap-4">
+            <div className="font-semibold text-gray-500 max-w-6xl mx-auto mt-6 flex flex-col gap-4">
                 <p>
                     Welcome to PIZZA, where every slice tells a story of passion, craftsmanship, and culinary artistry.
                     Our journey
