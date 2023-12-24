@@ -18,8 +18,8 @@ export default function HomeMenu() {
             <div className="grid grid-cols-3 gap-4 p-8">
                 <div
                     className="col-span-1 mx-auto bg-gray-200 rounded-lg text-center p-2 flex flex-col items-center max-w-[300px]">
-                    <img className="w-[180px] h-[180px] object-cover rounded-3xl"
-                         src="src/assets/images/peparoniPizza.jpg" alt="pizza"/>
+                    <img className="w-[280px] h-[280px] object-cover rounded-3xl"
+                         src="src/assets/images/peparoniPizza.png" alt="pizza"/>
                     <h1 className="font-semibold">Pepperoni pizza</h1>
                     <p className="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, quos, veniam. Itaque
                         molestiae recusandae voluptatem!</p>
