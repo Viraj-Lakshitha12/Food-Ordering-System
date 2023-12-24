@@ -2,13 +2,13 @@ import Right from "../assets/icons/right.tsx";
 
 export default function Hero() {
     return (
-        <section className={'grid grid-cols-2 p-14 items-center'}>
-            <div className={'p-8'}>
-                <h1 className={'font-bold text-4xl'}>Everything is better with
+        <section className={'grid grid-cols-2 p-14 leading-10'}>
+            <div className={'p-8 mt-[4vh]'}>
+                <h1 className={'font-bold text-6xl '}>Everything<br/> is better<br/> with
                     a <span className={'text-red-600'}>
                     pizza
                 </span></h1>
-                <p className={'my-4 text-gray-700'}>
+                <p className={'my-4 text-gray-700 text-2xl'}>
                     Pizza is a missing piece that make everyday complete a simple yet delicious joy in life.
                 </p>
                 <div className={'flex gap-4 mt-[5vh] font-bold'}>

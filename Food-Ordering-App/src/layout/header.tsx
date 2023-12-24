@@ -5,7 +5,7 @@ export default function Header(){
             <header className={'flex items-center justify-between'}>
                 <strong className={'text-4xl text-red-600 font-bold p-4'}>PIZZA</strong>
                 <nav>
-                    <ul className={'flex items-center mx-5 text-gray-500 gap-8 font-semibold'}>
+                    <ul className={'flex items-center mx-5 text-gray-500 text-xl gap-10 font-semibold'}>
                         <li>Home</li>
                         <li>Menu</li>
                         <li>About</li>
