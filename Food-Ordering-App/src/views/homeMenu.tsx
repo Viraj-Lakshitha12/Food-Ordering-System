@@ -18,14 +18,8 @@ export default function HomeMenu() {
             </div>
 
             <div className="grid grid-cols-4 gap-4 p-8">
-                <MenuCard/>
-                <MenuCard/>
-                <MenuCard/>
-                <MenuCard/>
-                <MenuCard/>
-                <MenuCard/>
-                <MenuCard/>
-                <MenuCard/>
+                <MenuCard numberOfCards={8}/>
+                <MenuCard numberOfCards={3}/>
             </div>
 
 
