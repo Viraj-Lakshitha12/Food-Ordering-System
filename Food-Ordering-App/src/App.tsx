@@ -6,6 +6,7 @@ import Footer from "./layout/footer.tsx";
 import HomeMenu from "./views/homeMenu.tsx";
 import About from "./views/about.tsx";
 import Contact from "./views/contact.tsx";
+import Register from "./views/register.tsx";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path={"/about"} element={<About/>}/>
                 <Route path={"/contact"} element={<Contact/>}/>
                 <Route path={"/login"} element={<Contact/>}/>
+                <Route path={"/register"} element={<Register/>}/>
 
             </Routes>
             <Footer/>
