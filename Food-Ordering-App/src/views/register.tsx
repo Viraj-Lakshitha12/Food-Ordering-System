@@ -1,6 +1,6 @@
 const RegisterForm = () => {
     return (
-        <div className="flex flex-col justify-center items-center  bg-center h-screen w-screen">
+        <div className="flex flex-col justify-center items-center  bg-center mt-10">
             <div className="p-8 rounded-md text-white w-96">
                 <h1 className="text-3xl font-semibold mb-6 text-red-600">Register</h1>
                 <form className="space-y-4">
