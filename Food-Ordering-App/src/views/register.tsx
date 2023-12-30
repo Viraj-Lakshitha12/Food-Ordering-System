@@ -50,7 +50,7 @@ const RegisterForm = () => {
 
                 <button
                     className={'flex gap-2 items-center justify-center text-gray-900 my-4 w-full py-2 text-center border-2 border-black rounded-md'}>
-                    <img src={'src/assets/images/google-icon.png'} alt={'google'} width={'32'} height={'32'}/>Login
+                    <img src={'src/assets/images/google-icon.png'} alt={'google'} width={'35'} height={'32'}/>Login
                     with google
                 </button>
             </div>
