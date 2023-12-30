@@ -3,3 +3,18 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* styles.css */
+
+.register-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    place-items: center;
+}
+
+.input-field {
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
