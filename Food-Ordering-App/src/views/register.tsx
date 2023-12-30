@@ -3,10 +3,10 @@ const RegisterForm = () => {
         <div className="flex flex-col justify-center items-center  bg-center mt-10 my-16">
             <div className="p-8 rounded-md text-white w-96">
                 <h1 className="text-3xl font-semibold mb-6 text-red-600 text-center">Register</h1>
-                <form className="space-y-4">
+                <form className="space-y-6">
                     <div>
                         <label htmlFor="email" className="block text-sm  text-gray-500 font-bold">
-                            Email
+                            E-Mail Address
                         </label>
                         <input
                             type="email"
