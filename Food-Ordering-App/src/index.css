@@ -18,3 +18,7 @@
     padding: 1rem;
     border-radius: 0.5rem;
 }
+/* styles.css */
+.shadow-custom-blue {
+    box-shadow: 0 10px 60px -1px rgba(0, 0, 255, 0.1), 0 2px 4px -1px rgba(0, 0, 255, 0.06);
+}
