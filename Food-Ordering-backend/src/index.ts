@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import {User} from "./models/userModels";
 import CustomResponse from "./util/customResponse";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -40,15 +41,23 @@ app.post('/api/register', async (req: express.Request, res: express.Response) =>
 
     try {
         const req_body = req.body;
+        bcrypt.hash(req_body.password, 10, async (err: any, hash: any) => {
+            if (err) {
+                console.log('error ' + err);
+            }
+            console.log('Email:', req_body.email);
+            console.log('Password:', hash);
+            const registerUserModel = new User({
+                email: req_body.email,
+                password: hash
+            });
 
-        // Do something with the data
-        console.log('Email:', req_body.email);
-        console.log('Password:', req_body.password);
+            const createUser: any = await User.create(registerUserModel);
 
-        const createUser = await User.create(req_body);
+            // Send a response
+            res.status(200).send(new CustomResponse(200, 'User Register successfully', createUser));
+        });
 
-        // Send a response
-        res.status(200).send(new CustomResponse(200, 'User Register successfully', createUser));
     } catch (error) {
         res.status(500).send(new CustomResponse(200, 'error' + error));
 
