@@ -12,7 +12,7 @@ const RegisterForm = () => {
             body: JSON.stringify({ email, password }),
             headers: { 'Content-Type': 'application/json' },
         }).then(r => {
-            console.log(r.clone());
+            console.log(r.statusText);
         });
     }
 
