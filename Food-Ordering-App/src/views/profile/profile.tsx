@@ -1,9 +1,6 @@
 
 
 export default function Profile() {
-
-
-
     return (
 
         <section className="my-10">

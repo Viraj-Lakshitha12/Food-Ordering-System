@@ -23,7 +23,7 @@ export default function Hero() {
                 </div>
             </div>
             <div className="ml-[5vw] w-[35vw] relative">
-                <img src="src/assets/images/pizza.png" alt="pizza"/>
+                <img src={"src/assets/images/pizza.png"} alt="pizza"/>
             </div>
 
         </section>

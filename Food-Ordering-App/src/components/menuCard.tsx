@@ -42,7 +42,7 @@ const MenuCard: React.FC<MenuCardProps> = ({ numberOfCards }) => {
                     key={index}
                     className="hover:shadow-black hover:bg-white transition-all hover:shadow-2xl col-span-1 mx-auto bg-gray-200 rounded-lg text-center p-2 flex flex-col items-center max-w-[300px]"
                 >
-                    <img className="w-[280px] h-[280px] object-cover rounded-3xl" src="src/assets/images/peparoniPizza.png" alt="pizza" />
+                    <img className="w-[280px] h-[280px] object-cover rounded-3xl" src={"src/assets/images/pizza.png"} alt="pizza" />
 
                     <h1 className="font-semibold text-xl">{pizza.name}</h1>
                     <p className="text-gray-500">{pizza.content}</p>
