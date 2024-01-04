@@ -4,6 +4,8 @@ import * as process from "process";
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import cors from "cors";
+import {User} from "./models/userModels";
+import CustomResponse from "./util/customResponse";
 
 dotenv.config();
 
@@ -28,19 +30,28 @@ app.listen(8080, () => {
     console.log("Server started 8080");
 });
 
-app.use(cors({origin:'*'}))
+app.use(cors({origin: '*'}))
 
 app.get('/test', (req: express.Request, res: express.Response) => {
     res.status(200).send("working");
 });
 
-app.post('/api/register', (req: express.Request, res: express.Response) => {
-    const { email, password } = req.body;
+app.post('/api/register', async (req: express.Request, res: express.Response) => {
 
-    // Do something with the data
-    console.log('Email:', email);
-    console.log('Password:', password);
+    try {
+        const req_body = req.body;
 
-    // Send a response
-    res.status(200).send('Received JSON data successfully');
+        // Do something with the data
+        console.log('Email:', req_body.email);
+        console.log('Password:', req_body.password);
+
+        const createUser = await User.create(req_body);
+
+        // Send a response
+        res.status(200).send(new CustomResponse(200, 'User Register successfully', createUser));
+    } catch (error) {
+        res.status(500).send(new CustomResponse(200, 'error' + error));
+
+    }
+
 });
