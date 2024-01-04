@@ -7,7 +7,7 @@ const RegisterForm = () => {
 
     function handleFormSubmit(ev) {
         ev.preventDefault();
-        fetch('http://localhost:8080/api/register', {
+        fetch('http://localhost:8080/api/user/register', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
             headers: { 'Content-Type': 'application/json' },
