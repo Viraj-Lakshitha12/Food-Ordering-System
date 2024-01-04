@@ -45,13 +45,10 @@ app.post('/api/register', async (req: express.Request, res: express.Response) =>
             if (err) {
                 console.log('error ' + err);
             }
-            console.log('Email:', req_body.email);
-            console.log('Password:', hash);
             const registerUserModel = new User({
                 email: req_body.email,
                 password: hash
             });
-
             const createUser: any = await User.create(registerUserModel);
 
             // Send a response
