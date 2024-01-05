@@ -1,16 +1,16 @@
 "use client";
-import { useState } from "react";
+import {useState} from "react";
 
 const RegisterForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleFormSubmit(ev) {
+    function handleFormSubmit(ev: any) {
         ev.preventDefault();
         fetch('http://localhost:8080/api/user/register', {
             method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({email, password}),
+            headers: {'Content-Type': 'application/json'},
         }).then(r => {
             console.log(r.statusText);
         });
