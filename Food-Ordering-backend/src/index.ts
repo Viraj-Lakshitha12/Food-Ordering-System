@@ -32,4 +32,4 @@ app.listen(8080, () => {
 app.use(cors({origin: '*'}))
 
 // save register user details
-app.post('/api',userRoutes);
+app.use('/api', userRoutes);
