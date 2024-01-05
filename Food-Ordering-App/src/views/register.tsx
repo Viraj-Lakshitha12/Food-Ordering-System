@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
 interface UserData {
@@ -22,7 +22,7 @@ const RegisterForm = () => {
             const response = await fetch('http://localhost:8080/api/user/register', {
                 method: 'POST',
                 body: JSON.stringify(userData),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
             });
 
             if (!response.ok) {
@@ -92,8 +92,9 @@ const RegisterForm = () => {
                     <img src={'src/assets/images/google-icon.png'} alt={'google'} width={'35'}/>Login
                     with google
                 </button>
-                <div className={'text-center mt-7 text-black font-semibold'}>
-                    Do not have an account ? <Link to={'/signup'}><span className={'text-blue-600 underline'}>Sign in now &raquo;</span></Link>
+                <div className={'text-center mt-7 text-black font-semibold border-t pt-3'}>
+                    Do not have an account ? <Link to={'/login'}><span
+                    className={'text-blue-600 underline'}>Sign in now &raquo;</span></Link>
                 </div>
             </div>
         </div>
