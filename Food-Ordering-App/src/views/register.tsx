@@ -1,20 +1,42 @@
-"use client";
-import {useState} from "react";
+import { useState } from "react";
+
+interface UserData {
+    email: string;
+    password: string;
+}
 
 const RegisterForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleFormSubmit(ev: any) {
+    const handleFormSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault();
-        fetch('http://localhost:8080/api/user/register', {
-            method: 'POST',
-            body: JSON.stringify({email, password}),
-            headers: {'Content-Type': 'application/json'},
-        }).then(r => {
-            console.log(r.statusText);
-        });
-    }
+
+        const userData: UserData = {
+            email: email,
+            password: password,
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/user/register', {
+                method: 'POST',
+                body: JSON.stringify(userData),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!response.ok) {
+                alert('Something went wrong');
+            }
+
+            // Parse the JSON response
+            const data = await response.json();
+            alert('"Successfully registered user!"');
+            console.log(data);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error adding user. Please try again.');
+        }
+    };
 
     return (
         <div className="flex flex-col justify-center items-center  bg-center mt-10 my-16">
