@@ -33,4 +33,6 @@ app.use(cors({origin: '*'}))
 
 // save register user details
 app.use('/api', userRoutes);
+
+// check registerd user details
 app.use('/api', userRoutes);
