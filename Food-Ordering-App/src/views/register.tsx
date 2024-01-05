@@ -43,7 +43,7 @@ const RegisterForm = () => {
         <div className="flex flex-col justify-center items-center  bg-center mt-6 my-16">
             <div className="p-16 rounded-3xl text-white border w-[35vw] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
                 <h1 className="text-3xl font-semibold mb-6 text-red-600 text-center">Register</h1>
-                <form className="space-y-6" onSubmit={handleFormSubmit}>
+                <form  className="space-y-6" onSubmit={handleFormSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-sm text-gray-500 font-bold">
                             E-Mail Address
