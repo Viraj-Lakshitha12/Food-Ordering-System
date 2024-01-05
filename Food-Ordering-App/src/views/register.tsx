@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import {Link} from "react-router-dom";
 
 interface UserData {
     email: string;
@@ -40,7 +41,7 @@ const RegisterForm = () => {
 
     return (
         <div className="flex flex-col justify-center items-center  bg-center mt-10 my-16">
-            <div className="p-20 rounded-3xl text-white border w-[35vw] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
+            <div className="p-16 rounded-3xl text-white border w-[35vw] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
                 <h1 className="text-3xl font-semibold mb-6 text-red-600 text-center">Register</h1>
                 <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div>
@@ -91,6 +92,9 @@ const RegisterForm = () => {
                     <img src={'src/assets/images/google-icon.png'} alt={'google'} width={'35'}/>Login
                     with google
                 </button>
+                <div className={'text-center mt-7 text-black font-semibold'}>
+                    Do not have an account ? <Link to={'/signup'}><span className={'text-blue-600 underline'}>Sign in now &raquo;</span></Link>
+                </div>
             </div>
         </div>
     );
