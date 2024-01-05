@@ -7,6 +7,7 @@ import HomeMenu from "./views/homeMenu.tsx";
 import About from "./views/about.tsx";
 import Contact from "./views/contact.tsx";
 import Register from "./views/register.tsx";
+import Login from "./views/login.tsx";
 
 function App() {
     return (
@@ -17,7 +18,7 @@ function App() {
                 <Route path={"/menu"} element={<HomeMenu/>}/>
                 <Route path={"/about"} element={<About/>}/>
                 <Route path={"/contact"} element={<Contact/>}/>
-                <Route path={"/login"} element={<Contact/>}/>
+                <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
 
             </Routes>
