@@ -34,6 +34,7 @@ export const registerUser = async (req: express.Request, res: express.Response) 
     }
 };
 
+//auth user
 export const authUser = async (req: express.Request, res: express.Response) => {
     try {
         const {email, password} = req.body;
