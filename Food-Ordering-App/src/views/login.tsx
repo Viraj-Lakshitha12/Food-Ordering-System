@@ -2,7 +2,6 @@ import {Link} from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
 
-
 interface UserData {
     email: string;
     password: string;
@@ -24,7 +23,8 @@ export default function Login() {
 
             console.log(response.data);
             // Show success message or perform other actions based on the response
-            alert('Successfully registered user!');
+            alert('Successfully Login user!');
+
         } catch (error) {
             console.error('Error:', error);
             // Handle error, show alert, etc.

@@ -2,11 +2,5 @@
 node_modules
 dist
 .idea
-package-lock.json
-tsconfig.node.json
-package.json
 .eslintrc.cjs
-tailwind.config.js
-vite.config.ts
-tsconfig.json
 .gitignore
