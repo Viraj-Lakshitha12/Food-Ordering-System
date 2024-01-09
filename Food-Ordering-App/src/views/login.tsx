@@ -2,6 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Cookies from 'js-cookie';
 
 interface UserData {
     email: string;
@@ -22,7 +23,8 @@ export default function Login() {
         };
         try {
             const response = await axios.post('http://localhost:8080/api/user/auth', userData);
-            console.log(response.data);
+            Cookies.set('token',response.data.data.accsessToken);
+            Cookies.set('user',response.data.data.user);
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -45,6 +47,8 @@ export default function Login() {
             });
         }
     };
+
+
 
 
     return (
@@ -95,6 +99,7 @@ export default function Login() {
                 <div className={'text-black text-center p-2 font-semibold mt-2'}>
                     or login with provider
                 </div>
+
 
                 <button
                     className={'flex gap-2 items-center justify-center text-gray-900 my-4 w-full py-1.5 text-center border-2 border-black rounded-md'}>

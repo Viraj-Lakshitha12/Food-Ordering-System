@@ -2,6 +2,9 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import Swal from "sweetalert2";
 
+// const GOOGLE_CLIENT_ID =
+
+
 interface UserData {
     email: string;
     password: string;
@@ -54,6 +57,7 @@ const RegisterForm = () => {
         }
     };
 
+
     return (
         <div className="flex flex-col justify-center items-center  bg-center mt-6 my-16">
             <div className="p-16 rounded-3xl text-white border w-[35vw] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
@@ -102,6 +106,16 @@ const RegisterForm = () => {
                     or login with provider
                 </div>
 
+                {/*<div>*/}
+                {/*    <GoogleLogin*/}
+                {/*        clientId= "789989705264-gma5ksdvd73b67iogng1jkro5qtejr9e.apps.googleusercontent.com"*/}
+                {/*        buttonText="Login with Google"*/}
+                {/*        onSuccess={responseGoogle}*/}
+                {/*        onFailure={responseGoogle}*/}
+                {/*        cookiePolicy={'single_host_origin'} // or 'none' or 'https://your.domain.com'*/}
+                {/*    />*/}
+
+                {/*</div>*/}
                 <button
                     className={'flex gap-2 items-center justify-center text-gray-900 my-4 w-full py-1.5 text-center border-2 border-black rounded-md'}>
                     <img src={'src/assets/images/google-icon.png'} alt={'google'} width={'35'}/>Login
