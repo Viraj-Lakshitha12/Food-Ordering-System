@@ -1,6 +1,7 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 interface UserData {
     email: string;
@@ -10,6 +11,7 @@ interface UserData {
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleFormSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault();
@@ -20,15 +22,27 @@ export default function Login() {
         };
         try {
             const response = await axios.post('http://localhost:8080/api/user/auth', userData);
-
             console.log(response.data);
-            // Show success message or perform other actions based on the response
-            alert('Successfully Login user!');
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Successfully Login user!",
+                showConfirmButton: false,
+                timer: 2500
+            });
+
+            navigate('/');
 
         } catch (error) {
             console.error('Error:', error);
             // Handle error, show alert, etc.
-            alert('Error adding user. Please try again.');
+            Swal.fire({
+                position: "center",
+                icon: "info",
+                title: "Error adding user. Please try again !",
+                showConfirmButton: false,
+                timer: 2500
+            });
         }
     };
 

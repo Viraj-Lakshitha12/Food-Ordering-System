@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface UserData {
     email: string;
@@ -26,12 +27,26 @@ const RegisterForm = () => {
             });
 
             if (!response.ok) {
-                alert('Something went wrong');
+                // alert('Something went wrong');
+                Swal.fire({
+                    position: "center",
+                    icon: "info",
+                    title: "Something went wrong !",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                return;
             }
 
             // Parse the JSON response
             const data = await response.json();
-            alert('"Successfully registered user!"');
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Successfully registered user!!",
+                showConfirmButton: false,
+                timer: 2500
+            });
             console.log(data);
         } catch (error) {
             console.error('Error:', error);
@@ -43,7 +58,7 @@ const RegisterForm = () => {
         <div className="flex flex-col justify-center items-center  bg-center mt-6 my-16">
             <div className="p-16 rounded-3xl text-white border w-[35vw] shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
                 <h1 className="text-3xl font-semibold mb-6 text-red-600 text-center">Register</h1>
-                <form  className="space-y-6" onSubmit={handleFormSubmit}>
+                <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div>
                         <label htmlFor="email" className="block text-sm text-gray-500 font-bold">
                             E-Mail Address
