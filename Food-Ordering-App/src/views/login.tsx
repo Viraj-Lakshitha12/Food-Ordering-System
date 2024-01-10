@@ -23,8 +23,9 @@ export default function Login() {
         };
         try {
             const response = await axios.post('http://localhost:8080/api/user/auth', userData);
-            Cookies.set('token',response.data.data.accsessToken);
-            Cookies.set('user',response.data.data.user);
+
+            Cookies.set('token', response.data.data.accsessToken);
+            Cookies.set('user', response.data.data.user);
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -47,8 +48,6 @@ export default function Login() {
             });
         }
     };
-
-
 
 
     return (
