@@ -3,38 +3,55 @@ import axios from 'axios';
 
 function UserProfile() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    // const [userName, setUserName] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [city, setcity] = useState('');
 
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setSelectedImage(URL.createObjectURL(file));
+    const handleInput: any = (e: any, type: any): void => {
+        switch (type) {
+            case 'userName':
+                setUserName(e.target.value);
+                break;
+            case 'email':
+                setEmail(e.target.value);
+                break;
+            case 'address':
+                setAddress(e.target.value)
+                break;
+            case 'postalCode':
+                setPostalCode(e.target.value)
+                break;
+            case 'city':
+                setcity(e.target.value)
+                break;
         }
-    };
+    }
 
     const handleProfileUpdate = async () => {
         const data = {
-            firstName: getInputValue('firstName'),
-            email: getInputValue('email'),
-            postalCode: getInputValue('postalCode'),
-            city: getInputValue('city'),
+            firstName: userName,
+            email: email,
+            address: address,
+            postalCode: postalCode,
+            city: city,
             base64Image: selectedImage ? await getBase64(selectedImage) : null,
         };
 
         try {
-            const response = await axios.post('http://localhost:3001/api/updateProfile', data);
+            const response = await axios.post('http://localhost:3000/api/updateProfile', data);
             console.log('Profile update successful', response.data);
         } catch (error) {
             console.error('Error updating profile', error);
         }
     };
-
-    const getInputValue = (id: string) => {
-        const input = document.getElementById(id) as HTMLInputElement;
-        return input?.value || '';
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setSelectedImage(URL.createObjectURL(file));
+        }
     };
 
     const getBase64 = (file: any) => {
@@ -89,18 +106,22 @@ function UserProfile() {
                                 className="col-span-2 p-2 my-1 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="First and last name"
+                                onChange={handleInput}
+
                             />
                             <input
                                 id="email"
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="example@gmail.com"
+                                onChange={handleInput}
                             />
                             <input
                                 id="address"
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="street address"
+                                onChange={handleInput}
                             />
                         </div>
                         <div className="my-1 grid grid-cols-2 gap-4">
@@ -109,12 +130,14 @@ function UserProfile() {
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="postal code"
+                                onChange={handleInput}
                             />
                             <input
                                 id="city"
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="city"
+                                onChange={handleInput}
                             />
                         </div>
                     </div>
