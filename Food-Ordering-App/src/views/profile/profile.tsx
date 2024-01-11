@@ -46,29 +46,30 @@ function UserProfile() {
                                    className="hidden"/>
                         </label>
                     </div>
-                    <div className="flex items-center">
-                        <div className={'my-4'}>
+
+                    <div className="grid items-center">
+                        <div className="my-2 grid grid-cols-2 gap-4">
                             <input
-                                className="mt-1 p-2 my-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                className="col-span-2 p-2 my-1 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="First and last name"
                             />
                             <input
-                                className="mt-1 p-2 my-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
-                                placeholder="Email"
+                                placeholder="example@gmail.com"
                             />
                         </div>
-                        <div>
+                        <div className="my-1 grid grid-cols-2 gap-4">
                             <input
-                                className="my-2 mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
-                                placeholder="example@gmail.com"
+                                placeholder="postal code"
                             />
                             <input
-                                className="mt-1 my-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
-                                placeholder="example@gmail.com"
+                                placeholder="city"
                             />
                         </div>
                     </div>
