@@ -1,4 +1,4 @@
-import React, {useState, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent, useEffect} from 'react';
 import axios from 'axios';
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
@@ -22,6 +22,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         setUserData((prevData) => ({...prevData, [type]: e.target.value}));
     };
 
+    useEffect(() => {
+        const user = Cookies.get("user");
+        console.log(user);
+    })
     const handleProfileUpdate = async () => {
         try {
             const base64Image = selectedImage ? await getBase64(selectedImage) : null;
@@ -32,15 +36,14 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             };
 
             const ACCESS_TOKEN = Cookies.get("token");
-            console.log("token :"+ACCESS_TOKEN);
-
+            console.log("token :" + ACCESS_TOKEN);
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': ACCESS_TOKEN
             }
-            console.log("token :"+headers.Authorization);
+            console.log("token :" + headers.Authorization);
             //update profile Details
-             await axios.post('http://localhost:8080/api/user/saveUserDetails',
+            await axios.post('http://localhost:8080/api/user/saveUserDetails',
                 data,
                 {headers})
                 .then(r => {
@@ -70,9 +73,12 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setSelectedImage(URL.createObjectURL(file));
+            // Create a Blob from the file data
+            const blob = new Blob([file]);
+            setSelectedImage(URL.createObjectURL(blob));
         }
     };
+
 
     const getBase64 = (file: any) => {
         return new Promise<string>((resolve, reject) => {

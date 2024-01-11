@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
 
+
 interface UserData {
     email: string;
     password: string;
@@ -17,14 +18,18 @@ export default function Login() {
     const handleFormSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault();
 
-        const userData: UserData = {
+        const userData: any | UserData = {
             email: email,
             password: password,
         };
         try {
             const response = await axios.post('http://localhost:8080/api/user/auth', userData);
+
+            // console.log("token" +  response.data.data.accessToken)
+
             Cookies.set('token', response.data.data.accessToken);
-            Cookies.set('user', response.data.data.user);
+            Cookies.set('user', response.data.data.user.email);
+
             Swal.fire({
                 position: "center",
                 icon: "success",
