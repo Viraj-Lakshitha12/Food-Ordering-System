@@ -1,7 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
-interface UserProfileProps {}
+interface UserProfileProps {
+}
 
 const UserProfile: React.FC<UserProfileProps> = () => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -14,7 +16,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     });
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, type: string): void => {
-        setUserData((prevData) => ({ ...prevData, [type]: e.target.value }));
+        setUserData((prevData) => ({...prevData, [type]: e.target.value}));
     };
 
     const handleProfileUpdate = async () => {
@@ -26,10 +28,25 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 base64Image,
             };
 
-            console.log(data);
-
-            const response = await axios.post('http://localhost:3000/api/updateProfile', data);
-            console.log('Profile update successful', response.data);
+            //update profile Details
+            const response = await axios.post('http://localhost:8080/api/user/saveUserDetails', data).then(r => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Successfully update profile!",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            }).catch(error => {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            });
+            console.log('Profile update successful', response);
         } catch (error) {
             console.error('Error updating profile', error);
         }
@@ -75,7 +92,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 src={selectedImage}
                                 alt="User Profile"
                                 className="rounded-2xl mx-auto my-4"
-                                style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                style={{maxWidth: '200px', maxHeight: '200px'}}
                             />
                         ) : (
                             <div className="text-center my-4 font-bold mx-auto">
