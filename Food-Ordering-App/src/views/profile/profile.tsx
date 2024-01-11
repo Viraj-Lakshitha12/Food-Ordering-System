@@ -7,7 +7,7 @@ function UserProfile() {
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [postalCode, setPostalCode] = useState('');
-    const [city, setcity] = useState('');
+    const [city, setCity] = useState('');
 
 
     const handleInput: any = (e: any, type: any): void => {
@@ -25,7 +25,7 @@ function UserProfile() {
                 setPostalCode(e.target.value)
                 break;
             case 'city':
-                setcity(e.target.value)
+                setCity(e.target.value)
                 break;
         }
     }
