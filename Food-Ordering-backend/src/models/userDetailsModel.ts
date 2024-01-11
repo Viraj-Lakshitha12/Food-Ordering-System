@@ -6,6 +6,7 @@ const userDetailsModelSchema = new Schema({
     address: { type: String, required: true },
     postalCode: { type: String, required: true },
     city: { type: String, required: true },
+    base64Image: { type: String},
 });
 
 export const userDetailsModel = model("userDetails", userDetailsModelSchema);

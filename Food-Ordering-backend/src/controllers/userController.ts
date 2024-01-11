@@ -87,7 +87,8 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
             email: req_body.email,
             address: req_body.address,
             postalCode: req_body.postalCode,
-            city: req_body.city
+            city: req_body.city,
+            base64Image: req_body.base64Image
         })
         let createUser = await userDetailsModel.create(userDetails);
         res.status(200).send(new CustomResponse(200, "user details saved", createUser));
