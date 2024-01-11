@@ -12,8 +12,6 @@ function UserProfile() {
 
     const handleProfileUpdate = (e: React.FormEvent) => {
         e.preventDefault();
-        // Add logic to update user profile with selected image
-        // You can send the image to your server or perform other actions
         console.log('Profile updated with image:', selectedImage);
     };
 
@@ -50,11 +48,13 @@ function UserProfile() {
                     <div className="grid items-center">
                         <div className="my-2 grid grid-cols-2 gap-4">
                             <input
+                                id="firstName"
                                 className="col-span-2 p-2 my-1 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="First and last name"
                             />
                             <input
+                                id="email"
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="example@gmail.com"
@@ -62,11 +62,13 @@ function UserProfile() {
                         </div>
                         <div className="my-1 grid grid-cols-2 gap-4">
                             <input
+                                id="postalCode"
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="postal code"
                             />
                             <input
+                                id="city"
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="city"
