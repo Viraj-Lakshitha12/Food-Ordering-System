@@ -23,8 +23,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     };
 
     useEffect(() => {
-        const user = Cookies.get("user");
-        console.log(user);
+
     })
     const handleProfileUpdate = async () => {
         try {
@@ -72,32 +71,39 @@ const UserProfile: React.FC<UserProfileProps> = () => {
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
+
         if (file) {
-            // Create a Blob from the file data
-            const blob = new Blob([file]);
-            setSelectedImage(URL.createObjectURL(blob));
+            // Ensure the file is a Blob before setting the selectedImage
+            if (file instanceof Blob) {
+                setSelectedImage(URL.createObjectURL(file));
+            } else {
+                console.error('Selected file is not a Blob');
+            }
         }
     };
 
 
-    const getBase64 = (file: any) => {
+
+    const getBase64 = (file: File) => {
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
-            reader.readAsDataURL(file);
+
+            // Use the File API to create a Blob
+            const blob = new Blob([file]);
 
             reader.onload = () => {
-                const result = reader.result;
-                if (typeof result === 'string') {
-                    const base64Data = result.split(',')[1];
-                    resolve(base64Data);
-                } else {
-                    reject(new Error('Failed to read as Data URL'));
-                }
+                const base64Data = reader.result as string;
+                resolve(base64Data.split(',')[1]);
             };
 
             reader.onerror = (error) => reject(error);
+
+            // Read the Blob as a Data URL
+            reader.readAsDataURL(blob);
         });
     };
+
+
 
     return (
         <section className="my-5">
