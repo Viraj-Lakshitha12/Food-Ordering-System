@@ -76,9 +76,11 @@ export const authUser = async (req: express.Request, res: express.Response) => {
 }
 
 //save user details
-export const saveUserDetails = async (req: express.Request, res: express.Response) => {
+export const saveUserDetails = async (req: express.Request, res: any) => {
     try {
         let req_body = req.body;
+        let user_id = res.tokenData.user._id;
+        console.log(user_id);
         console.log(req_body);
         const userDetails = new userDetailsModel({
             userName: req_body.userName,

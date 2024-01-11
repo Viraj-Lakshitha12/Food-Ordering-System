@@ -1,5 +1,6 @@
 import express, {Router} from "express";
 import {authUser, registerUser, saveUserDetails} from "../controllers/userController";
+import {verifyToken} from "../middlewares";
 
 
 const route: Router = express.Router();
@@ -11,6 +12,6 @@ route.post('/register', registerUser);
 route.post('/auth', authUser);
 
 //save user Details
-route.post('/saveUserDetails', saveUserDetails);
+route.post('/saveUserDetails', verifyToken, saveUserDetails);
 
 export default route;
