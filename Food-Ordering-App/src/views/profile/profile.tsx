@@ -27,6 +27,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     })
     const handleProfileUpdate = async () => {
         try {
+            // @ts-ignore
             const base64Image = selectedImage ? await getBase64(selectedImage) : null;
 
             const data = {
