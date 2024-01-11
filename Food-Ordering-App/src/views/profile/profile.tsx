@@ -1,53 +1,41 @@
-import React, {useState} from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 
-function UserProfile() {
+interface UserProfileProps {}
+
+const UserProfile: React.FC<UserProfileProps> = () => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
-    const [postalCode, setPostalCode] = useState('');
-    const [city, setCity] = useState('');
+    const [userData, setUserData] = useState({
+        userName: '',
+        email: '',
+        address: '',
+        postalCode: '',
+        city: '',
+    });
 
-
-    const handleInput: any = (e: any, type: any): void => {
-        switch (type) {
-            case 'userName':
-                setUserName(e.target.value);
-                break;
-            case 'email':
-                setEmail(e.target.value);
-                break;
-            case 'address':
-                setAddress(e.target.value)
-                break;
-            case 'postalCode':
-                setPostalCode(e.target.value)
-                break;
-            case 'city':
-                setCity(e.target.value)
-                break;
-        }
-    }
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, type: string): void => {
+        setUserData((prevData) => ({ ...prevData, [type]: e.target.value }));
+    };
 
     const handleProfileUpdate = async () => {
-        const data = {
-            firstName: userName,
-            email: email,
-            address: address,
-            postalCode: postalCode,
-            city: city,
-            base64Image: selectedImage ? await getBase64(selectedImage) : null,
-        };
-
         try {
+            const base64Image = selectedImage ? await getBase64(selectedImage) : null;
+
+            const data = {
+                ...userData,
+                base64Image,
+            };
+
+            console.log(data);
+
             const response = await axios.post('http://localhost:3000/api/updateProfile', data);
             console.log('Profile update successful', response.data);
         } catch (error) {
             console.error('Error updating profile', error);
         }
     };
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setSelectedImage(URL.createObjectURL(file));
@@ -58,7 +46,17 @@ function UserProfile() {
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result?.toString().split(',')[1] || '');
+
+            reader.onload = () => {
+                const result = reader.result;
+                if (typeof result === 'string') {
+                    const base64Data = result.split(',')[1];
+                    resolve(base64Data);
+                } else {
+                    reject(new Error('Failed to read as Data URL'));
+                }
+            };
+
             reader.onerror = (error) => reject(error);
         });
     };
@@ -66,7 +64,7 @@ function UserProfile() {
     return (
         <section className="my-5">
             <div className="text-center text-gray-500 font-semibold text-xl">
-                <p className="font-bold text-red-600 text-4xl ">Profile</p>
+                <p className="font-bold text-red-600 text-4xl">Profile</p>
             </div>
 
             <div className="flex flex-col items-center">
@@ -77,7 +75,7 @@ function UserProfile() {
                                 src={selectedImage}
                                 alt="User Profile"
                                 className="rounded-2xl mx-auto my-4"
-                                style={{maxWidth: '200px', maxHeight: '200px'}}
+                                style={{ maxWidth: '200px', maxHeight: '200px' }}
                             />
                         ) : (
                             <div className="text-center my-4 font-bold mx-auto">
@@ -106,22 +104,21 @@ function UserProfile() {
                                 className="col-span-2 p-2 my-1 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="First and last name"
-                                onChange={handleInput}
-
+                                onChange={(e) => handleInput(e, 'userName')}
                             />
                             <input
                                 id="email"
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="example@gmail.com"
-                                onChange={handleInput}
+                                onChange={(e) => handleInput(e, 'email')}
                             />
                             <input
                                 id="address"
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="street address"
-                                onChange={handleInput}
+                                onChange={(e) => handleInput(e, 'address')}
                             />
                         </div>
                         <div className="my-1 grid grid-cols-2 gap-4">
@@ -130,14 +127,14 @@ function UserProfile() {
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="postal code"
-                                onChange={handleInput}
+                                onChange={(e) => handleInput(e, 'postalCode')}
                             />
                             <input
                                 id="city"
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="city"
-                                onChange={handleInput}
+                                onChange={(e) => handleInput(e, 'city')}
                             />
                         </div>
                     </div>
@@ -155,6 +152,6 @@ function UserProfile() {
             </div>
         </section>
     );
-}
+};
 
 export default UserProfile;
