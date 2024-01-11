@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 
 function UserProfile() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    // const [userName, setUserName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [email, setEmail] = useState('');
+
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -10,9 +15,35 @@ function UserProfile() {
         }
     };
 
-    const handleProfileUpdate = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log('Profile updated with image:', selectedImage);
+    const handleProfileUpdate = async () => {
+        const data = {
+            firstName: getInputValue('firstName'),
+            email: getInputValue('email'),
+            postalCode: getInputValue('postalCode'),
+            city: getInputValue('city'),
+            base64Image: selectedImage ? await getBase64(selectedImage) : null,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:3001/api/updateProfile', data);
+            console.log('Profile update successful', response.data);
+        } catch (error) {
+            console.error('Error updating profile', error);
+        }
+    };
+
+    const getInputValue = (id: string) => {
+        const input = document.getElementById(id) as HTMLInputElement;
+        return input?.value || '';
+    };
+
+    const getBase64 = (file: any) => {
+        return new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result?.toString().split(',')[1] || '');
+            reader.onerror = (error) => reject(error);
+        });
     };
 
     return (
@@ -22,13 +53,13 @@ function UserProfile() {
             </div>
 
             <div className="flex flex-col items-center">
-                <div className=" max-w-md">
+                <div className="max-w-md">
                     <div className="w-full max-w-md p-5">
                         {selectedImage ? (
                             <img
                                 src={selectedImage}
                                 alt="User Profile"
-                                className=" rounded-2xl mx-auto my-4"
+                                className="rounded-2xl mx-auto my-4"
                                 style={{maxWidth: '200px', maxHeight: '200px'}}
                             />
                         ) : (
@@ -38,10 +69,16 @@ function UserProfile() {
                         )}
                         <label
                             htmlFor="imageInput"
-                            className="cursor-pointer font-bold rounded-md bg-gray-900 text-white text-center max-w-xl block p-2">
+                            className="cursor-pointer font-bold rounded-md bg-gray-900 text-white text-center max-w-xl block p-2"
+                        >
                             Choose an image
-                            <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange}
-                                   className="hidden"/>
+                            <input
+                                type="file"
+                                id="imageInput"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
                         </label>
                     </div>
 
@@ -58,6 +95,12 @@ function UserProfile() {
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="example@gmail.com"
+                            />
+                            <input
+                                id="address"
+                                className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                type="text"
+                                placeholder="street address"
                             />
                         </div>
                         <div className="my-1 grid grid-cols-2 gap-4">
@@ -76,10 +119,12 @@ function UserProfile() {
                         </div>
                     </div>
 
-
-                    <div className="mt-4  flex flex-col items-center">
-                        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-full"
-                                onClick={handleProfileUpdate}>
+                    <div className="mt-4 flex flex-col items-center">
+                        <button
+                            type="button"
+                            className="bg-blue-500 text-white px-4 py-2 rounded-full"
+                            onClick={handleProfileUpdate}
+                        >
                             Update Profile
                         </button>
                     </div>
