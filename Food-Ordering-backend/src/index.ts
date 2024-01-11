@@ -31,8 +31,7 @@ app.listen(8080, () => {
 // cross error config
 app.use(cors({origin: '*'}))
 
-// save register user details
+//  user
 app.use('/api', userRoutes);
 
-// check registerd user details
-app.use('/api', userRoutes);
+
