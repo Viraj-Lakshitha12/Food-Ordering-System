@@ -18,10 +18,14 @@ function UserProfile() {
     };
 
     return (
-        <section className="my-10">
+        <section className="my-5">
+            <div className="text-center text-gray-500 font-semibold text-xl">
+                <p className="font-bold text-red-600 text-4xl ">Profile</p>
+            </div>
+
             <div className="flex flex-col items-center">
                 <div className=" max-w-md">
-                    <div className="w-full max-w-md">
+                    <div className="w-full max-w-md p-5">
                         {selectedImage ? (
                             <img
                                 src={selectedImage}
@@ -36,14 +40,37 @@ function UserProfile() {
                         )}
                         <label
                             htmlFor="imageInput"
-                            className="cursor-pointer border border-gray-800 text-center max-w-xl block p-2">
+                            className="cursor-pointer font-bold rounded-md bg-gray-900 text-white text-center max-w-xl block p-2">
                             Choose an image
                             <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange}
                                    className="hidden"/>
                         </label>
                     </div>
-                    <div className={'flex flex-col items-center'}>
-                        <input className={'mt-1 p-2 max-w-4xl rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center'} type={'text'} placeholder={"First and last name"}/>
+                    <div className="flex items-center">
+                        <div className={'my-4'}>
+                            <input
+                                className="mt-1 p-2 my-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                type="text"
+                                placeholder="First and last name"
+                            />
+                            <input
+                                className="mt-1 p-2 my-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                type="text"
+                                placeholder="Email"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                className="my-2 mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                type="text"
+                                placeholder="example@gmail.com"
+                            />
+                            <input
+                                className="mt-1 my-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                type="text"
+                                placeholder="example@gmail.com"
+                            />
+                        </div>
                     </div>
 
 

@@ -8,6 +8,7 @@ import About from "./views/about.tsx";
 import Contact from "./views/contact.tsx";
 import Register from "./views/register.tsx";
 import Login from "./views/login.tsx";
+import Profile from "./views/profile/profile.tsx";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path={"/contact"} element={<Contact/>}/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/register"} element={<Register/>}/>
+                <Route path={"/profile"} element={<Profile />}/>
 
             </Routes>
             <Footer/>
