@@ -4,6 +4,7 @@ import {UserModel} from "../models/userModels";
 import CustomResponse from "../util/customResponse";
 import jwt, {Secret} from "jsonwebtoken";
 import * as process from "process";
+import {userDetailsModel} from "../models/userDetailsModel";
 
 // register user
 export const registerUser = async (req: express.Request, res: express.Response) => {
@@ -78,6 +79,10 @@ export const authUser = async (req: express.Request, res: express.Response) => {
 export const saveUserDetails = async (req: express.Request, res: express.Response) => {
     try {
         let req_body = req.body;
+        const userDetails = new userDetailsModel({
+            userName
+
+        })
     } catch (error) {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
