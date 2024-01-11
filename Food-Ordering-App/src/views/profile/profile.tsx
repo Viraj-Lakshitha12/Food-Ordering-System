@@ -1,11 +1,14 @@
 import React, {useState, ChangeEvent} from 'react';
 import axios from 'axios';
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
 
 interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = () => {
+    const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [userData, setUserData] = useState({
         userName: '',
@@ -28,25 +31,37 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 base64Image,
             };
 
+            const ACCESS_TOKEN = Cookies.get("token");
+            console.log("token :"+ACCESS_TOKEN);
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': ACCESS_TOKEN
+            }
+            console.log("token :"+headers.Authorization);
             //update profile Details
-            const response = await axios.post('http://localhost:8080/api/user/saveUserDetails', data).then(r => {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Successfully update profile!",
-                    showConfirmButton: false,
-                    timer: 2500
+             await axios.post('http://localhost:8080/api/user/saveUserDetails',
+                data,
+                {headers})
+                .then(r => {
+                    console.log(r);
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Successfully update profile!",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    navigate('/');
+                }).catch(error => {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: error,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
                 });
-            }).catch(error => {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: error,
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-            });
-            console.log('Profile update successful', response);
         } catch (error) {
             console.error('Error updating profile', error);
         }

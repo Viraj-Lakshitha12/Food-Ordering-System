@@ -23,8 +23,7 @@ export default function Login() {
         };
         try {
             const response = await axios.post('http://localhost:8080/api/user/auth', userData);
-
-            Cookies.set('token', response.data.data.accsessToken);
+            Cookies.set('token', response.data.data.accessToken);
             Cookies.set('user', response.data.data.user);
             Swal.fire({
                 position: "center",
@@ -33,7 +32,6 @@ export default function Login() {
                 showConfirmButton: false,
                 timer: 2500
             });
-
             navigate('/');
 
         } catch (error) {
