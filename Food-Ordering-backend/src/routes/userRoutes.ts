@@ -5,12 +5,12 @@ import {authUser, registerUser, saveUserDetails} from "../controllers/userContro
 const route: Router = express.Router();
 
 // registerd user
-route.post('/user/register', registerUser);
+route.post('/register', registerUser);
 
 //check email and password
-route.post('/user/auth', authUser);
+route.post('/auth', authUser);
 
 //save user Details
-route.post('/user/saveUserDetails', saveUserDetails);
+route.post('/saveUserDetails', saveUserDetails);
 
 export default route;

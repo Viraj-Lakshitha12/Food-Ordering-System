@@ -86,7 +86,7 @@ export const saveUserDetails = async (req: express.Request, res: express.Respons
             postalCode: req_body.postalCode,
             city: req_body.city
         })
-        let createUser = userDetailsModel.create(userDetails);
+        let createUser = await userDetailsModel.create(userDetails);
         res.status(200).send(new CustomResponse(200, "user details saved", createUser));
     } catch (error) {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
