@@ -29,6 +29,8 @@ export default function Login() {
 
             Cookies.set('token', response.data.data.accessToken);
             Cookies.set('user', response.data.data.user.email);
+            navigate('/');
+            window.location.reload();
 
             Swal.fire({
                 position: "center",
@@ -37,10 +39,10 @@ export default function Login() {
                 showConfirmButton: false,
                 timer: 2500
             });
-            navigate('/');
 
         } catch (error) {
             console.error('Error:', error);
+            navigate('/login');
             // Handle error, show alert, etc.
             Swal.fire({
                 position: "center",
