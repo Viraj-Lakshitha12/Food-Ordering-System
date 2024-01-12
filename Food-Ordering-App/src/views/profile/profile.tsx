@@ -23,8 +23,13 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     };
 
     useEffect(() => {
+        const user = Cookies.get('user');
+        if (user) {
+            const userEmail = user;  // Assuming email is a property in the user object
+            setUserData((prevData) => ({ ...prevData, email: userEmail }));
+        }
+    }, []);
 
-    })
     const handleProfileUpdate = async () => {
         try {
             // @ts-ignore
@@ -84,7 +89,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     };
 
 
-
     const getBase64 = (file: File) => {
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
@@ -103,7 +107,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             reader.readAsDataURL(blob);
         });
     };
-
 
 
     return (
@@ -156,8 +159,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="example@gmail.com"
+                                value={userData.email}  // Set the value from the state
                                 onChange={(e) => handleInput(e, 'email')}
+                                disabled  // Disable the input field
                             />
+
                             <input
                                 id="address"
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
