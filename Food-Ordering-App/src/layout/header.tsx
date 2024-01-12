@@ -39,6 +39,14 @@ const LogoutButton: React.FC = () => {
     );
 };
 
+const ProfileLink: React.FC = () => {
+    return (
+        <li>
+            <Link to="/profile">Profile</Link>
+        </li>
+    );
+};
+
 const Header: React.FC = () => {
     const dispatch = useDispatch();
     const accessToken = useSelector(selectAccessToken);
@@ -67,7 +75,10 @@ const Header: React.FC = () => {
                         <Link to="/contact">Contact</Link>
                     </li>
                     {accessToken ? (
-                        <LogoutButton />
+                        <>
+                            <ProfileLink />
+                            <LogoutButton />
+                        </>
                     ) : (
                         <>
                             <LoginButton />
