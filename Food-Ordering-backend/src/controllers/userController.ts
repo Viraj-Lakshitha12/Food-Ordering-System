@@ -88,7 +88,8 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
             address: req_body.address,
             postalCode: req_body.postalCode,
             city: req_body.city,
-            base64Image: req_body.base64Image
+            base64Image: req_body.base64Image,
+            admin: req_body.admin
         });
 
 
