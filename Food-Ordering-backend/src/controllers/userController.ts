@@ -70,12 +70,12 @@ export const authUser = async (req: express.Request, res: express.Response) => {
             res.status(100).send(new CustomResponse(100, "cannot find email"));
         }
     } catch (error) {
-        res.status(500).send(new CustomResponse(100, "something went wrong"));
+        res.status(500).send(new CustomResponse(500, "something went wrong"));
     }
 
 }
 
-//save user details or update
+//user details save or update
 export const saveUserDetails = async (req: express.Request, res: any) => {
     try {
         let req_body = req.body;
@@ -89,34 +89,42 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
             postalCode: req_body.postalCode,
             city: req_body.city,
             base64Image: req_body.base64Image
-        })
+        });
 
-        let findOneBYEmail = await userDetailsModel.findOne(req_body.email);
+        console.log("122112qw");
+        // Use findOne with the correct query
+        let findOneBYEmail = await userDetailsModel.findOne({ email: req_body.email });
+        console.log("1");
+
+        // if (findOneBYEmail) {
+        //     console.log("User found with id: " + findOneBYEmail._id);
+        // } else {
+        //     console.log("No user found with the specified email.");
+        // }
+
+
         if (findOneBYEmail) {
-            let updateUserDetails = await userDetailsModel.findOneAndUpdate({_id: findOneBYEmail._id}, {
-                userName: req_body.userName,
-                email: req_body.email,
-                address: req_body.address,
-                postalCode: req_body.postalCode,
-                city: req_body.city,
-                base64Image: req_body.base64Image
-            }).then(r => {
-                res.status(200).send(new CustomResponse(200, "user details updated", updateUserDetails));
-            }).catch(error => {
-                res.status(500).send(new CustomResponse(500, "cannot update details", error));
-            });
+            console.log("2");
+            // Make sure user_id is a valid ObjectId
+            let updateUserDetails = await userDetailsModel.findOneAndUpdate(
+                {_id: findOneBYEmail._id},
+                {
+                    userName: req_body.userName,
+                    address: req_body.address,
+                    postalCode: req_body.postalCode,
+                    city: req_body.city,
+                    base64Image: req_body.base64Image
+                },
+                {new: true} // Return the modified document
+            );
 
+            res.status(200).send(new CustomResponse(200, "user details updated", updateUserDetails));
         } else {
-
-            let createUser = await userDetailsModel.create(userDetails).then(r => {
-                res.status(200).send(new CustomResponse(200, "user details saved", createUser));
-            }).catch(error => {
-                res.status(500).send(new CustomResponse(500, "cannot saved user details", error));
-            });
-
+            console.log(3);
+            let createUser = await userDetailsModel.create(userDetails);
+            res.status(200).send(new CustomResponse(200, "user details saved", createUser));
         }
-
     } catch (error) {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
-}
+};
