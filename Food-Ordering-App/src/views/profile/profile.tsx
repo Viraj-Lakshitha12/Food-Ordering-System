@@ -1,11 +1,10 @@
-import React, {useState, ChangeEvent, useEffect} from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-interface UserProfileProps {
-}
+interface UserProfileProps {}
 
 const UserProfile: React.FC<UserProfileProps> = () => {
     const navigate = useNavigate();
@@ -16,11 +15,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         address: '',
         postalCode: '',
         city: '',
-        base64Image: '',
     });
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, type: string): void => {
-        setUserData((prevData) => ({...prevData, [type]: e.target.value}));
+        setUserData((prevData) => ({ ...prevData, [type]: e.target.value }));
     };
 
     useEffect(() => {
@@ -31,25 +29,35 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         const user = Cookies.get('user');
         if (user) {
             const userEmail = user;
-            setUserData((prevData) => ({...prevData, email: userEmail}));
+            setUserData((prevData) => ({ ...prevData, email: userEmail }));
         }
 
         try {
-            const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail?email=${user}`);
-            const userDetailData = response.data;
+            const email = user; // Assuming email is a property in the user object
+            const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail/${email}`);
+            const userDetailData = response.data.data; // Adjust this based on your API response structure
 
-            setUserData((prevData) => ({
-                ...prevData,
-                userName: userDetailData.data.userName,
-                address: userDetailData.data.address,
-                postalCode: userDetailData.data.postalCode,
-                city: userDetailData.data.city,
-                base64Image: userDetailData.data.base64Image,
-            }));
+            // Log individual properties for debugging
+            console.log('userName:', userDetailData.userName);
+            console.log('address:', userDetailData.address);
+            console.log('postalCode:', userDetailData.postalCode);
+            console.log('city:', userDetailData.city);
+            console.log('email:', userDetailData.email);
+
+            // Set state with individual properties
+            setUserData({
+                userName: userDetailData.userName,
+                address: userDetailData.address,
+                postalCode: userDetailData.postalCode,
+                city: userDetailData.city,
+                email: userDetailData.email,
+            });
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
     };
+
+
 
     const handleProfileUpdate = async () => {
         try {
@@ -62,22 +70,35 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             };
 
             const ACCESS_TOKEN = Cookies.get('token');
+            console.log('token :' + ACCESS_TOKEN);
             const headers = {
                 'Content-Type': 'application/json',
-                Authorization: ACCESS_TOKEN || '',
+                Authorization: ACCESS_TOKEN,
             };
-
-            await axios.post('http://localhost:8080/api/user/saveUserDetails', data, {headers}).then((r) => {
-                console.log(r);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Successfully update profile!',
-                    showConfirmButton: false,
-                    timer: 2500,
+            console.log('token :' + headers.Authorization);
+            //update profile Details
+            await axios
+                .post('http://localhost:8080/api/user/saveUserDetails', data, { headers })
+                .then((r) => {
+                    console.log(r);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Successfully update profile!',
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
+                    navigate('/');
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: error,
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
                 });
-                navigate('/');
-            });
         } catch (error) {
             console.error('Error updating profile', error);
         }
@@ -87,6 +108,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         const file = e.target.files?.[0];
 
         if (file) {
+            // Ensure the file is a Blob before setting the selectedImage
             if (file instanceof Blob) {
                 setSelectedImage(URL.createObjectURL(file));
             } else {
@@ -98,6 +120,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     const getBase64 = (file: File) => {
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
+
+            // Use the File API to create a Blob
             const blob = new Blob([file]);
 
             reader.onload = () => {
@@ -106,6 +130,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             };
 
             reader.onerror = (error) => reject(error);
+
+            // Read the Blob as a Data URL
             reader.readAsDataURL(blob);
         });
     };
@@ -124,7 +150,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 src={selectedImage}
                                 alt="User Profile"
                                 className="rounded-2xl mx-auto my-4"
-                                style={{maxWidth: '200px', maxHeight: '200px'}}
+                                style={{ maxWidth: '200px', maxHeight: '200px' }}
                             />
                         ) : (
                             <div className="text-center my-4 font-bold mx-auto">
@@ -136,13 +162,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             className="cursor-pointer font-bold rounded-md bg-gray-900 text-white text-center max-w-xl block p-2"
                         >
                             Choose an image
-                            <input
-                                type="file"
-                                id="imageInput"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="hidden"
-                            />
+                            <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange} className="hidden" />
                         </label>
                     </div>
 
