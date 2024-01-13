@@ -93,7 +93,7 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
 
 
         // Use findOne with the correct query
-        let findOneBYEmail = await userDetailsModel.findOne({ email: req_body.email });
+        let findOneBYEmail = await userDetailsModel.findOne({email: req_body.email});
 
 
         // if (findOneBYEmail) {
@@ -128,3 +128,18 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
 };
+
+//get user details using email
+export const getUserDetailsByEmail = async (req: express.Request, res: any) => {
+    try {
+        let req_email = req.params;
+        let findOneByEmail = await userDetailsModel.findOne(req_email);
+        if (findOneByEmail) {
+            res.status(200).send(new CustomResponse(200, "find user", findOneByEmail));
+        } else {
+            res.status(500).send(new CustomResponse(500, "Cannot find user"));
+        }
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+}
