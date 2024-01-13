@@ -1,7 +1,5 @@
-// components/Header.tsx
-
-import {Link, useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authSlice';
 import Cookies from 'js-cookie';
 import React from 'react';
@@ -28,6 +26,7 @@ const LogoutButton: React.FC = () => {
 
     const handleLogout = () => {
         Cookies.remove('token');
+        Cookies.remove('admin'); // Remove the admin cookie
         dispatch(clearAccessToken());
         navigate('/login');
     };
@@ -47,9 +46,19 @@ const ProfileLink: React.FC = () => {
     );
 };
 
+const Dashboard: React.FC = () => {
+    return (
+        <li>
+            <Link to="/dashboard">Dashboard</Link>
+        </li>
+    );
+};
+
 const Header: React.FC = () => {
     const dispatch = useDispatch();
     const accessToken = useSelector(selectAccessToken);
+    // @ts-ignore
+    const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
     React.useEffect(() => {
         // Get token
@@ -76,9 +85,11 @@ const Header: React.FC = () => {
                     <li>
                         <Link to="/contact">Contact</Link>
                     </li>
+
                     {accessToken ? (
                         <>
                             <ProfileLink/>
+                            {isAdmin && <Dashboard/>}
                             <LogoutButton/>
                         </>
                     ) : (
