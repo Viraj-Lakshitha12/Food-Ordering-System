@@ -1,8 +1,8 @@
 // components/Header.tsx
 
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearAccessToken, selectAccessToken, setAccessToken } from '../auth/authSlice';
+import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authSlice';
 import Cookies from 'js-cookie';
 import React from 'react';
 
@@ -33,7 +33,7 @@ const LogoutButton: React.FC = () => {
     };
 
     return (
-        <li className="bg-red-600 text-white px-4 py-2 rounded-full cursor-pointer"  onClick={handleLogout}>
+        <li className="bg-red-600 text-white px-4 py-2 rounded-full cursor-pointer" onClick={handleLogout}>
             Logout
         </li>
     );
@@ -54,6 +54,8 @@ const Header: React.FC = () => {
     React.useEffect(() => {
         // Get token
         const token: any = Cookies.get('token');
+        const isAdmin: any = Cookies.get('admin');
+        console.log("is admin : " + isAdmin);
         dispatch(setAccessToken(token));
     }, [dispatch]);
 
@@ -76,13 +78,13 @@ const Header: React.FC = () => {
                     </li>
                     {accessToken ? (
                         <>
-                            <ProfileLink />
-                            <LogoutButton />
+                            <ProfileLink/>
+                            <LogoutButton/>
                         </>
                     ) : (
                         <>
-                            <LoginButton />
-                            {!accessToken && <RegisterButton />}
+                            <LoginButton/>
+                            {!accessToken && <RegisterButton/>}
                         </>
                     )}
                 </ul>
