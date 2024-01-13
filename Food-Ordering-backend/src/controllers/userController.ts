@@ -91,10 +91,10 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
             base64Image: req_body.base64Image
         });
 
-        console.log("122112qw");
+
         // Use findOne with the correct query
         let findOneBYEmail = await userDetailsModel.findOne({ email: req_body.email });
-        console.log("1");
+
 
         // if (findOneBYEmail) {
         //     console.log("User found with id: " + findOneBYEmail._id);
@@ -104,7 +104,7 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
 
 
         if (findOneBYEmail) {
-            console.log("2");
+
             // Make sure user_id is a valid ObjectId
             let updateUserDetails = await userDetailsModel.findOneAndUpdate(
                 {_id: findOneBYEmail._id},
@@ -115,7 +115,7 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
                     city: req_body.city,
                     base64Image: req_body.base64Image
                 },
-                {new: true} // Return the modified document
+                {new: true}
             );
 
             res.status(200).send(new CustomResponse(200, "user details updated", updateUserDetails));
