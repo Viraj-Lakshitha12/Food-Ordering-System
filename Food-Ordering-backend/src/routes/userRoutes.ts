@@ -15,6 +15,7 @@ route.post('/auth', authUser);
 route.post('/saveUserDetails', verifyToken, saveUserDetails);
 
 //get user details by email
-route.get('/getUserDetailsByEmail', getUserDetailsByEmail);
+route.get('/getUserDetailsByEmail/:email', getUserDetailsByEmail);
+
 
 export default route;
