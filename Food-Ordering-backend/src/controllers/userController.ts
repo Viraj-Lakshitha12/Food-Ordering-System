@@ -75,7 +75,7 @@ export const authUser = async (req: express.Request, res: express.Response) => {
 
 }
 
-//save user details
+//save user details or update
 export const saveUserDetails = async (req: express.Request, res: any) => {
     try {
         let req_body = req.body;
@@ -90,8 +90,32 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
             city: req_body.city,
             base64Image: req_body.base64Image
         })
-        let createUser = await userDetailsModel.create(userDetails);
-        res.status(200).send(new CustomResponse(200, "user details saved", createUser));
+
+        let findOneBYEmail = await userDetailsModel.findOne(req_body.email);
+        if (findOneBYEmail) {
+            let updateUserDetails = await userDetailsModel.findOneAndUpdate({_id: findOneBYEmail._id}, {
+                userName: req_body.userName,
+                email: req_body.email,
+                address: req_body.address,
+                postalCode: req_body.postalCode,
+                city: req_body.city,
+                base64Image: req_body.base64Image
+            }).then(r => {
+                res.status(200).send(new CustomResponse(200, "user details updated", updateUserDetails));
+            }).catch(error => {
+                res.status(500).send(new CustomResponse(500, "cannot update details", error));
+            });
+
+        } else {
+
+            let createUser = await userDetailsModel.create(userDetails).then(r => {
+                res.status(200).send(new CustomResponse(200, "user details saved", createUser));
+            }).catch(error => {
+                res.status(500).send(new CustomResponse(500, "cannot saved user details", error));
+            });
+
+        }
+
     } catch (error) {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
