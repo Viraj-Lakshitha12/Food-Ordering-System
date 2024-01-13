@@ -1,4 +1,4 @@
-// store/authSlice.ts
+// auth/authSlice.ts
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 

@@ -1,8 +1,8 @@
 import React, {useState, ChangeEvent, useEffect} from 'react';
 import axios from 'axios';
-import Swal from "sweetalert2";
-import {useNavigate} from "react-router-dom";
-import Cookies from "js-cookie";
+import Swal from 'sweetalert2';
+import {useNavigate} from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 interface UserProfileProps {
 }
@@ -16,6 +16,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         address: '',
         postalCode: '',
         city: '',
+        base64Image: '',
     });
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, type: string): void => {
@@ -23,12 +24,32 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     };
 
     useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
         const user = Cookies.get('user');
         if (user) {
-            const userEmail = user;  // Assuming email is a property in the user object
-            setUserData((prevData) => ({ ...prevData, email: userEmail }));
+            const userEmail = user;
+            setUserData((prevData) => ({...prevData, email: userEmail}));
         }
-    }, []);
+
+        try {
+            const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail?email=${user}`);
+            const userDetailData = response.data;
+
+            setUserData((prevData) => ({
+                ...prevData,
+                userName: userDetailData.data.userName,
+                address: userDetailData.data.address,
+                postalCode: userDetailData.data.postalCode,
+                city: userDetailData.data.city,
+                base64Image: userDetailData.data.base64Image,
+            }));
+        } catch (error) {
+            console.error('Error fetching user details:', error);
+        }
+    };
 
     const handleProfileUpdate = async () => {
         try {
@@ -40,36 +61,23 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 base64Image,
             };
 
-            const ACCESS_TOKEN = Cookies.get("token");
-            console.log("token :" + ACCESS_TOKEN);
+            const ACCESS_TOKEN = Cookies.get('token');
             const headers = {
                 'Content-Type': 'application/json',
-                'Authorization': ACCESS_TOKEN
-            }
-            console.log("token :" + headers.Authorization);
-            //update profile Details
-            await axios.post('http://localhost:8080/api/user/saveUserDetails',
-                data,
-                {headers})
-                .then(r => {
-                    console.log(r);
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Successfully update profile!",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                    navigate('/');
-                }).catch(error => {
-                    Swal.fire({
-                        position: "center",
-                        icon: "error",
-                        title: error,
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
+                Authorization: ACCESS_TOKEN || '',
+            };
+
+            await axios.post('http://localhost:8080/api/user/saveUserDetails', data, {headers}).then((r) => {
+                console.log(r);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully update profile!',
+                    showConfirmButton: false,
+                    timer: 2500,
                 });
+                navigate('/');
+            });
         } catch (error) {
             console.error('Error updating profile', error);
         }
@@ -79,7 +87,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         const file = e.target.files?.[0];
 
         if (file) {
-            // Ensure the file is a Blob before setting the selectedImage
             if (file instanceof Blob) {
                 setSelectedImage(URL.createObjectURL(file));
             } else {
@@ -88,12 +95,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         }
     };
 
-
     const getBase64 = (file: File) => {
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
-
-            // Use the File API to create a Blob
             const blob = new Blob([file]);
 
             reader.onload = () => {
@@ -102,12 +106,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             };
 
             reader.onerror = (error) => reject(error);
-
-            // Read the Blob as a Data URL
             reader.readAsDataURL(blob);
         });
     };
-
 
     return (
         <section className="my-5">
@@ -152,6 +153,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 className="col-span-2 p-2 my-1 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="First and last name"
+                                value={userData.userName}
                                 onChange={(e) => handleInput(e, 'userName')}
                             />
                             <input
@@ -159,9 +161,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="example@gmail.com"
-                                value={userData.email}  // Set the value from the state
+                                value={userData.email}
                                 onChange={(e) => handleInput(e, 'email')}
-                                disabled  // Disable the input field
+                                disabled
                             />
 
                             <input
@@ -169,6 +171,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="street address"
+                                value={userData.address}
                                 onChange={(e) => handleInput(e, 'address')}
                             />
                         </div>
@@ -178,6 +181,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="postal code"
+                                value={userData.postalCode}
                                 onChange={(e) => handleInput(e, 'postalCode')}
                             />
                             <input
@@ -185,6 +189,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
                                 type="text"
                                 placeholder="city"
+                                value={userData.city}
                                 onChange={(e) => handleInput(e, 'city')}
                             />
                         </div>
