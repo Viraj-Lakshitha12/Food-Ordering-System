@@ -1,10 +1,11 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, {useState, ChangeEvent, useEffect} from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-interface UserProfileProps {}
+interface UserProfileProps {
+}
 
 const UserProfile: React.FC<UserProfileProps> = () => {
     const navigate = useNavigate();
@@ -15,10 +16,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         address: '',
         postalCode: '',
         city: '',
+        admin: false
     });
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, type: string): void => {
-        setUserData((prevData) => ({ ...prevData, [type]: e.target.value }));
+        setUserData((prevData) => ({...prevData, [type]: e.target.value}));
     };
 
     useEffect(() => {
@@ -29,7 +31,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         const user = Cookies.get('user');
         if (user) {
             const userEmail = user;
-            setUserData((prevData) => ({ ...prevData, email: userEmail }));
+            setUserData((prevData) => ({...prevData, email: userEmail}));
         }
 
         try {
@@ -43,6 +45,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             console.log('postalCode:', userDetailData.postalCode);
             console.log('city:', userDetailData.city);
             console.log('email:', userDetailData.email);
+            console.log('admin', userDetailData.admin);
+            Cookies.set('admin', userDetailData.admin);
 
             // Set state with individual properties
             setUserData({
@@ -51,12 +55,12 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 postalCode: userDetailData.postalCode,
                 city: userDetailData.city,
                 email: userDetailData.email,
+                admin: false
             });
         } catch (error) {
             console.error('Error fetching user details:', error);
         }
     };
-
 
 
     const handleProfileUpdate = async () => {
@@ -78,7 +82,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             console.log('token :' + headers.Authorization);
             //update profile Details
             await axios
-                .post('http://localhost:8080/api/user/saveUserDetails', data, { headers })
+                .post('http://localhost:8080/api/user/saveUserDetails', data, {headers})
                 .then((r) => {
                     console.log(r);
                     Swal.fire({
@@ -150,7 +154,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                                 src={selectedImage}
                                 alt="User Profile"
                                 className="rounded-2xl mx-auto my-4"
-                                style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                style={{maxWidth: '200px', maxHeight: '200px'}}
                             />
                         ) : (
                             <div className="text-center my-4 font-bold mx-auto">
@@ -162,7 +166,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             className="cursor-pointer font-bold rounded-md bg-gray-900 text-white text-center max-w-xl block p-2"
                         >
                             Choose an image
-                            <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange} className="hidden" />
+                            <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange}
+                                   className="hidden"/>
                         </label>
                     </div>
 

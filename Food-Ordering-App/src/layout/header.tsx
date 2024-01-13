@@ -33,7 +33,7 @@ const LogoutButton: React.FC = () => {
     };
 
     return (
-        <li className="bg-red-600 text-white px-4 py-2 rounded-full" onClick={handleLogout}>
+        <li className="bg-red-600 text-white px-4 py-2 rounded-full cursor-pointer"  onClick={handleLogout}>
             Logout
         </li>
     );
