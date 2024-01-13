@@ -1,8 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authSlice';
 import Cookies from 'js-cookie';
 import React from 'react';
+import Swal from "sweetalert2";
 
 const LoginButton: React.FC = () => {
     return (
@@ -20,15 +21,34 @@ const RegisterButton: React.FC = () => {
     );
 };
 
+
 const LogoutButton: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        Cookies.remove('token');
-        Cookies.remove('admin'); // Remove the admin cookie
-        dispatch(clearAccessToken());
-        navigate('/login');
+        Swal.fire({
+            title: "Are you sure you want to logout?",
+            text: "You won't be able to revert this!",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, logout"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Logged Out!",
+                    text: "You have been successfully logged out.",
+                    icon: "success"
+                });
+
+                Cookies.remove('token');
+                Cookies.remove('admin'); // Remove the admin cookie
+                dispatch(clearAccessToken());
+                navigate('/login');
+            }
+        });
     };
 
     return (
