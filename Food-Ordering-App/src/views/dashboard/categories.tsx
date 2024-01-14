@@ -2,17 +2,20 @@ import {Dashboard} from "../../components/dashboard.tsx";
 import {useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 
 export function Categories() {
     const [categoryName, setCategoryName] = useState('');
+    const navigate = useNavigate();
 
     const handleCategoryName = async (ev: any) => {
         ev.preventDefault();
-
-        const response = await axios.get(`http://localhost:8080/api/profile/saveCategory`).then(r => {
+        const data = {
+            type: categoryName
+        }
+        await axios.post(`http://localhost:8080/api/dashboard/saveCategory`, data).then(r => {
             console.log(r);
-            console.log("category response : " + response);
             Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -20,6 +23,7 @@ export function Categories() {
                 showConfirmButton: false,
                 timer: 2000,
             });
+            navigate('/categories')
         }).catch(error => {
             console.log(error);
             Swal.fire({
@@ -30,7 +34,6 @@ export function Categories() {
                 timer: 2500,
             });
         });
-
     }
 
 
