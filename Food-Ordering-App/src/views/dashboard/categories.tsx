@@ -2,38 +2,49 @@ import {Dashboard} from "../../components/dashboard.tsx";
 import {useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {useNavigate} from "react-router-dom";
 
 
 export function Categories() {
     const [categoryName, setCategoryName] = useState('');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleCategoryName = async (ev: any) => {
         ev.preventDefault();
-        const data = {
-            type: categoryName
-        }
-        await axios.post(`http://localhost:8080/api/dashboard/saveCategory`, data).then(r => {
-            console.log(r);
+
+        if (categoryName === '') {
             Swal.fire({
                 position: 'center',
-                icon: 'success',
-                title: 'Successfully Save Category!',
-                showConfirmButton: false,
-                timer: 2000,
-            });
-            navigate('/categories')
-        }).catch(error => {
-            console.log(error);
-            Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: 'Error Save Category!',
+                icon: 'warning',
+                title: 'please enter category!',
                 showConfirmButton: false,
                 timer: 2500,
             });
-        });
+
+        } else {
+            const data = {
+                type: categoryName
+            }
+            await axios.post(`http://localhost:8080/api/dashboard/saveCategory`, data).then(r => {
+                console.log(r);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Save Category!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                setCategoryName('');
+            }).catch(error => {
+                console.log(error);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Error Save Category!',
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+            });
+        }
     }
 
 
