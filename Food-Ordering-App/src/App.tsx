@@ -12,6 +12,7 @@ import Profile from "./views/profile/profile.tsx";
 import {Dashboard} from "./components/dashboard.tsx";
 import {Categories} from "./views/dashboard/categories.tsx";
 import {MenuItems} from "./views/dashboard/menuItems.tsx";
+import {Users} from "./views/dashboard/users.tsx";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path={"/dashboard"} element={<Dashboard/>}/>
                 <Route path={"/categories"} element={<Categories/>}/>
                 <Route path={"/menuItems"} element={<MenuItems/>}/>
+                <Route path={"/users"} element={<Users/>}/>
 
             </Routes>
             <Footer/>
