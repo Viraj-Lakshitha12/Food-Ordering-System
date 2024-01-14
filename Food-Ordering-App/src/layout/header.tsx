@@ -89,8 +89,11 @@ const Header: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <header className="flex items-center justify-between">
-            <strong className="text-4xl text-red-600 font-bold p-4">PIZZA</strong>
+        <header className="flex items-center justify-between my-4 ml-5">
+            <div>
+                <strong className="text-4xl text-red-600 font-bold">PIZZA</strong>
+                {/*<strong className="text-4xl text-red-600 font-bold p-4">PIZZA</strong>*/}
+            </div>
             <nav>
                 <ul className="flex items-center mx-5 text-gray-500 text-lg gap-10 font-semibold">
                     <li>
