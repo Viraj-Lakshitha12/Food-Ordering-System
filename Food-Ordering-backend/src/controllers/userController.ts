@@ -130,13 +130,11 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
     }
 };
 
-
 // get user details using email
 export const getUserDetailsByEmail = async (req: express.Request, res: any) => {
     try {
         const req_email: any = req.params.email;
-        const findOneByEmail = await userDetailsModel.findOne({email: req_email});
-        console.log(findOneByEmail);
+        const findOneByEmail = await userDetailsModel.findOne({email: req_email});console.log(findOneByEmail);
         if (findOneByEmail) {
             res.status(200).send(new CustomResponse(200, "find user", findOneByEmail));
         } else {
