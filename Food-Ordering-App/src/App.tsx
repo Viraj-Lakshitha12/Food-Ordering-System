@@ -10,6 +10,7 @@ import Register from "./views/register.tsx";
 import Login from "./views/login.tsx";
 import Profile from "./views/profile/profile.tsx";
 import {Dashboard} from "./components/dashboard.tsx";
+import {Categories} from "./views/dashboard/categories.tsx";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/profile"} element={<Profile/>}/>
                 <Route path={"/dashboard"} element={<Dashboard/>}/>
+                <Route path={"/categories"} element={<Categories/>}/>
 
             </Routes>
             <Footer/>
