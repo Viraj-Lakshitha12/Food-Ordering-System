@@ -52,26 +52,30 @@ export function MenuItems() {
         <section>
             <Dashboard />
             <form className={'max-w-md mx-auto my-4'} onSubmit={handleSubmit}>
-                <div className={'flex gap-2'}>
+                <div className={'flex gap-4'}>
                     <div className={''}>
                         {/* Image chooser */}
-                        <label>
-                            <input type="file" onChange={handleImageChange} accept="image/*" />
-                            <div className="relative w-32 h-32 border border-gray-300 rounded-lg overflow-hidden">
-                                {selectedImage ? (
-                                    <img
-                                        className="object-cover w-full h-full"
-                                        src={URL.createObjectURL(selectedImage)}
-                                        alt="Selected"
-                                    />
-                                ) : (
-                                    <div className="flex items-center justify-center h-full text-gray-400">
-                                        No Image
-                                    </div>
-                                )}
-                            </div>
+                        <label className="relative w-32 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                            <input
+                                type="file"
+                                onChange={handleImageChange}
+                                accept="image/*"
+                                className="absolute overflow-hidden inset-0 opacity-0 cursor-pointer w-[100px] h-[100px]"
+                            />
+                            {selectedImage ? (
+                                <img
+                                    className="object-cover w-[150px] h-[150px]"
+                                    src={URL.createObjectURL(selectedImage)}
+                                    alt="Selected"
+                                />
+                            ) : (
+                                <div className="flex items-center justify-center font-bold w-[150px] h-[150px] border-2 text-black">
+                                    No Image
+                                </div>
+                            )}
                         </label>
                     </div>
+
                     <div className={'flex flex-col flex-grow'}>
                         <label className={'font-semibold'}>Item Name</label>
                         <input
