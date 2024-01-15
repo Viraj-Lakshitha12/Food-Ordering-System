@@ -4,13 +4,14 @@ import About from "./about.tsx";
 import Contact from "./contact.tsx";
 import Cookies from "js-cookie";
 import axios from "axios";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 const Home = () => {
+    // window.location
     useEffect(() => {
-        fetchData();
-    }, []);
+            fetchData();
 
+    }, []);
     const fetchData = async () => {
         const user = Cookies.get('user');
         if (user) {
@@ -21,7 +22,6 @@ const Home = () => {
 
                 console.log('admin', userDetailData.admin);
                 Cookies.set('admin', userDetailData.admin);
-
             } catch (error) {
                 console.error('Error fetching user details:', error);
             }
@@ -30,10 +30,10 @@ const Home = () => {
 
     return (
         <div>
-            <Hero/>
-            <HomeMenu/>
-            <About/>
-            <Contact/>
+            <Hero />
+            <HomeMenu />
+            <About />
+            <Contact />
         </div>
     );
 };

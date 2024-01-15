@@ -2,6 +2,9 @@ import {Dashboard} from "../../components/dashboard.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
+
 
 interface Category {
     _id: string;
@@ -13,20 +16,32 @@ export function Categories() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [editCategory, setEditCategory] = useState<Category | null>(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        getCategoryData();
+        const checkAdminStatus = () => {
+            // @ts-ignore
+            const adminStatus = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
+            console.log("new admin :" + adminStatus)
+            if (adminStatus) {
+                getCategoryData();
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Access denied. You are not an admin !',
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000); // Delay the redirect by 1 second (adjust as needed)
+            }
+        };
+
+        checkAdminStatus(); // Call the function
+
     }, []);
-
-    // @ts-ignore
-    const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
-
-    console.log("isAdmin Check: ", isAdmin);
-
-    if (!isAdmin) {
-        console.log("Alert Triggered");
-        alert("Access denied. You are not an admin.");
-        return null;
-    }
 
 
     const getAllCategories = async () => {
