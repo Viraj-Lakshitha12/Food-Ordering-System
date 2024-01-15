@@ -24,15 +24,6 @@ const getAllCategories = async () => {
     }
 };
 
-const saveCategory = async (categoryData: any) => {
-    try {
-        const response = await axios.post('http://localhost:8080/api/dashboard/saveCategory', categoryData);
-        return response.data;
-    } catch (error) {
-        console.error('Error saving category:', error);
-        throw error;
-    }
-}
 
 export function Categories() {
     const [categoryName, setCategoryName] = useState('');
@@ -42,6 +33,25 @@ export function Categories() {
     useEffect(() => {
         getCategoryData();
     }, []);
+
+
+    const saveCategory = async (categoryData: any) => {
+        let response = null;
+        try {
+            if (editCategory) {
+                response = await axios.post('http://localhost:8080/api/dashboard/saveCategory', categoryData);
+            } else {
+                response = await axios.put('http://localhost:8080/api/dashboard/saveCategory', categoryData);
+            }
+
+            return response.data;
+        } catch (error) {
+            console.error('Error saving category:', error);
+            throw error;
+        }
+    };
+
+
 
     const getCategoryData = async () => {
         try {
