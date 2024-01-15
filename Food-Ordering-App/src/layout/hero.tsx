@@ -1,5 +1,6 @@
 import Right from "../assets/icons/right.tsx";
 
+
 export default function Hero() {
     return (
         <section className={'grid sm:grid-cols-1 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 p-14 leading-10'}>
@@ -14,11 +15,11 @@ export default function Hero() {
                 <div className={'flex gap-4 mt-[5vh] font-bold'}>
                     <button className={'bg-red-500 text-white rounded-full p-8 py-3 flex gap-2 items-center'}>
                         ORDER NOW
-                    <Right />
+                        <Right/>
                     </button>
                     <button className={'flex gap-2 py-3 text-gray-700 items-center'}>
                         Learn more
-                        <Right />
+                        <Right/>
                     </button>
                 </div>
             </div>
