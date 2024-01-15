@@ -21,7 +21,6 @@ const RegisterButton: React.FC = () => {
     );
 };
 
-
 const LogoutButton: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

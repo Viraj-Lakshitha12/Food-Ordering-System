@@ -4,12 +4,11 @@ import About from "./about.tsx";
 import Contact from "./contact.tsx";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useEffect } from "react";
+import {useEffect} from "react";
 
 const Home = () => {
-    // window.location
     useEffect(() => {
-            fetchData();
+        fetchData();
 
     }, []);
     const fetchData = async () => {
@@ -30,10 +29,10 @@ const Home = () => {
 
     return (
         <div>
-            <Hero />
-            <HomeMenu />
-            <About />
-            <Contact />
+            <Hero/>
+            <HomeMenu/>
+            <About/>
+            <Contact/>
         </div>
     );
 };

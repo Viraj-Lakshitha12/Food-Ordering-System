@@ -35,7 +35,7 @@ export function Categories() {
                 });
                 setTimeout(() => {
                     navigate('/');
-                }, 1000); // Delay the redirect by 1 second (adjust as needed)
+                }, 1000);
             }
         };
 
