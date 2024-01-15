@@ -37,6 +37,7 @@ const saveCategory = async (categoryData: any) => {
 export function Categories() {
     const [categoryName, setCategoryName] = useState('');
     const [categories, setCategories] = useState<Category[]>([]);
+    const [editCategory, setEditCategory] = useState(null);
 
     useEffect(() => {
         getCategoryData();
@@ -94,7 +95,7 @@ export function Categories() {
             <Dashboard/>
             <form className="flex flex-col " onSubmit={handleCategoryName}>
                 <div className="my-2">
-                    <label className="font-semibold">New category name</label>
+                    <label className="font-bold">{editCategory ? 'Edit category name' : 'New category name'}</label>
                 </div>
                 <div className="flex items-center gap-4">
                     <input
@@ -104,14 +105,20 @@ export function Categories() {
                         onChange={(event) => setCategoryName(event.target.value)}
                     />
                     <button className="bg-red-600 text-white px-4 py-1 rounded-md" type="submit">
-                        Submit
+                        {editCategory ? 'update' : 'create'}
                     </button>
                 </div>
                 <div className={'mt-5'}>
                     <span className={''}>edit category : </span>
                     {categories?.length > 0 &&
                         categories.map((c) => (
-                            <div className={'my-2 bg-gray-200 rounded-lg p-2 cursor-pointer'}>
+                            <div
+                                onClick={() => {
+                                    // @ts-ignore
+                                    setEditCategory(c);
+                                    setCategoryName(c.type);
+                                }}
+                                className={'my-1 bg-gray-200 rounded-lg p-2 cursor-pointer'}>
                                 <span className={'font-semibold'}>{c.type}</span>
                             </div>
                         ))}
