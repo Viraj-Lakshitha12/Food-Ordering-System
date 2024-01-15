@@ -1,13 +1,14 @@
-import {Dashboard} from "../../components/dashboard.tsx";
+import { Dashboard } from "../../components/dashboard.tsx";
 import Cookies from "js-cookie";
-import {useState} from "react";
+import { useState } from "react";
 
 export function MenuItems() {
-    const [image, setImage] = useState('');
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [itemName, setItemName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
+    // Check if the user is an admin
     // @ts-ignore
     const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
@@ -19,6 +20,11 @@ export function MenuItems() {
         return null;
     }
 
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+        setSelectedImage(file);
+    };
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -26,7 +32,7 @@ export function MenuItems() {
         // For example, you can send a request to your server to create a new menu item
 
         const newItem = {
-            image,
+            image: selectedImage ? URL.createObjectURL(selectedImage) : '', // Use URL.createObjectURL to show the image preview
             itemName,
             description,
             price
@@ -36,7 +42,7 @@ export function MenuItems() {
         console.log("New Menu Item:", newItem);
 
         // Optionally, you can reset the form fields
-        setImage('');
+        setSelectedImage(null);
         setItemName('');
         setDescription('');
         setPrice('');
@@ -44,13 +50,27 @@ export function MenuItems() {
 
     return (
         <section>
-
-            <Dashboard/>
+            <Dashboard />
             <form className={'max-w-md mx-auto my-4'} onSubmit={handleSubmit}>
-                <div className={'flex gap-4'}>
+                <div className={'flex gap-2'}>
                     <div className={''}>
-                        image
-
+                        {/* Image chooser */}
+                        <label>
+                            <input type="file" onChange={handleImageChange} accept="image/*" />
+                            <div className="relative w-32 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                                {selectedImage ? (
+                                    <img
+                                        className="object-cover w-full h-full"
+                                        src={URL.createObjectURL(selectedImage)}
+                                        alt="Selected"
+                                    />
+                                ) : (
+                                    <div className="flex items-center justify-center h-full text-gray-400">
+                                        No Image
+                                    </div>
+                                )}
+                            </div>
+                        </label>
                     </div>
                     <div className={'flex flex-col flex-grow'}>
                         <label className={'font-semibold'}>Item Name</label>
