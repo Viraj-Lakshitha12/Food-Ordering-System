@@ -8,41 +8,32 @@ interface Category {
     type: string;
 }
 
-const getAllCategories = async () => {
-    try {
-        const response = await axios.get<{ data: Category[] }>(
-            "http://localhost:8080/api/dashboard/getAllCategories"
-        );
-        if (response.data) {
-            return response.data.data;
-        } else {
-            console.log("No data received from the server.");
-        }
-    } catch (error) {
-        console.error("Error fetching categories:", error);
-        throw error;
-    }
-};
-
-
 export function Categories() {
     const [categoryName, setCategoryName] = useState('');
     const [categories, setCategories] = useState<Category[]>([]);
-    const [editCategory, setEditCategory] = useState(null);
+    const [editCategory, setEditCategory] = useState<Category | null>(null);
 
     useEffect(() => {
         getCategoryData();
     }, []);
 
+    const getAllCategories = async () => {
+        try {
+            const response = await axios.get<{ data: Category[] }>(
+                "http://localhost:8080/api/dashboard/getAllCategories"
+            );
+            return response.data.data || [];
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+            throw error;
+        }
+    };
 
     const saveCategory = async (categoryData: any) => {
-        let response = null;
         try {
-            if (editCategory) {
-                response = await axios.post('http://localhost:8080/api/dashboard/saveCategory', categoryData);
-            } else {
-                response = await axios.put('http://localhost:8080/api/dashboard/saveCategory', categoryData);
-            }
+            const response = editCategory
+                ? await axios.put(`http://localhost:8080/api/dashboard/saveCategory/${editCategory._id}`, categoryData)
+                : await axios.post('http://localhost:8080/api/dashboard/saveCategory', categoryData);
 
             return response.data;
         } catch (error) {
@@ -51,18 +42,14 @@ export function Categories() {
         }
     };
 
-
-
     const getCategoryData = async () => {
         try {
             const categoriesData = await getAllCategories();
-            // @ts-ignore
-            setCategories(categoriesData); // Replace the existing state with the new data
+            setCategories(categoriesData);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
-    }
-
+    };
 
     const handleCategoryName = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -79,31 +66,38 @@ export function Categories() {
             try {
                 const data = {type: categoryName};
                 await saveCategory(data);
+
+                const successTitle = editCategory ? 'Successfully updated category!' : 'Successfully saved category!';
+
+
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully saved category!',
+                    title: successTitle,
                     showConfirmButton: false,
                     timer: 2000,
                 });
+
                 setCategoryName('');
+                setEditCategory(null);
                 getCategoryData();
             } catch (error) {
+                const errorTitle = editCategory ? 'Error updating category!' : 'Error saving category!';
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Error saving category!',
+                    title: errorTitle,
                     showConfirmButton: false,
                     timer: 2500,
                 });
             }
         }
-    }
+    };
 
     return (
-        <section className={'max-w-md mx-auto my-10'}>
+        <section className="max-w-md mx-auto my-10">
             <Dashboard/>
-            <form className="flex flex-col " onSubmit={handleCategoryName}>
+            <form className="flex flex-col" onSubmit={handleCategoryName}>
                 <div className="my-2">
                     <label className="font-bold">{editCategory ? 'Edit category name' : 'New category name'}</label>
                 </div>
@@ -115,21 +109,22 @@ export function Categories() {
                         onChange={(event) => setCategoryName(event.target.value)}
                     />
                     <button className="bg-red-600 text-white px-4 py-1 rounded-md" type="submit">
-                        {editCategory ? 'update' : 'create'}
+                        {editCategory ? 'Update' : 'Create'}
                     </button>
                 </div>
-                <div className={'mt-5'}>
-                    <span className={''}>edit category : </span>
+                <div className="mt-5">
+                    <span className="">Edit category: </span>
                     {categories?.length > 0 &&
                         categories.map((c) => (
                             <div
+                                key={c._id}
                                 onClick={() => {
-                                    // @ts-ignore
                                     setEditCategory(c);
                                     setCategoryName(c.type);
                                 }}
-                                className={'my-1 bg-gray-200 rounded-lg p-2 cursor-pointer'}>
-                                <span className={'font-semibold'}>{c.type}</span>
+                                className="my-1 bg-gray-200 rounded-lg p-2 cursor-pointer"
+                            >
+                                <span className="font-semibold">{c.type}</span>
                             </div>
                         ))}
                 </div>
