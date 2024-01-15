@@ -8,7 +8,7 @@ const route: Router = express.Router();
 route.post('/saveCategory', saveCategory);
 
 //update category
-route.put('/saveCategory', updateCategory);
+route.put('/saveCategory/:categoryId', updateCategory);
 
 //get all categories
 route.get('/getAllCategories', getAllCategories);

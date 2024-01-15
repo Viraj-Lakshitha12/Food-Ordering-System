@@ -12,26 +12,32 @@ export const saveCategory = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     });
 }
-
-//update category
+// update category
 export const updateCategory = async (req: express.Request, res: any) => {
-    let req_body = req.body;
-    console.log(req_body)
-    let findOneCategory = await CategoryModel.findOne({_id: req_body._id});
-    if (findOneCategory) {
-        await CategoryModel.findOneAndUpdate({_id: req_body._id}, {
-            type: req_body.type
-        }).then(r => {
-            res.status(200).send(new CustomResponse(200, "update category", r));
-        }).catch(error => {
-            res.status(500).send(new CustomResponse(500, "something went wrong", error));
-        });
-    } else {
-        res.status(500).send(new CustomResponse(500, "cannot find category !"));
+    try {
+        const id = req.params.categoryId;
+        const req_body = req.body;
+        console.log("update req body : ", req_body);
+        console.log("update req id : " + id);
+        const findOneCategory = await CategoryModel.findOne({_id: id});
+
+        if (findOneCategory) {
+            const updatedCategory = await CategoryModel.findOneAndUpdate(
+                {_id: id},
+                {type: req_body.type},
+                {new: true}
+            );
+
+            res.status(200).send(new CustomResponse(200, "update category", updatedCategory));
+        } else {
+            res.status(500).send(new CustomResponse(500, "Cannot find category!"));
+        }
+    } catch (error) {
+        console.error('Error updating category:', error);
+        res.status(500).send(new CustomResponse(500, "Something went wrong", error));
     }
+};
 
-
-}
 
 
 // get Category
