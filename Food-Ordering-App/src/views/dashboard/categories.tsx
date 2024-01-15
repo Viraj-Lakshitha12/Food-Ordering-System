@@ -20,10 +20,14 @@ export function Categories() {
     // @ts-ignore
     const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
+    console.log("isAdmin Check: ", isAdmin);
+
     if (!isAdmin) {
+        console.log("Alert Triggered");
         alert("Access denied. You are not an admin.");
         return null;
     }
+
 
     const getAllCategories = async () => {
         try {
