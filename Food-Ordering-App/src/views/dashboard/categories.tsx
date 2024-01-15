@@ -17,6 +17,14 @@ export function Categories() {
         getCategoryData();
     }, []);
 
+    // @ts-ignore
+    const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
+
+    if (!isAdmin) {
+        alert("Access denied. You are not an admin.");
+        return null;
+    }
+
     const getAllCategories = async () => {
         try {
             const response = await axios.get<{ data: Category[] }>(
