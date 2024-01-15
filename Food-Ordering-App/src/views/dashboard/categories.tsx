@@ -46,11 +46,12 @@ export function Categories() {
         try {
             const categoriesData = await getAllCategories();
             // @ts-ignore
-            setCategories(prevCategories => [...prevCategories, ...categoriesData]);
+            setCategories(categoriesData); // Replace the existing state with the new data
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
     }
+
 
     const handleCategoryName = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -89,9 +90,9 @@ export function Categories() {
     }
 
     return (
-        <section>
+        <section className={'max-w-md mx-auto my-10'}>
             <Dashboard/>
-            <form className="flex flex-col max-w-md mx-auto my-10" onSubmit={handleCategoryName}>
+            <form className="flex flex-col " onSubmit={handleCategoryName}>
                 <div className="my-2">
                     <label className="font-semibold">New category name</label>
                 </div>
@@ -106,11 +107,12 @@ export function Categories() {
                         Submit
                     </button>
                 </div>
-                <div>
+                <div className={'mt-5'}>
+                    <span className={''}>edit category : </span>
                     {categories?.length > 0 &&
                         categories.map((c) => (
-                            <div>
-                                {c.type}
+                            <div className={'my-2 bg-gray-200 rounded-lg p-2 cursor-pointer'}>
+                                <span className={'font-semibold'}>{c.type}</span>
                             </div>
                         ))}
                 </div>
