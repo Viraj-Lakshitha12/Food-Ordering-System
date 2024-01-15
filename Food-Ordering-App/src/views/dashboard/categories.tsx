@@ -130,12 +130,12 @@ export function Categories() {
                 </div>
                 <div className="flex items-center gap-4">
                     <input
-                        className="text-center border border-blue-800 w-full rounded-md"
+                        className="text-center py-1 border border-blue-800 w-full rounded-md"
                         type="text"
                         value={categoryName}
                         onChange={(event) => setCategoryName(event.target.value)}
                     />
-                    <button className="bg-red-600 text-white px-4 py-1 rounded-md" type="submit">
+                    <button className="bg-red-600 text-white px-4 py-1.5 rounded-md" type="submit">
                         {editCategory ? 'Update' : 'Create'}
                     </button>
                 </div>
