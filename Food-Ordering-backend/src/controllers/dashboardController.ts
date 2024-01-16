@@ -1,6 +1,7 @@
 import express from "express";
 import {CategoryModel} from "../models/category";
 import CustomResponse from "../util/customResponse";
+import {menuItemModel} from "../models/menuItems";
 
 //save Category
 export const saveCategory = async (req: express.Request, res: any) => {
@@ -50,5 +51,11 @@ export const getAllCategories = async (req: express.Request, res: any) => {
 
 //save menu-item
 export const saveMenuItem = (req: express.Request, res: express.Response) => {
-
+    let req_body = req.body;
+    console.log(req_body);
+    // try {
+    //     menuItemModel.create()
+    // } catch (error) {
+    //     res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    // }
 }

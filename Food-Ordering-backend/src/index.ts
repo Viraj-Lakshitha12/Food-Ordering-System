@@ -34,6 +34,8 @@ app.use(cors({origin: '*'}))
 
 //  user
 app.use('/api/user', userRoutes);
+
+//dashboard
 app.use('/api/dashboard', dashboardRoutes);
 
 
