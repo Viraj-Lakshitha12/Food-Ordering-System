@@ -61,45 +61,47 @@ export function MenuItems() {
 
     return (
         <section>
-            <Dashboard />
+            <Dashboard/>
             <form className="max-w-md mx-auto my-4" onSubmit={handleSubmit}>
 
-                <div className="border border-blue-700 rounded-md p-1 font-semibold mb-10">
+                <div className="border border-blue-700 rounded-md p-2 font-semibold mb-10">
                     <Link to="/showMenuItem" className="flex gap-4 justify-center">
                         Show Menu Items
-                        <Right />
+                        <Right/>
                     </Link>
                 </div>
 
                 <div className="flex gap-4">
-                    <div className="flex-shrink-0">
+                    <div className={''}>
                         {/* Image chooser */}
-                        <label className="relative border border-gray-300 rounded-lg overflow-hidden">
+                        <label className="relative w-32 h-32 border border-gray-300 rounded-lg overflow-hidden">
                             <input
                                 type="file"
                                 onChange={handleImageChange}
                                 accept="image/*"
-                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                className="absolute overflow-hidden inset-0 opacity-0 cursor-pointer w-[100px] h-[100px]"
                             />
                             {selectedImage ? (
                                 <img
-                                    className="object-cover w-full h-full"
+                                    className="object-cover w-[150px] h-[150px]"
                                     src={URL.createObjectURL(selectedImage)}
                                     alt="Selected"
                                 />
                             ) : (
-                                <div className="flex items-center justify-center font-bold w-40 h-40 border-2 text-black">
+                                <div
+                                    className="flex items-center justify-center font-bold w-[150px] h-[150px] border-2 text-black">
                                     No Image
                                 </div>
                             )}
                         </label>
                     </div>
 
+
                     <div className="flex flex-col flex-grow">
                         <label className="font-semibold">Item Name</label>
                         <input
                             type="text"
-                            className="border border-blue-700 rounded-md p-1 bg-gray-200"
+                            className="border border-blue-700 rounded-md p-1 bg-gray-100"
                             value={itemName}
                             onChange={(e) => setItemName(e.target.value)}
                         />
@@ -107,7 +109,7 @@ export function MenuItems() {
                         <label className="font-semibold">Description</label>
                         <input
                             type="text"
-                            className="border border-blue-700 rounded-md p-1 bg-gray-200"
+                            className="border border-blue-700 rounded-md p-1 bg-gray-100"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
@@ -115,7 +117,7 @@ export function MenuItems() {
                         <label className="font-semibold">Price</label>
                         <input
                             type="text"
-                            className="border border-blue-700 rounded-md p-1 bg-gray-200"
+                            className="border border-blue-700 rounded-md p-1 bg-gray-100"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                         />

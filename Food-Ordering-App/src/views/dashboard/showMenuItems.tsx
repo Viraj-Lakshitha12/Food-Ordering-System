@@ -1,12 +1,12 @@
-import { DashbordNavBar } from "../../components/dashbordNavBar.tsx";
-import { Link } from "react-router-dom";
+import {DashbordNavBar} from "../../components/dashbordNavBar.tsx";
+import {Link} from "react-router-dom";
 import Right from "../../assets/icons/right.tsx";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 
 interface MenuItem {
     id: string;
-    name: string;
+    itemName: string;
     description: string;
 }
 
@@ -29,19 +29,19 @@ export function ShowMenuItems() {
 
     return (
         <section className={'max-w-md mx-auto'}>
-            <DashbordNavBar />
-            <div className={'border  border-blue-700 rounded-md p-1 font-bold bg-gray-200  mb-5'}>
+            <DashbordNavBar/>
+            <div className={'border  border-blue-400 rounded-md p-2 font-semibold mb-5'}>
                 <Link to={'/menuItems'} className={'flex gap-4  justify-center'}>
-                    Create new menu <Right />
+                    Create new menu <Right/>
                 </Link>
             </div>
 
-            <div>
+            <div className={''}>
                 {menuItems?.length > 0 ? (
                     menuItems.map((item) => (
-                        <div key={item.id}>
-                            <p>{item.name}</p>
-                            <p>{item.description}</p>
+                        <div className={'border border-gray-400 rounded-md p-1 my-2 text-center'} key={item.id}>
+                            <p>{item.itemName}</p>
+                            {/*<p>{item.description}</p>*/}
                         </div>
                     ))
                 ) : (
