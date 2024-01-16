@@ -63,7 +63,7 @@ export function MenuItems() {
             <Dashboard/>
             <form className={'max-w-md mx-auto my-4'} onSubmit={handleSubmit}>
 
-                <div className={'border  border-blue-700 rounded-md p-1 font-bold bg-gray-200  mb-10'}>
+                <div className={'border  border-blue-700 rounded-md p-1 font-semibold   mb-10'}>
                     <Link to={'/showMenuItem'} className={'flex gap-4  justify-center'}>Show Menu Items
                         <Right/>
                     </Link>
@@ -98,7 +98,7 @@ export function MenuItems() {
                         <label className={'font-semibold'}>Item Name</label>
                         <input
                             type={"text"}
-                            className={'border border-blue-700 rounded-md p-1'}
+                            className={'border border-blue-700 rounded-md p-1 bg-gray-200'}
                             value={itemName}
                             onChange={(e) => setItemName(e.target.value)}
                         />
@@ -106,7 +106,7 @@ export function MenuItems() {
                         <label className={'font-semibold'}>Description</label>
                         <input
                             type={"text"}
-                            className={'border border-blue-700 rounded-md p-1'}
+                            className={'border border-blue-700 rounded-md p-1 bg-gray-200'}
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
@@ -114,7 +114,7 @@ export function MenuItems() {
                         <label className={'font-semibold'}>Price</label>
                         <input
                             type={"text"}
-                            className={'border border-blue-700 rounded-md p-1'}
+                            className={'border border-blue-700 rounded-md p-1 bg-gray-200'}
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                         />
