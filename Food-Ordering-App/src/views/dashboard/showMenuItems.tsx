@@ -1,8 +1,21 @@
 import {DashbordNavBar} from "../../components/dashbordNavBar.tsx";
 import {Link} from "react-router-dom";
 import Right from "../../assets/icons/right.tsx";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 export function ShowMenuItems() {
+
+    const [menuItems, setMenuItems] = useState('');
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/dashboard/getAllMenuItems').then(r => {
+            setMenuItems(r.data);
+            console.log("menu items are:", menuItems);
+        }).catch(error => {
+            console.log(error);
+        })
+    }, []);
+
     return (
         <section className={'max-w-md mx-auto'}>
             <DashbordNavBar/>

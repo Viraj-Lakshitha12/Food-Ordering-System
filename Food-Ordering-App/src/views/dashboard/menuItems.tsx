@@ -58,69 +58,70 @@ export function MenuItems() {
         setPrice('');
     };
 
+
     return (
         <section>
-            <Dashboard/>
-            <form className={'max-w-md mx-auto my-4'} onSubmit={handleSubmit}>
+            <Dashboard />
+            <form className="max-w-md mx-auto my-4" onSubmit={handleSubmit}>
 
-                <div className={'border  border-blue-700 rounded-md p-1 font-semibold   mb-10'}>
-                    <Link to={'/showMenuItem'} className={'flex gap-4  justify-center'}>Show Menu Items
-                        <Right/>
+                <div className="border border-blue-700 rounded-md p-1 font-semibold mb-10">
+                    <Link to="/showMenuItem" className="flex gap-4 justify-center">
+                        Show Menu Items
+                        <Right />
                     </Link>
                 </div>
 
-                <div className={'flex gap-4 '}>
-                    <div className={''}>
+                <div className="flex gap-4">
+                    <div className="flex-shrink-0">
                         {/* Image chooser */}
                         <label className="relative border border-gray-300 rounded-lg overflow-hidden">
                             <input
                                 type="file"
                                 onChange={handleImageChange}
                                 accept="image/*"
-                                className="absolute overflow-hidden inset-0 opacity-0 cursor-pointer "
+                                className="absolute inset-0 opacity-0 cursor-pointer"
                             />
                             {selectedImage ? (
                                 <img
-                                    className="object-cover"
+                                    className="object-cover w-full h-full"
                                     src={URL.createObjectURL(selectedImage)}
                                     alt="Selected"
                                 />
                             ) : (
-                                <div
-                                    className="flex items-center justify-center font-bold w-[150px] h-[150px] border-2 text-black">
+                                <div className="flex items-center justify-center font-bold w-40 h-40 border-2 text-black">
                                     No Image
                                 </div>
                             )}
                         </label>
                     </div>
 
-                    <div className={'flex flex-col flex-grow'}>
-                        <label className={'font-semibold'}>Item Name</label>
+                    <div className="flex flex-col flex-grow">
+                        <label className="font-semibold">Item Name</label>
                         <input
-                            type={"text"}
-                            className={'border border-blue-700 rounded-md p-1 bg-gray-200'}
+                            type="text"
+                            className="border border-blue-700 rounded-md p-1 bg-gray-200"
                             value={itemName}
                             onChange={(e) => setItemName(e.target.value)}
                         />
 
-                        <label className={'font-semibold'}>Description</label>
+                        <label className="font-semibold">Description</label>
                         <input
-                            type={"text"}
-                            className={'border border-blue-700 rounded-md p-1 bg-gray-200'}
+                            type="text"
+                            className="border border-blue-700 rounded-md p-1 bg-gray-200"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
 
-                        <label className={'font-semibold'}>Price</label>
+                        <label className="font-semibold">Price</label>
                         <input
-                            type={"text"}
-                            className={'border border-blue-700 rounded-md p-1 bg-gray-200'}
+                            type="text"
+                            className="border border-blue-700 rounded-md p-1 bg-gray-200"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                         />
                         <button
-                            className={'mt-5 bg-red-600 px-5 py-2 rounded-xl font-semibold text-white text-xl'}
-                            type={"submit"}
+                            className="mt-5 bg-red-600 px-5 py-2 rounded-xl font-semibold text-white text-xl"
+                            type="submit"
                         >
                             Create
                         </button>
@@ -130,3 +131,4 @@ export function MenuItems() {
         </section>
     );
 }
+
