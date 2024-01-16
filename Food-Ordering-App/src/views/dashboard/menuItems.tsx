@@ -1,6 +1,8 @@
-import { Dashboard } from "../../components/dashboard.tsx";
+import {Dashboard} from "../../components/dashboard.tsx";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import {useState} from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export function MenuItems() {
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -25,23 +27,29 @@ export function MenuItems() {
         setSelectedImage(file);
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        // Here you can handle the form submission logic
-        // For example, you can send a request to your server to create a new menu item
-
         const newItem = {
-            image: selectedImage ? URL.createObjectURL(selectedImage) : '', // Use URL.createObjectURL to show the image preview
+            image: selectedImage ? URL.createObjectURL(selectedImage) : '',
             itemName,
             description,
             price
         };
 
-        // TODO: Send a request to your server to create a new menu item with the provided data
-        console.log("New Menu Item:", newItem);
+        await axios.post(`http://localhost:8080/api/dashboard/saveMenuItems`, newItem).then(r => {
+            console.log(r);
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Successfully Saved Menu-Items!',
+                showConfirmButton: false,
+                timer: 2500,
+            });
+        }).catch(error => {
+            console.log(error);
+        });
 
-        // Optionally, you can reset the form fields
         setSelectedImage(null);
         setItemName('');
         setDescription('');
@@ -50,7 +58,7 @@ export function MenuItems() {
 
     return (
         <section>
-            <Dashboard />
+            <Dashboard/>
             <form className={'max-w-md mx-auto my-4'} onSubmit={handleSubmit}>
                 <div className={'flex gap-4'}>
                     <div className={''}>
@@ -64,12 +72,13 @@ export function MenuItems() {
                             />
                             {selectedImage ? (
                                 <img
-                                    className="object-cover w-[150px] h-[150px]"
+                                    className="object-cover max-w-[150px] max-h-[150px]"
                                     src={URL.createObjectURL(selectedImage)}
                                     alt="Selected"
                                 />
                             ) : (
-                                <div className="flex items-center justify-center font-bold w-[150px] h-[150px] border-2 text-black">
+                                <div
+                                    className="flex items-center justify-center font-bold w-[150px] h-[150px] border-2 text-black">
                                     No Image
                                 </div>
                             )}
