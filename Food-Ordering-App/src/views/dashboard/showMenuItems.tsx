@@ -8,6 +8,7 @@ interface MenuItem {
     id: string;
     itemName: string;
     description: string;
+    image: string;
 }
 
 export function ShowMenuItems() {
@@ -36,18 +37,23 @@ export function ShowMenuItems() {
                 </Link>
             </div>
 
-            <div className={''}>
+            <div className={'grid grid-cols-3 gap-4'}>
+
                 {menuItems?.length > 0 ? (
                     menuItems.map((item) => (
-                        <div className={'border border-gray-400 rounded-md p-1 my-2 text-center'} key={item.id}>
-                            <p>{item.itemName}</p>
-                            {/*<p>{item.description}</p>*/}
+                        <div className={'border border-gray-400 rounded-md p-1 my-1 text-center flex flex-col'}
+                             key={item.id}>
+                            <div className={'font-semibold'}>{item.itemName}</div>
+                            <div className={'relative flex justify-center'}>
+                                {item.image && <img src={item.image} alt={'image'} width={80} height={80}/>}
+                            </div>
                         </div>
                     ))
                 ) : (
                     <p>No menu items available.</p>
                 )}
             </div>
+
         </section>
     );
 }
