@@ -38,8 +38,6 @@ export const updateCategory = async (req: express.Request, res: any) => {
     }
 };
 
-
-
 // get Category
 export const getAllCategories = async (req: express.Request, res: any) => {
     await CategoryModel.find().then(r => {
@@ -47,5 +45,10 @@ export const getAllCategories = async (req: express.Request, res: any) => {
     }).catch(error => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     });
+
+}
+
+//save menu-item
+export const saveMenuItem = (req: express.Request, res: express.Response) => {
 
 }
