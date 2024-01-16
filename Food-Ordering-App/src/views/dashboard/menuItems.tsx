@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 import {useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {Link} from "react-router-dom";
+import Right from "../../assets/icons/right.tsx";
 
 export function MenuItems() {
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -60,19 +62,26 @@ export function MenuItems() {
         <section>
             <Dashboard/>
             <form className={'max-w-md mx-auto my-4'} onSubmit={handleSubmit}>
-                <div className={'flex gap-4'}>
+
+                <div className={'border  border-blue-700 rounded-md p-1 font-bold bg-gray-200  mb-10'}>
+                    <Link to={'/showMenuItem'} className={'flex gap-4  justify-center'}>Show Menu Items
+                        <Right/>
+                    </Link>
+                </div>
+
+                <div className={'flex gap-4 '}>
                     <div className={''}>
                         {/* Image chooser */}
-                        <label className="relative w-32 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                        <label className="relative border border-gray-300 rounded-lg overflow-hidden">
                             <input
                                 type="file"
                                 onChange={handleImageChange}
                                 accept="image/*"
-                                className="absolute overflow-hidden inset-0 opacity-0 cursor-pointer w-[100px] h-[100px]"
+                                className="absolute overflow-hidden inset-0 opacity-0 cursor-pointer "
                             />
                             {selectedImage ? (
                                 <img
-                                    className="object-cover max-w-[150px] max-h-[150px]"
+                                    className="object-cover"
                                     src={URL.createObjectURL(selectedImage)}
                                     alt="Selected"
                                 />
