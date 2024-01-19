@@ -99,7 +99,8 @@ export const getMenuItemsByItemName = async (req: express.Request, res: any) => 
 
 }
 
-//update menu items
+
+// update menu items
 export const updateMenuItems = async (req: express.Request, res: any) => {
     try {
         const {id, itemName, description, price, image} = req.body;
@@ -113,13 +114,14 @@ export const updateMenuItems = async (req: express.Request, res: any) => {
             }).then(r => {
                 res.status(200).send(new CustomResponse(200, "update successfully", r));
             }).catch(error => {
-                res.status(500).send(new CustomResponse(500, "cannot update", error));
+                console.error(error);  // Log the error to the console for debugging
+                res.status(500).send(new CustomResponse(500, "cannot update", error.message || "Unknown error"));
             });
-
         } else {
             res.status(404).send(new CustomResponse(404, "Not found user"));
         }
-    } catch (error) {
-        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    } catch (error: any) {
+        console.error(error);  // Log the error to the console for debugging
+        res.status(500).send(new CustomResponse(500, "something went wrong", error.message || "Unknown error"));
     }
 }
