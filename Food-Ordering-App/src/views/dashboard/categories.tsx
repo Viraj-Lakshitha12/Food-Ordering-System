@@ -121,6 +121,36 @@ export function Categories() {
         }
     };
 
+    function deleteCategory(_id: any) {
+        Swal.fire({
+            title: "Are you sure you want to delete?",
+            text: "You won't be able to revert this!",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Delete"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:8080/api/dashboard/deleteCategory/${_id}`).then(r => {
+                    console.log(r);
+                    Swal.fire({
+                        title: "DELETE!",
+                        text: "The category has been successfully deleted",
+                        icon: "success"
+                    });
+                }).catch(error => {
+                    console.log(error);
+                    Swal.fire({
+                        title: "DELETE!",
+                        text: "something went wrong",
+                        icon: "warning"
+                    });
+                })
+            }
+        });
+    }
+
     return (
         <section className="max-w-md mx-auto my-10">
             <Dashboard/>
@@ -145,16 +175,34 @@ export function Categories() {
                         categories.map((c) => (
                             <div
                                 key={c._id}
-                                onClick={() => {
-                                    setEditCategory(c);
-                                    setCategoryName(c.type);
-                                }}
-                                className="my-1 bg-gray-200 rounded-lg p-2 cursor-pointer"
+
+                                className="flex my-1 bg-gray-200 rounded-lg p-2"
                             >
-                                <span className="font-semibold">{c.type}</span>
+                                <div className="grow  font-semibold "
+                                >{c.type}</div>
+                                <div className={'flex gap-1 '}>
+                                    <button
+                                        className={'px-4 py-1 rounded-xl bg-white'}
+                                        type={"button"}
+                                        onClick={() => {
+                                            setEditCategory(c);
+                                            setCategoryName(c.type);
+                                        }}>
+                                        Edit
+                                    </button>
+                                    <button
+                                        className={'px-4 py-1 rounded-xl bg-white'}
+                                        type={"button"}
+                                        onClick={() => deleteCategory(c._id)}
+                                    >Delete
+                                    </button>
+                                </div>
                             </div>
+
                         ))}
+
                 </div>
+
             </form>
         </section>
     );
