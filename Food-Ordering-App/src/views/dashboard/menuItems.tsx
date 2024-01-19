@@ -1,61 +1,94 @@
 import {Dashboard} from "../../components/dashboard.tsx";
 import Cookies from "js-cookie";
-import {useState} from "react";
+import {ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Link} from "react-router-dom";
 import Right from "../../assets/icons/right.tsx";
 
+interface MenuItem {
+    itemName: string;
+    description: string;
+    price: string;
+    image: File | null | string;
+}
+
 export function MenuItems() {
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
-    const [itemName, setItemName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
+    const [menuItem, setMenuItem] = useState<MenuItem>({
+        itemName: "",
+        description: "",
+        price: "",
+        image: null,
+    });
 
-    // Check if the user is an admin
     // @ts-ignore
-    const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
-
-    console.log("isAdmin Check: ", isAdmin);
+    const isAdmin = Cookies.get("admin") === "true" || Cookies.get("admin") === true;
 
     if (!isAdmin) {
-        console.log("Alert Triggered");
         alert("Access denied. You are not an admin.");
         return null;
     }
 
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0] || null;
-        setSelectedImage(file);
-    };
-
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
-        const newItem = {
-            image: selectedImage ? URL.createObjectURL(selectedImage) : '',
-            itemName,
-            description,
-            price
-        };
+        // Form validation
+        if (!menuItem.itemName || !menuItem.description || !menuItem.price || !menuItem.image) {
+            alert("Please fill in all fields and choose an image.");
+            return;
+        }
 
-        await axios.post(`http://localhost:8080/api/dashboard/saveMenuItems`, newItem).then(r => {
-            console.log(r);
+        try {
+            // const formData = new FormData();
+            // formData.append("itemName", menuItem.itemName);
+            // formData.append("description", menuItem.description);
+            // formData.append("price", menuItem.price);
+            // formData.append("image", menuItem.image);
+            console.log(menuItem.itemName, menuItem.description, menuItem.price, menuItem.image)
+            await axios.post("http://localhost:8080/api/dashboard/saveMenuItems", {
+                itemName: menuItem.itemName,
+                description: menuItem.description,
+                price: menuItem.price,
+                image: menuItem.image
+            });
+
             Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Successfully Saved Menu-Items!',
+                position: "center",
+                icon: "success",
+                title: "Successfully Saved Menu-Items!",
                 showConfirmButton: false,
                 timer: 2500,
             });
-        }).catch(error => {
-            console.log(error);
-        });
 
-        setSelectedImage(null);
-        setItemName('');
-        setDescription('');
-        setPrice('');
+            // Reset form after successful submission
+            setMenuItem({
+                itemName: "",
+                description: "",
+                price: "",
+                image: null,
+            });
+        } catch (error) {
+            console.error(error);
+            // Handle error display or logging as needed
+            alert("Error saving menu items. Please try again.");
+        }
+    };
+
+
+    const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            try {
+                var base64String = new FileReader();
+                base64String.readAsDataURL(file);
+                base64String.onload = () => {
+                    console.log(base64String.result)
+                    setMenuItem({...menuItem, image: base64String.result});
+                }
+            } catch (error) {
+                console.error("Error converting file to base64: ", error);
+            }
+        }
     };
 
 
@@ -63,7 +96,6 @@ export function MenuItems() {
         <section>
             <Dashboard/>
             <form className="max-w-md mx-auto my-4" onSubmit={handleSubmit}>
-
                 <div className="border border-blue-700 rounded-md p-2 font-semibold mb-10">
                     <Link to="/showMenuItem" className="flex gap-4 justify-center">
                         Show Menu Items
@@ -81,10 +113,10 @@ export function MenuItems() {
                                 accept="image/*"
                                 className="absolute overflow-hidden inset-0 opacity-0 cursor-pointer w-[100px] h-[100px]"
                             />
-                            {selectedImage ? (
+                            {menuItem.image ? (
                                 <img
                                     className="object-cover w-[150px] h-[150px]"
-                                    src={URL.createObjectURL(selectedImage)}
+                                    src={menuItem.image}
                                     alt="Selected"
                                 />
                             ) : (
@@ -96,30 +128,29 @@ export function MenuItems() {
                         </label>
                     </div>
 
-
                     <div className="flex flex-col flex-grow">
                         <label className="font-semibold">Item Name</label>
                         <input
                             type="text"
                             className="border border-blue-700 rounded-md p-1 bg-gray-100"
-                            value={itemName}
-                            onChange={(e) => setItemName(e.target.value)}
+                            value={menuItem.itemName}
+                            onChange={(e) => setMenuItem({...menuItem, itemName: e.target.value})}
                         />
 
                         <label className="font-semibold">Description</label>
                         <input
                             type="text"
                             className="border border-blue-700 rounded-md p-1 bg-gray-100"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            value={menuItem.description}
+                            onChange={(e) => setMenuItem({...menuItem, description: e.target.value})}
                         />
 
                         <label className="font-semibold">Price</label>
                         <input
                             type="text"
                             className="border border-blue-700 rounded-md p-1 bg-gray-100"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
+                            value={menuItem.price}
+                            onChange={(e) => setMenuItem({...menuItem, price: e.target.value})}
                         />
                         <button
                             className="mt-5 bg-red-600 px-5 py-2 rounded-xl font-semibold text-white text-xl"
@@ -132,5 +163,5 @@ export function MenuItems() {
             </form>
         </section>
     );
-}
 
+}

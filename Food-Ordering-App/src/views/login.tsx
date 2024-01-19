@@ -1,5 +1,5 @@
 import {Link, useNavigate} from "react-router-dom";
-import React, { useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
@@ -29,6 +29,21 @@ export default function Login() {
 
             Cookies.set('token', response.data.data.accessToken);
             Cookies.set('user', response.data.data.user.email);
+
+            const user = Cookies.get('user');
+            if (user) {
+                try {
+                    const email = user;
+                    const responseNew = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail/${email}`);
+                    const userDetailData = responseNew.data.data;
+
+                    console.log('admin', userDetailData.admin);
+                    Cookies.set('admin', userDetailData.admin);
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                }
+            }
+
             navigate('/');
             window.location.reload();
 
@@ -53,8 +68,6 @@ export default function Login() {
             });
         }
     };
-
-
 
 
     return (
