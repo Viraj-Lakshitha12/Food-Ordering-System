@@ -1,6 +1,6 @@
 import {Dashboard} from "../../../components/dashboard.tsx";
 import Cookies from "js-cookie";
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Link} from "react-router-dom";
@@ -28,6 +28,16 @@ export function UpdateMenuItems() {
         alert("Access denied. You are not an admin.");
         return null;
     }
+
+    useEffect(() => {
+        let itemName = Cookies.get('itemName');
+        console.log(itemName);
+        axios.get(`http://localhost:8080/api/dashboard/getAllMenuItems/${itemName}`).then(r => {
+            console.log(r.data.data);
+            setMenuItem(r.data.data);
+        })
+
+    }, []);
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
