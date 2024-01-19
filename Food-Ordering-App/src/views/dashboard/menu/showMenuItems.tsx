@@ -45,7 +45,7 @@ export function ShowMenuItems() {
                 </Link>
             </div>
 
-            <div className={'grid grid-cols-3 gap-4'}>
+            <div className={'grid grid-cols-3 grid-rows-1 gap-4 overflow-x-scroll'}>
 
                 {menuItems?.length > 0 ? (
                     menuItems.map((item) => (
