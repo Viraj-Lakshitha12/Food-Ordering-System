@@ -50,12 +50,40 @@ export const getAllCategories = async (req: express.Request, res: any) => {
 }
 
 //save menu-item
-export const saveMenuItem = (req: express.Request, res: express.Response) => {
-    let req_body = req.body;
-    console.log(req_body);
-    // try {
-    //     menuItemModel.create()
-    // } catch (error) {
-    //     res.status(500).send(new CustomResponse(500, "something went wrong", error));
-    // }
+export const saveMenuItem = async (req: express.Request, res: express.Response) => {
+    const {itemName, description, price, image} = req.body;
+
+
+
+    const newMenuItem = new menuItemModel({
+        itemName,
+        description,
+        price,
+        image,
+    });
+
+    try {
+        await menuItemModel.create(newMenuItem).then(r => {
+            res.status(200).send(new CustomResponse(200, "saved menu-items", r));
+        }).catch(error => {
+            res.status(400).send(new CustomResponse(400, "errors", error));
+        });
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
 }
+
+//get all menu-items
+export const getAllMenuItems = async (req: express.Request, res: express.Response) => {
+    try {
+        await menuItemModel.find().then(r => {
+
+            res.status(200).send(new CustomResponse(200, "find all menu items", r));
+        }).catch(error => {
+            res.status(500).send(new CustomResponse(500, "Cannot find", error));
+        })
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+}
+

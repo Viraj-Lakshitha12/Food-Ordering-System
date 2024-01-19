@@ -7,15 +7,17 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import dashboardRoutes from "./routes/dashboard";
 
+
 dotenv.config();
 
 let app = express();
-app.use(bodyParser.json());
 
-// db config
+
 mongoose.connect(process.env.MONGO_URL as string);
 
 const db = mongoose.connection;
+
+
 db.on('error', (error) => {
     console.log("DB error : " + error);
 });
@@ -29,13 +31,18 @@ app.listen(8080, () => {
     console.log("Server started 8080");
 });
 
-// cross error config
-app.use(cors({origin: '*'}))
+
+// cross error config (place this before bodyParser)
+app.use(cors({origin: '*'}));
+
+// body-parser middleware
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
+
+
 
 //  user
 app.use('/api/user', userRoutes);
 
 //dashboard
 app.use('/api/dashboard', dashboardRoutes);
-
-

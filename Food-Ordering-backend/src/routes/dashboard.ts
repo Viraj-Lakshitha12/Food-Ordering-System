@@ -1,5 +1,11 @@
 import express, {Router} from "express";
-import {getAllCategories, saveCategory, saveMenuItem, updateCategory} from "../controllers/dashboardController";
+import {
+    getAllCategories,
+    getAllMenuItems,
+    saveCategory,
+    saveMenuItem,
+    updateCategory
+} from "../controllers/dashboardController";
 
 const route: Router = express.Router();
 
@@ -16,4 +22,9 @@ route.get('/getAllCategories', getAllCategories);
 //save menu items
 route.post('/saveMenuItems', saveMenuItem);
 
+//get all menu items
+route.get('/getAllMenuItems', getAllMenuItems);
+
 export default route;
+
+
