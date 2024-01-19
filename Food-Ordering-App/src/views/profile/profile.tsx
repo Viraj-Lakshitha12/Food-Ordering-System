@@ -65,12 +65,12 @@ const UserProfile: React.FC = () => {
                 postalCode: userDetailData.postalCode,
                 city: userDetailData.city,
                 admin: userDetailData.admin,
-                image: userDetailData.base64Image, // Update image directly
+                image: userDetailData.image, // Update image directly
             }));
 
             // Check and set image if available
-            if (userDetailData.base64Image) {
-                setSelectedImage(userDetailData.base64Image);
+            if (userDetailData.image) {
+                setSelectedImage(userDetailData.image);
             } else {
                 console.warn('No base64 image data found in user details.');
             }
@@ -88,6 +88,7 @@ const UserProfile: React.FC = () => {
                 reader.readAsDataURL(file);
                 reader.onload = () => {
                     setUserData((prevData: any) => ({...prevData, image: reader.result}));
+                    setIsImageModalOpen(true);
                 };
             } catch (error) {
                 console.error('Error converting file to base64: ', error);
