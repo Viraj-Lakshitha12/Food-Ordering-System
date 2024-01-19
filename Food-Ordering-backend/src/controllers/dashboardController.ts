@@ -98,3 +98,28 @@ export const getMenuItemsByItemName = async (req: express.Request, res: any) => 
     }
 
 }
+
+//update menu items
+export const updateMenuItems = async (req: express.Request, res: any) => {
+    try {
+        const {id, itemName, description, price, image} = req.body;
+        let findOne = await menuItemModel.findOne({_id: id});
+        if (findOne) {
+            await menuItemModel.findOneAndUpdate({_id: id}, {
+                itemName: itemName,
+                description: description,
+                price: price,
+                image: image
+            }).then(r => {
+                res.status(200).send(new CustomResponse(200, "update successfully", r));
+            }).catch(error => {
+                res.status(500).send(new CustomResponse(500, "cannot update", error));
+            });
+
+        } else {
+            res.status(404).send(new CustomResponse(404, "Not found user"));
+        }
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+}

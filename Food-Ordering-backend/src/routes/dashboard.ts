@@ -4,7 +4,7 @@ import {
     getAllMenuItems, getMenuItemsByItemName,
     saveCategory,
     saveMenuItem,
-    updateCategory
+    updateCategory, updateMenuItems
 } from "../controllers/dashboardController";
 
 const route: Router = express.Router();
@@ -28,6 +28,8 @@ route.get('/getAllMenuItems', getAllMenuItems);
 //get menu-items by itemName
 route.get('/getAllMenuItems/:itemName', getMenuItemsByItemName);
 
+//update menu items
+route.put('/updateMenuItem', updateMenuItems)
 export default route;
 
 
