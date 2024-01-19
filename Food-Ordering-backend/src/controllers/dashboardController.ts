@@ -84,3 +84,17 @@ export const getAllMenuItems = async (req: express.Request, res: express.Respons
     }
 }
 
+//get menu-item by itemName
+export const getMenuItemsByItemName = async (req: express.Request, res: any) => {
+    try {
+        const {itemName} = req.params;
+        await menuItemModel.findOne({itemName: itemName}).then(r => {
+            res.status(200).send(new CustomResponse(200, "found", r));
+        }).catch(error => {
+            res.status(500).send(new CustomResponse(500, "cannot found menu Item", error));
+        });
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+
+}

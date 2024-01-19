@@ -1,7 +1,7 @@
 import express, {Router} from "express";
 import {
     getAllCategories,
-    getAllMenuItems,
+    getAllMenuItems, getMenuItemsByItemName,
     saveCategory,
     saveMenuItem,
     updateCategory
@@ -24,6 +24,9 @@ route.post('/saveMenuItems', saveMenuItem);
 
 //get all menu items
 route.get('/getAllMenuItems', getAllMenuItems);
+
+//get menu-items by itemName
+route.get('/getAllMenuItems/:itemName', getMenuItemsByItemName);
 
 export default route;
 

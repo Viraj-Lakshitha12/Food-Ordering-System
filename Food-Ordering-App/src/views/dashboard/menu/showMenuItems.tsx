@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import Right from "../../../assets/icons/right.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 interface MenuItem {
     id: string;
@@ -29,8 +30,9 @@ export function ShowMenuItems() {
         fetchData();
     }, []);
 
-    function handleOnClick() {
-        console.log("ok");
+    function handleOnClick(itemName: any) {
+        // console.log(itemName);
+        Cookies.set('itemName', itemName);
         navigate('/updateMenuItems');
     }
 
@@ -50,9 +52,11 @@ export function ShowMenuItems() {
                         <div className={'border border-gray-400 rounded-md p-1 my-1 text-center flex flex-col'}
                              key={item.id}>
                             <div className={'font-semibold'}>{item.itemName}</div>
-                            <div className={'relative flex justify-center'} onClick={handleOnClick}>
+                            <div className={'relative flex justify-center'}
+                                 onClick={() => handleOnClick(item.itemName)}>
                                 {item.image && <img src={item.image} alt={'image'} width={80} height={80}/>}
                             </div>
+
                         </div>
                     ))
                 ) : (
