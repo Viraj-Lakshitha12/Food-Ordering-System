@@ -52,9 +52,6 @@ export const getAllCategories = async (req: express.Request, res: any) => {
 //save menu-item
 export const saveMenuItem = async (req: express.Request, res: express.Response) => {
     const {itemName, description, price, image} = req.body;
-
-
-
     const newMenuItem = new menuItemModel({
         itemName,
         description,

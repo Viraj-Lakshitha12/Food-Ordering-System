@@ -78,31 +78,21 @@ export const authUser = async (req: express.Request, res: express.Response) => {
 //user details save or update
 export const saveUserDetails = async (req: express.Request, res: any) => {
     try {
-        let req_body = req.body;
+        let {userName, email, address, postalCode, city, admin, image} = req.body;
         let user_id = res.tokenData.user._id;
-        console.log(user_id);
-        console.log(req_body);
+
+        // console.log(userName, email, address, postalCode, city, admin, image);
         const userDetails = new userDetailsModel({
-            userName: req_body.userName,
-            email: req_body.email,
-            address: req_body.address,
-            postalCode: req_body.postalCode,
-            city: req_body.city,
-            base64Image: req_body.base64Image,
-            admin: req_body.admin
+            userName,
+            email,
+            address,
+            postalCode,
+            city,
+            image,
+            admin
         });
-
-
         // Use findOne with the correct query
-        let findOneBYEmail = await userDetailsModel.findOne({email: req_body.email});
-
-
-        // if (findOneBYEmail) {
-        //     console.log("User found with id: " + findOneBYEmail._id);
-        // } else {
-        //     console.log("No user found with the specified email.");
-        // }
-
+        let findOneBYEmail = await userDetailsModel.findOne({email: email});
 
         if (findOneBYEmail) {
 
@@ -110,18 +100,16 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
             let updateUserDetails = await userDetailsModel.findOneAndUpdate(
                 {_id: findOneBYEmail._id},
                 {
-                    userName: req_body.userName,
-                    address: req_body.address,
-                    postalCode: req_body.postalCode,
-                    city: req_body.city,
-                    base64Image: req_body.base64Image
+                    userName: userName,
+                    address: address,
+                    postalCode: postalCode,
+                    city: city,
+                    image: image
                 },
                 {new: true}
             );
-
             res.status(200).send(new CustomResponse(200, "user details updated", updateUserDetails));
         } else {
-            console.log(3);
             let createUser = await userDetailsModel.create(userDetails);
             res.status(200).send(new CustomResponse(200, "user details saved", createUser));
         }
@@ -134,7 +122,8 @@ export const saveUserDetails = async (req: express.Request, res: any) => {
 export const getUserDetailsByEmail = async (req: express.Request, res: any) => {
     try {
         const req_email: any = req.params.email;
-        const findOneByEmail = await userDetailsModel.findOne({email: req_email});console.log(findOneByEmail);
+        const findOneByEmail = await userDetailsModel.findOne({email: req_email});
+        // console.log(findOneByEmail);
         if (findOneByEmail) {
             res.status(200).send(new CustomResponse(200, "find user", findOneByEmail));
         } else {
