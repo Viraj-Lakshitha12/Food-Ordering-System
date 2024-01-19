@@ -1,6 +1,6 @@
-import {DashbordNavBar} from "../../components/dashbordNavBar.tsx";
-import {Link} from "react-router-dom";
-import Right from "../../assets/icons/right.tsx";
+import {DashbordNavBar} from "../../../components/dashbordNavBar.tsx";
+import {Link, useNavigate} from "react-router-dom";
+import Right from "../../../assets/icons/right.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -12,6 +12,7 @@ interface MenuItem {
 }
 
 export function ShowMenuItems() {
+    const navigate = useNavigate();
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
     useEffect(() => {
@@ -27,6 +28,11 @@ export function ShowMenuItems() {
 
         fetchData();
     }, []);
+
+    function handleOnClick() {
+        console.log("ok");
+        navigate('/updateMenuItems');
+    }
 
     return (
         <section className={'max-w-md mx-auto'}>
@@ -44,7 +50,7 @@ export function ShowMenuItems() {
                         <div className={'border border-gray-400 rounded-md p-1 my-1 text-center flex flex-col'}
                              key={item.id}>
                             <div className={'font-semibold'}>{item.itemName}</div>
-                            <div className={'relative flex justify-center'}>
+                            <div className={'relative flex justify-center'} onClick={handleOnClick}>
                                 {item.image && <img src={item.image} alt={'image'} width={80} height={80}/>}
                             </div>
                         </div>

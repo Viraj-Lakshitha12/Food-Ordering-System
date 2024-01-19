@@ -11,9 +11,10 @@ import Login from "./views/login.tsx";
 import Profile from "./views/profile/profile.tsx";
 import {Dashboard} from "./components/dashboard.tsx";
 import {Categories} from "./views/dashboard/categories.tsx";
-import {MenuItems} from "./views/dashboard/menuItems.tsx";
+import {MenuItems} from "./views/dashboard/menu/menuItems.tsx";
 import {Users} from "./views/dashboard/users.tsx";
-import {ShowMenuItems} from "./views/dashboard/showMenuItems.tsx";
+import {ShowMenuItems} from "./views/dashboard/menu/showMenuItems.tsx";
+import {UpdateMenuItems} from "./views/dashboard/menu/updateMenuItems.tsx";
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                 <Route path={"/menuItems"} element={<MenuItems/>}/>
                 <Route path={"/users"} element={<Users/>}/>
                 <Route path={"/showMenuItem"} element={<ShowMenuItems/>}/>
+                <Route path={"/updateMenuItems"} element={<UpdateMenuItems/>}/>
 
             </Routes>
             <Footer/>

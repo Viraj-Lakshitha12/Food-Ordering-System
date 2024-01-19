@@ -1,10 +1,10 @@
-import {Dashboard} from "../../components/dashboard.tsx";
+import {Dashboard} from "../../../components/dashboard.tsx";
 import Cookies from "js-cookie";
 import {ChangeEvent, FormEvent, useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Link} from "react-router-dom";
-import Right from "../../assets/icons/right.tsx";
+import Right from "../../../assets/icons/right.tsx";
 
 interface MenuItem {
     itemName: string;
@@ -13,7 +13,7 @@ interface MenuItem {
     image: File | null | string;
 }
 
-export function MenuItems() {
+export function UpdateMenuItems() {
     const [menuItem, setMenuItem] = useState<MenuItem>({
         itemName: "",
         description: "",
@@ -152,7 +152,7 @@ export function MenuItems() {
                             className="mt-5 bg-red-600 px-5 py-2 rounded-xl font-semibold text-white text-xl"
                             type="submit"
                         >
-                            Create
+                            Update
                         </button>
                     </div>
                 </div>
