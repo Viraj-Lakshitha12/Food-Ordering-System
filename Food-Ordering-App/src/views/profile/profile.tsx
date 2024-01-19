@@ -12,9 +12,7 @@ interface UserData {
     postalCode: string;
     city: string;
     admin: boolean;
-    base64Image?: {
-        data: string;
-    };
+    image?: File | null | string;
 }
 
 const UserProfile: React.FC = () => {
@@ -27,20 +25,23 @@ const UserProfile: React.FC = () => {
         postalCode: '',
         city: '',
         admin: false,
+        image: null,
     });
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>, type: string): void => {
+    // Handle input change
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, type: keyof UserData): void => {
         setUserData((prevData) => ({...prevData, [type]: e.target.value}));
     };
 
+    // Fetch user details on component mount
     useEffect(() => {
         fetchData();
     }, []);
 
+    // Fetch user details from the server
     const fetchData = async () => {
         try {
-            // Get user email from Cookies
             const userEmail = Cookies.get('user');
             if (!userEmail) {
                 console.error('User email not found in Cookies.');
@@ -53,7 +54,8 @@ const UserProfile: React.FC = () => {
             // Fetch user details from the server
             const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail/${userEmail}`);
             const userDetailData = response.data.data;
-            console.log('User Details:', userDetailData);
+            console.log(userDetailData.image);
+            setSelectedImage(userDetailData.image);
 
             // Update user data state
             setUserData((prevData) => ({
@@ -63,22 +65,12 @@ const UserProfile: React.FC = () => {
                 postalCode: userDetailData.postalCode,
                 city: userDetailData.city,
                 admin: userDetailData.admin,
-                base64Image: userDetailData.base64Image,
+                image: userDetailData.base64Image, // Update image directly
             }));
 
             // Check and set image if available
-            if (userDetailData.base64Image && userDetailData.base64Image.data) {
-                const arrayBuffer = new Uint8Array(atob(userDetailData.base64Image.data).split(',').map(char => char.charCodeAt(0)));
-                const blob = new Blob([arrayBuffer], {type: 'image/jpeg'});
-
-                // Check if URL creation is successful
-                const imageUrl = URL.createObjectURL(blob);
-                if (imageUrl) {
-                    setSelectedImage(imageUrl);
-                    console.log('Image URL:', imageUrl);
-                } else {
-                    console.error('Failed to create image URL.');
-                }
+            if (userDetailData.base64Image) {
+                setSelectedImage(userDetailData.base64Image);
             } else {
                 console.warn('No base64 image data found in user details.');
             }
@@ -87,88 +79,54 @@ const UserProfile: React.FC = () => {
         }
     };
 
-
+    // Handle image change
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-
         if (file) {
-            const reader = new FileReader();
-
-            reader.onload = (event) => {
-                const base64Data = event.target?.result as string;
-                setUserData((prevData) => ({...prevData, base64Image: {data: base64Data}}));
-                setSelectedImage(URL.createObjectURL(file));
-            };
-
-            reader.readAsDataURL(file);
+            try {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    setUserData((prevData: any) => ({...prevData, image: reader.result}));
+                };
+            } catch (error) {
+                console.error('Error converting file to base64: ', error);
+            }
         }
     };
 
+    // Handle profile update
     const handleProfileUpdate = async () => {
         try {
-            // @ts-ignore
-            const base64Image = selectedImage ? await getBase64(selectedImage) : null;
-
-            const data = {
-                ...userData,
-                base64Image,
-            };
-
             const ACCESS_TOKEN = Cookies.get('token');
             const headers = {
                 'Content-Type': 'application/json',
                 Authorization: ACCESS_TOKEN || '',
             };
 
-            // Update profile Details
-            await axios
-                .post('http://localhost:8080/api/user/saveUserDetails', data, {headers})
-                .then((response) => {
-                    console.log('API Response:', response);
+            // Update profile details
+            await axios.post('http://localhost:8080/api/user/saveUserDetails', userData, {headers});
 
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Successfully updated profile!',
-                        showConfirmButton: false,
-                        timer: 2500,
-                    });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Successfully updated profile!',
+                showConfirmButton: false,
+                timer: 2500,
+            });
 
-                    navigate('/profile');
-                })
-                .catch((error) => {
-                    console.error('API Error:', error);
-
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Error updating profile',
-                        showConfirmButton: false,
-                        timer: 2500,
-                    });
-                });
+            navigate('/profile');
         } catch (error) {
             console.error('Error updating profile:', error);
+
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Error updating profile',
+                showConfirmButton: false,
+                timer: 2500,
+            });
         }
-    };
-
-    const getBase64 = (file: File) => {
-        return new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-
-            // Use the File API to create a Blob
-            const blob = new Blob([file]);
-
-            reader.onload = () => {
-                const base64Data = reader.result as string;
-                resolve(base64Data.split(',')[1]);
-            };
-
-            reader.onerror = (error) => reject(error);
-
-            // Read the Blob as a Data URL
-            reader.readAsDataURL(blob);
-        });
     };
 
     return (
@@ -207,11 +165,8 @@ const UserProfile: React.FC = () => {
                                         },
                                     }}
                                 >
-                                    <img
-                                        alt="User Profile"
-                                        src={selectedImage}
-                                        style={{width: '100%', height: 'auto'}}
-                                    />
+                                    <img alt="User Profile" src={selectedImage}
+                                         style={{width: '100%', height: 'auto'}}/>
                                 </Modal>
                             </div>
                         ) : (

@@ -39,12 +39,6 @@ export function MenuItems() {
         }
 
         try {
-            // const formData = new FormData();
-            // formData.append("itemName", menuItem.itemName);
-            // formData.append("description", menuItem.description);
-            // formData.append("price", menuItem.price);
-            // formData.append("image", menuItem.image);
-            console.log(menuItem.itemName, menuItem.description, menuItem.price, menuItem.image)
             await axios.post("http://localhost:8080/api/dashboard/saveMenuItems", {
                 itemName: menuItem.itemName,
                 description: menuItem.description,
@@ -83,6 +77,7 @@ export function MenuItems() {
                 base64String.readAsDataURL(file);
                 base64String.onload = () => {
                     console.log(base64String.result)
+                    // @ts-ignore
                     setMenuItem({...menuItem, image: base64String.result});
                 }
             } catch (error) {
@@ -116,6 +111,7 @@ export function MenuItems() {
                             {menuItem.image ? (
                                 <img
                                     className="object-cover w-[150px] h-[150px]"
+                                    //@ts-ignore
                                     src={menuItem.image}
                                     alt="Selected"
                                 />
