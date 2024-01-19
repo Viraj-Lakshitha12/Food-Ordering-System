@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import Right from "../../../assets/icons/right.tsx";
 
 interface MenuItem {
+    id?: '',
     itemName: string;
     description: string;
     price: string;
@@ -20,6 +21,7 @@ export function UpdateMenuItems() {
         price: "",
         image: null,
     });
+    const [id, setId] = useState('');
 
     // @ts-ignore
     const isAdmin = Cookies.get("admin") === "true" || Cookies.get("admin") === true;
@@ -33,8 +35,8 @@ export function UpdateMenuItems() {
         let itemName = Cookies.get('itemName');
         console.log(itemName);
         axios.get(`http://localhost:8080/api/dashboard/getAllMenuItems/${itemName}`).then(r => {
-            console.log(r.data.data);
             setMenuItem(r.data.data);
+            setId(r.data.data._id);
         })
 
     }, []);
@@ -49,17 +51,26 @@ export function UpdateMenuItems() {
         }
 
         try {
-            await axios.post("http://localhost:8080/api/dashboard/saveMenuItems", {
+            // Wait for the image to load
+            await new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(null);
+                img.src = menuItem.image as string;
+            });
+
+            // If the image is successfully loaded, proceed with the form submission
+            await axios.put("http://localhost:8080/api/dashboard/updateMenuItem", {
+                id: id,
                 itemName: menuItem.itemName,
                 description: menuItem.description,
                 price: menuItem.price,
-                image: menuItem.image
+                image: menuItem.image,
             });
 
             Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Successfully Saved Menu-Items!",
+                title: "Successfully Update Menu-Items!",
                 showConfirmButton: false,
                 timer: 2500,
             });
