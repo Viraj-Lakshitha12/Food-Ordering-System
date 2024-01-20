@@ -32,9 +32,15 @@ export function Users() {
             <div>
                 <h2 className={'text-center text-xl font-semibold'}>User List</h2>
                 {users.length > 0 ? (
-                    <div className={'bg-gray-200 max-w-xl mx-auto'}>
-                        {users.map((user: UsersData) => (
-                            <div className={'text-center'}>{user.userName}</div>
+                    <div className={'bg-gray-200 p-2 rounded-md max-w-xl mx-auto my-4'}>
+                        {users.map((user: UsersData, index) => (
+                            <div key={index} className={'flex gap-4 justify-between items-center text-center my-4'}>
+                                <div className={'flex gap-4'}>
+                                    <div><span className={'font-semibold'}>User Name : </span>{user.userName}</div>
+                                    <div><span className={'font-semibold'}>Email : </span>{user.email}</div>
+                                </div>
+                                <button className={'shadow border-2 px-10 bg-white py-1 rounded-md'}>Edit</button>
+                            </div>
                         ))}
                     </div>
                 ) : (
@@ -43,4 +49,5 @@ export function Users() {
             </div>
         </section>
     );
+
 }
