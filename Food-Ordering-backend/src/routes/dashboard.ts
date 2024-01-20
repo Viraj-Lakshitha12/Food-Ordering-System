@@ -1,5 +1,6 @@
 import express, {Router} from "express";
 import {
+    deleteCategory,
     getAllCategories,
     getAllMenuItems, getMenuItemsByItemName,
     saveCategory,
@@ -18,6 +19,13 @@ route.put('/saveCategory/:categoryId', updateCategory);
 
 //get all categories
 route.get('/getAllCategories', getAllCategories);
+
+//delete category
+route.delete('/deleteCategory/:_id', deleteCategory);
+
+
+// ------------------------------       menu items      -------------------------------------
+
 
 //save menu items
 route.post('/saveMenuItems', saveMenuItem);

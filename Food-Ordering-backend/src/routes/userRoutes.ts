@@ -1,5 +1,11 @@
 import express, {Router} from "express";
-import {authUser, getUserDetailsByEmail, registerUser, saveUserDetails} from "../controllers/userController";
+import {
+    authUser,
+    getAllUserDetails,
+    getUserDetailsByEmail,
+    registerUser,
+    saveUserDetails
+} from "../controllers/userController";
 import {verifyToken} from "../middlewares";
 
 
@@ -16,6 +22,9 @@ route.post('/saveUserDetails', verifyToken, saveUserDetails);
 
 //get user details by email
 route.get('/getUserDetailsByEmail/:email', getUserDetailsByEmail);
+
+//get all user details
+route.get('/getAllUserDetails', getAllUserDetails);
 
 
 export default route;

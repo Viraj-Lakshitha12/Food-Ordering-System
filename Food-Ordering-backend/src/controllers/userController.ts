@@ -133,3 +133,18 @@ export const getUserDetailsByEmail = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
 }
+
+//get all user details
+export const getAllUserDetails = async (req: express.Request, res: any) => {
+    try {
+        await userDetailsModel.find().then(r => {
+            res.status(200).send(new CustomResponse(200, 'find all user details', r));
+        }).catch(error => {
+            res.status(500).send(new CustomResponse(500, 'cannot find user details', error));
+        });
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, 'something went wrong', error));
+    }
+
+
+}
