@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Right from "../../../assets/icons/right.tsx";
 
 interface MenuItem {
@@ -15,6 +15,7 @@ interface MenuItem {
 }
 
 export function UpdateMenuItems() {
+    const navigate = useNavigate();
     const [menuItem, setMenuItem] = useState<MenuItem>({
         itemName: "",
         description: "",
@@ -82,6 +83,7 @@ export function UpdateMenuItems() {
                 price: "",
                 image: null,
             });
+            navigate('/showMenuItem')
         } catch (error) {
             console.error(error);
             // Handle error display or logging as needed
