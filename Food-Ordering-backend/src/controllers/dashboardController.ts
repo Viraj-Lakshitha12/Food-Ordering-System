@@ -2,6 +2,7 @@ import express from "express";
 import {CategoryModel} from "../models/category";
 import CustomResponse from "../util/customResponse";
 import {menuItemModel} from "../models/menuItems";
+import * as stream from "stream";
 
 //save Category
 export const saveCategory = async (req: express.Request, res: any) => {
@@ -13,6 +14,7 @@ export const saveCategory = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     });
 }
+
 // update category
 export const updateCategory = async (req: express.Request, res: any) => {
     try {
@@ -47,6 +49,25 @@ export const getAllCategories = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     });
 
+}
+
+//delete category
+export const deleteCategory = async (req: express.Request, res: any) => {
+    const {_id} = req.params;
+    try {
+        const findCategory = await CategoryModel.findOne({_id: _id});
+        if (findCategory) {
+            CategoryModel.deleteOne({_id: _id}).then(r => {
+                res.status(200).send(new CustomResponse(200, "delete successfully", r));
+            }).catch(error => {
+                res.status(500).send(new CustomResponse(500, "delete fail", error));
+            })
+        } else {
+            res.status(404).send(new CustomResponse(404, "font found category"));
+        }
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
 }
 
 //save menu-item
