@@ -111,7 +111,7 @@ export function UpdateMenuItems() {
     return (
         <section>
             <Dashboard/>
-            <form className="max-w-md mx-auto my-4" onSubmit={handleSubmit}>
+            <form className="max-w-lg mx-auto my-4" onSubmit={handleSubmit}>
                 <div className="border border-blue-700 rounded-md p-2 font-semibold mb-10">
                     <Link to="/showMenuItem" className="flex gap-4 justify-center">
                         Show Menu Items

@@ -15,6 +15,7 @@ import {MenuItems} from "./views/dashboard/menu/menuItems.tsx";
 import {Users} from "./views/dashboard/users.tsx";
 import {ShowMenuItems} from "./views/dashboard/menu/showMenuItems.tsx";
 import {UpdateMenuItems} from "./views/dashboard/menu/updateMenuItems.tsx";
+import {Orders} from "./views/dashboard/orders.tsx";
 
 function App() {
     return (
@@ -34,6 +35,7 @@ function App() {
                 <Route path={"/users"} element={<Users/>}/>
                 <Route path={"/showMenuItem"} element={<ShowMenuItems/>}/>
                 <Route path={"/updateMenuItems"} element={<UpdateMenuItems/>}/>
+                <Route path={"/orders"} element={<Orders/>}/>
 
             </Routes>
             <Footer/>

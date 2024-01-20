@@ -23,6 +23,10 @@ export function DashbordNavBar() {
                             'bg-gray-300 text-black'} rounded-2xl p-2 px-5`}>
                             <Link to="/users">Users</Link>
                         </li>
+                        <li className={`${location.pathname === '/orders' ? 'bg-red-600 text-white' :
+                            'bg-gray-300 text-black'} rounded-2xl p-2 px-5`}>
+                            <Link to="/orders">Orders</Link>
+                        </li>
                     </ul>
                 </nav>
 

@@ -155,66 +155,69 @@ export function Categories() {
     }
 
     return (
-        <section className="max-w-md mx-auto my-10">
+        <section>
             <Dashboard/>
-            <form className="flex flex-col" onSubmit={handleCategoryName}>
-                <div className="my-2">
-                    <label className="font-bold">{editCategory ? 'Edit category name' : 'New category name'}</label>
-                </div>
-                <div className="flex items-center gap-4">
-                    <input
-                        className="text-center py-1 border border-blue-800 w-full rounded-md"
-                        type="text"
-                        value={categoryName}
-                        onChange={(event) => setCategoryName(event.target.value)}
-                    />
-                    <button className="bg-red-600 text-white px-4 py-1.5 rounded-md font-semibold" type="submit">
-                        {editCategory ? 'Update' : 'Create'}
-                    </button>
-                    <button className="bg-white text-black px-4 py-1.5 shadow border-2 rounded-md font-semibold"
-                            onClick={() => {
-                                setEditCategory(null)
-                                setCategoryName('');
-                            }}
-                            type="button">
-                        Cancel
-                    </button>
-                </div>
-                <div className="mt-5">
-                    <span className="">Edit category: </span>
-                    {categories?.length > 0 &&
-                        categories.map((c) => (
-                            <div
-                                key={c._id}
+            <section className="max-w-lg mx-auto mb-10">
+                <form className="flex flex-col" onSubmit={handleCategoryName}>
+                    <div className="my-2">
+                        <label className="font-bold">{editCategory ? 'Edit category name' : 'New category name'}</label>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <input
+                            className="text-center py-1 border border-blue-800 w-full rounded-md"
+                            type="text"
+                            value={categoryName}
+                            onChange={(event) => setCategoryName(event.target.value)}
+                        />
+                        <button className="bg-red-600 text-white px-4 py-1.5 rounded-md font-semibold" type="submit">
+                            {editCategory ? 'Update' : 'Create'}
+                        </button>
+                        <button className="bg-white text-black px-4 py-1.5 shadow border-2 rounded-md font-semibold"
+                                onClick={() => {
+                                    setEditCategory(null)
+                                    setCategoryName('');
+                                }}
+                                type="button">
+                            Cancel
+                        </button>
+                    </div>
+                    <div className="mt-5">
+                        <span className="">Edit category: </span>
+                        {categories?.length > 0 &&
+                            categories.map((c) => (
+                                <div
+                                    key={c._id}
 
-                                className="flex my-1 bg-gray-200 rounded-lg p-2"
-                            >
-                                <div className="grow  font-semibold "
-                                >{c.type}</div>
-                                <div className={'flex gap-1 '}>
-                                    <button
-                                        className={'px-4 py-1 rounded-xl bg-white'}
-                                        type={"button"}
-                                        onClick={() => {
-                                            setEditCategory(c);
-                                            setCategoryName(c.type);
-                                        }}>
-                                        Edit
-                                    </button>
-                                    <button
-                                        className={'px-4 py-1 rounded-xl bg-white'}
-                                        type={"button"}
-                                        onClick={() => deleteCategory(c._id)}
-                                    >Delete
-                                    </button>
+                                    className="flex my-1 bg-gray-200 rounded-lg p-2"
+                                >
+                                    <div className="grow  font-semibold "
+                                    >{c.type}</div>
+                                    <div className={'flex gap-1 '}>
+                                        <button
+                                            className={'px-4 py-1 rounded-xl bg-white'}
+                                            type={"button"}
+                                            onClick={() => {
+                                                setEditCategory(c);
+                                                setCategoryName(c.type);
+                                            }}>
+                                            Edit
+                                        </button>
+                                        <button
+                                            className={'px-4 py-1 rounded-xl bg-white'}
+                                            type={"button"}
+                                            onClick={() => deleteCategory(c._id)}
+                                        >Delete
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                        ))}
+                            ))}
 
-                </div>
+                    </div>
 
-            </form>
+                </form>
+            </section>
         </section>
+
     );
 }
