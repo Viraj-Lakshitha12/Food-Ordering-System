@@ -44,9 +44,9 @@ export default function HomeMenu() {
             </div>
 
             <div className="grid grid-cols-4 gap-4 p-8">
-                {menuItems.map((menuItem) => (
+                {menuItems.map((menuItem, index) => (
                     <MenuCard
-                        key={menuItem.id}
+                        key={index}
                         itemName={menuItem.itemName}
                         description={menuItem.description}
                         image={menuItem.image}
