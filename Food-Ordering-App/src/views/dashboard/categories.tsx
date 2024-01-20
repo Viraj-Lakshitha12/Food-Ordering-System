@@ -168,8 +168,16 @@ export function Categories() {
                         value={categoryName}
                         onChange={(event) => setCategoryName(event.target.value)}
                     />
-                    <button className="bg-red-600 text-white px-4 py-1.5 rounded-md" type="submit">
+                    <button className="bg-red-600 text-white px-4 py-1.5 rounded-md font-semibold" type="submit">
                         {editCategory ? 'Update' : 'Create'}
+                    </button>
+                    <button className="bg-white text-black px-4 py-1.5 shadow border-2 rounded-md font-semibold"
+                            onClick={() => {
+                                setEditCategory(null)
+                                setCategoryName('');
+                            }}
+                            type="button">
+                        Cancel
                     </button>
                 </div>
                 <div className="mt-5">
