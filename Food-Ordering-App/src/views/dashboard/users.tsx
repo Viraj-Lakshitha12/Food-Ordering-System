@@ -31,21 +31,34 @@ export function Users() {
             <Dashboard/>
             <div>
                 <h2 className={'text-center text-xl font-semibold'}>User List</h2>
-                {users.length > 0 ? (
-                    <div className={'bg-gray-200 p-2 rounded-md max-w-xl mx-auto my-4'}>
-                        {users.map((user: UsersData, index) => (
-                            <div key={index} className={'flex gap-4 justify-between items-center text-center my-4'}>
-                                <div className={'flex gap-4'}>
-                                    <div><span className={'font-semibold'}>User Name : </span>{user.userName}</div>
-                                    <div><span className={'font-semibold'}>Email : </span>{user.email}</div>
+                <div className={'max-w-3xl mx-auto my-5'}>
+                    {users?.length > 0 &&
+                        users.map((c) => (
+                            <div className="flex my-1 bg-gray-200 rounded-lg p-2 ">
+                                <div className="grow  font-semibold grid grid-cols-3 ">
+                                    <span>{c.userName}</span>
+                                    <span>{c.email}</span>
+
                                 </div>
-                                <button className={'shadow border-2 px-10 bg-white py-1 rounded-md'}>Edit</button>
+
+                                <div className={'flex gap-1 '}>
+                                    <button
+                                        className={'px-4 py-1 rounded-xl bg-white'}
+                                        type={"button"}>
+                                        Edit
+                                    </button>
+                                    <button
+                                        className={'px-4 py-1 rounded-xl bg-white'}
+                                        type={"button"}
+                                        // onClick={() => deleteCategory(c._id)}
+                                    >Delete
+                                    </button>
+                                </div>
                             </div>
+
                         ))}
-                    </div>
-                ) : (
-                    <p>No users available.</p>
-                )}
+                </div>
+
             </div>
         </section>
     );

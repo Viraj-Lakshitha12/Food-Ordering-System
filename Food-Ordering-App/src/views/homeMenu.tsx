@@ -1,6 +1,32 @@
 import MenuCard from "../components/menuCard.tsx";
+import {useEffect, useState} from "react";
+import axios from "axios";
+
+interface MenuItem {
+    id: string;
+    itemName: string;
+    description: string;
+    image: string;
+    price: string;
+}
 
 export default function HomeMenu() {
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/dashboard/getAllMenuItems');
+                setMenuItems(response.data.data);
+                console.log('menu items are:', menuItems);
+            } catch (error) {
+                console.error('Error fetching menu items:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <section>
             <div className="absolute left-0 right-0 w-full justify-start">
@@ -18,11 +44,16 @@ export default function HomeMenu() {
             </div>
 
             <div className="grid grid-cols-4 gap-4 p-8">
-                <MenuCard numberOfCards={8}/>
-                <MenuCard numberOfCards={3}/>
+                {menuItems.map((menuItem) => (
+                    <MenuCard
+                        key={menuItem.id}
+                        itemName={menuItem.itemName}
+                        description={menuItem.description}
+                        image={menuItem.image}
+                        price={menuItem.price}
+                    />
+                ))}
             </div>
-
-
         </section>
     )
 }

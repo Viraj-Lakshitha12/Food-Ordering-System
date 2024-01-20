@@ -10,6 +10,7 @@ interface MenuItem {
     itemName: string;
     description: string;
     image: string;
+    price: string
 }
 
 export function ShowMenuItems() {
@@ -49,14 +50,15 @@ export function ShowMenuItems() {
 
                     {menuItems?.length > 0 ? (
                         menuItems.map((item) => (
-                            <div className={'border border-gray-400 rounded-md p-1 my-1 text-center flex flex-col'}
-                                 key={item.id}>
+                            <div
+                                className={'border bg-gray-100 border-gray-400 rounded-md p-1  text-center grid grid-rows-1 max-w-lg max-h-[200px]'}
+                                key={item.id}>
                                 <div className={'font-semibold'}>{item.itemName}</div>
-                                <div className={'relative flex justify-center'}
+                                <div className={'relative flex justify-center max-w-[80px] max-h-[80px] mx-auto'}
                                      onClick={() => handleOnClick(item.itemName)}>
                                     {item.image && <img src={item.image} alt={'image'} width={80} height={80}/>}
                                 </div>
-
+                                <div className={'font-semibold'}>{item.price + "$"}</div>
                             </div>
                         ))
                     ) : (
