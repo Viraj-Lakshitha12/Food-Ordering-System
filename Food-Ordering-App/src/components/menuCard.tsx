@@ -10,9 +10,9 @@ export default function MenuCard({itemName, description, image, price}: any) {
                      src={image}
                      alt="pizza"/>
 
-                <h1 className="font-semibold text-xl">{itemName}</h1>
-                <p className="text-gray-500">{description}</p>
-                <p className="text-gray-500 font-bold text-4xl p-2">{price}$</p>
+                <h1 className="font-semibold text-xl mt-2">{itemName}</h1>
+                <p className="text-gray-500 line-clamp-2 my-2">{description}</p>
+                <p className="text-gray-500 font-bold text-4xl my-2">{price}$</p>
                 <button
                     className="rounded-full bg-red-600 px-8 font-semibold py-3 m-3 text-center text-white text-xl">Add
                     to cart
