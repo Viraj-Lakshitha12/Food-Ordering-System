@@ -139,6 +139,9 @@ export function Categories() {
                         text: "The category has been successfully deleted",
                         icon: "success"
                     });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
                 }).catch(error => {
                     console.log(error);
                     Swal.fire({
