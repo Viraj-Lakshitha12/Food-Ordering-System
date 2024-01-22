@@ -1,4 +1,5 @@
 import {useCart} from '../dashboard/menu/CartContext.tsx';
+import Delete from "../../assets/icons/delete.tsx";
 
 export default function ShoppingCartItems() {
     const {cartItems} = useCart();
@@ -14,16 +15,24 @@ export default function ShoppingCartItems() {
                         <h3 className={'text-black font-bold text-center'}>No product in your cart</h3>
                     )}
                     {cartItems.map((item) => (
-                        <div className={'flex gap-8 mt-4 pb-2 items-center border-b'} key={item.id}>
+                        <div className={'flex gap-16 mt-4 pb-2 items-center border-b'} key={item.id}>
                             <div className={'w-20'}>
                                 <img src={item.image} alt={'pizza'} width={100} height={100}/>
                             </div>
-                            <div className={'font-semibold text-lg'}>
+                            <div className={'font-semibold text-lg grow'}>
                                 <p>{item.name}</p>
                             </div>
                             {/*<p>{item.description}</p>*/}
-                            {/*<p>{item.price}</p>*/}
-                            {/* Add more details if needed */}
+                            <div className={'text-xl font-semibold'}>
+                                <p>{item.price + "$"}</p>
+                            </div>
+                            <div>
+                                <button
+                                    className={'font-semibold shadow border-2 items-center px-6 py-2 bg-white ' +
+                                        'rounded-xl'}>
+                                    <Delete/>
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
