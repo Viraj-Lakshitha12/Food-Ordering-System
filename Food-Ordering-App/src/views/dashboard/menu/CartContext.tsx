@@ -1,6 +1,7 @@
+// CartContext.tsx
+
 import React, {createContext, useContext, ReactNode, useState} from 'react';
 
-// Export the CartItem type
 export interface CartItem {
     id: number;
     name: string;
@@ -9,37 +10,26 @@ export interface CartItem {
     price: number;
 }
 
-// @ts-ignore
-interface CartContextProps {
-    children: ReactNode;
-}
-
-interface CartProviderProps {
-    children: ReactNode;
-}
-
 interface CartContextValue {
     cartItems: CartItem[];
     addToCart: (item: CartItem) => void;
     removeFromCart: (itemId: number) => void;
-    // Add the cartCount property
     cartCount: number;
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
-export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
+export const CartProvider: React.FC<{ children: ReactNode }> = ({children}) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
     const addToCart = (item: CartItem) => {
-        setCartItems((prevItems) => [...prevItems, item]);
+        setCartItems((prevItems) => [...prevItems, {...item, id: prevItems.length + 1}]);
     };
 
     const removeFromCart = (itemId: number) => {
         setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
     };
 
-    // Initialize cartCount based on the length of cartItems
     const cartCount = cartItems.length;
 
     const cartContextValue: CartContextValue = {
