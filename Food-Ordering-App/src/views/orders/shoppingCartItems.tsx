@@ -20,7 +20,7 @@ export default function ShoppingCartItems() {
             <div className="text-center text-red-600 font-bold text-3xl">
                 <h3>Cart</h3>
             </div>
-            <div className="gap-4 grid grid-cols-2">
+            <div className="gap-4 grid grid-cols-2 pb-8 border-b">
                 <div>
                     {cartItems?.map((item) => (
                         <div className="flex gap-16 mt-4 pb-2 items-center border-b" key={item.id}>
