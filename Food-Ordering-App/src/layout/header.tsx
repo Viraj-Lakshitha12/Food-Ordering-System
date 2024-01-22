@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> = () => {
                     <div className="cursor-pointer flex" onClick={handleCartIconClick}>
                         <ShoppingCartIcon/>
                         {cartCount > 0 && <Link to={'/ShoppingCartItems'}><span
-                            className="ml-1 text-sm font-semibold ">{cartCount}</span></Link>}
+                            className="ml-0.5 text-white text-sm font-semibold bg-red-600 py-1 px-1.5 rounded-xl">{cartCount}</span></Link>}
                     </div>
                 )}
             </div>
