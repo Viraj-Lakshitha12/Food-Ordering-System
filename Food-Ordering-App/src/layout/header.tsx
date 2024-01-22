@@ -4,6 +4,7 @@ import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authS
 import Cookies from 'js-cookie';
 import React, {useEffect, useState} from 'react';
 import Swal from 'sweetalert2';
+import ShoppingCartIcon from '../assets/icons/shoppingCart.tsx';
 
 const LoginButton: React.FC = () => {
     return (
@@ -73,14 +74,6 @@ const Dashboard: React.FC = () => {
     );
 };
 
-const CartLink: React.FC = () => {
-    return (
-        <li>
-            <Link to="/cart">Cart</Link>
-        </li>
-    );
-};
-
 
 const Header: React.FC = () => {
     const [cartIconShow, setCartIconShow] = useState(false);
@@ -103,9 +96,11 @@ const Header: React.FC = () => {
 
     return (
         <header className="flex items-center justify-between my-4 ml-5">
-            <div>
-                <strong className="text-4xl text-red-600 font-bold">PIZZA</strong>
-                {cartIconShow && <CartLink/>}
+            <div className={'flex items-center gap-3'}>
+                <strong className="text-4xl text-red-600 font-bold mb-1">PIZZA</strong>
+                <div className={'cursor-pointer'}>
+                    {cartIconShow && <ShoppingCartIcon/>}
+                </div>
             </div>
             <nav>
                 <ul className="flex items-center mx-5 text-gray-500 text-lg gap-10 font-semibold">
