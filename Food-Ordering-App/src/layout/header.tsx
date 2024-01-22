@@ -1,25 +1,20 @@
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authSlice';
 import Cookies from 'js-cookie';
-import React, {useEffect, useState} from 'react';
 import Swal from 'sweetalert2';
-import ShoppingCartIcon from '../assets/icons/shoppingCart.tsx';
+import ShoppingCartIcon from '../assets/icons/shoppingCart';
+
+interface HeaderProps {
+}
 
 const LoginButton: React.FC = () => {
-    return (
-        <li>
-            <Link to="/login">Login</Link>
-        </li>
-    );
+    return <li><Link to="/login">Login</Link></li>;
 };
 
 const RegisterButton: React.FC = () => {
-    return (
-        <li className="bg-red-600 text-white px-4 py-2 rounded-full">
-            <Link to="/register">Register</Link>
-        </li>
-    );
+    return <li className="bg-red-600 text-white px-4 py-2 rounded-full"><Link to="/register">Register</Link></li>;
 };
 
 const LogoutButton: React.FC = () => {
@@ -44,39 +39,29 @@ const LogoutButton: React.FC = () => {
                 });
 
                 Cookies.remove('token');
-                Cookies.remove('admin'); // Remove the admin cookie
+                Cookies.remove('admin');
                 dispatch(clearAccessToken());
                 navigate('/login');
             }
         });
     };
 
-    return (
-        <li className="bg-red-600 text-white px-4 py-2 rounded-full cursor-pointer" onClick={handleLogout}>
-            Logout
-        </li>
-    );
+    return <li className="bg-red-600 text-white px-4 py-2 rounded-full cursor-pointer"
+               onClick={handleLogout}>Logout</li>;
 };
 
 const ProfileLink: React.FC = () => {
-    return (
-        <li>
-            <Link to="/profile">Profile</Link>
-        </li>
-    );
+    return <li><Link to="/profile">Profile</Link></li>;
 };
 
 const Dashboard: React.FC = () => {
-    return (
-        <li>
-            <Link to="/dashboard">Dashboard</Link>
-        </li>
-    );
+    return <li><Link to="/dashboard">Dashboard</Link></li>;
 };
 
-
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = () => {
     const [cartIconShow, setCartIconShow] = useState(false);
+    // @ts-ignore
+    const [showAlert, setShowAlert] = useState(false);
 
     const dispatch = useDispatch();
     const accessToken = useSelector(selectAccessToken);
@@ -84,38 +69,57 @@ const Header: React.FC = () => {
     const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
     useEffect(() => {
-        // Get token
         const token: any = Cookies.get('token');
         const isAdmin: any = Cookies.get('admin');
+        console.log(isAdmin);
         // @ts-ignore
         const storedCartIcon = Cookies.get('cartIcon') === 'true' || Cookies.get('cartIcon') === true;
-        setCartIconShow(storedCartIcon); // Set cartIcon state
-        console.log('is admin : ' + isAdmin);
+        setCartIconShow(storedCartIcon);
         dispatch(setAccessToken(token));
     }, [dispatch]);
 
+    useEffect(() => {
+        if (showAlert) {
+            showAlertAfterAction();
+        }
+    }, [showAlert]);
+
+    const showAlertBeforeLogin = () => {
+        if (!accessToken) {
+            Swal.fire({
+                title: 'Login Required',
+                text: 'Please log in to perform this action.',
+                icon: 'info',
+                confirmButtonText: 'OK',
+            });
+        }
+    };
+
+    const showAlertAfterAction = () => {
+        Swal.fire({
+            title: 'Action Successful',
+            text: 'Your action was successful!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+    };
+
     return (
         <header className="flex items-center justify-between my-4 ml-5">
-            <div className={'flex items-center gap-3'}>
+            <div className="flex items-center gap-3">
                 <strong className="text-4xl text-red-600 font-bold mb-1">PIZZA</strong>
-                <div className={'cursor-pointer'}>
-                    {cartIconShow && <ShoppingCartIcon/>}
-                </div>
+                {accessToken && (
+                    <div className="cursor-pointer" onClick={() => showAlertBeforeLogin()}>
+                        {cartIconShow && <ShoppingCartIcon/>}
+                    </div>
+                )}
             </div>
             <nav>
                 <ul className="flex items-center mx-5 text-gray-500 text-lg gap-10 font-semibold">
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/menu">Menu</Link>
-                    </li>
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">Contact</Link>
-                    </li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/menu">Menu</Link></li>
+                    <li><Link to="/about">About</Link></li>
+                    <li><Link to="/contact">Contact</Link></li>
 
                     {accessToken ? (
                         <>
@@ -125,12 +129,16 @@ const Header: React.FC = () => {
                         </>
                     ) : (
                         <>
-                            <LoginButton/>
+                            <LoginButton
+                                //@ts-ignore
+                                onClick={() => showAlertBeforeLogin()}/>
                             {!accessToken && <RegisterButton/>}
                         </>
+
                     )}
                 </ul>
             </nav>
+            {/* {showAlert && showAlertAfterAction()} */}
         </header>
     );
 };
