@@ -17,6 +17,7 @@ import {ShowMenuItems} from "./views/dashboard/menu/showMenuItems.tsx";
 import {UpdateMenuItems} from "./views/dashboard/menu/updateMenuItems.tsx";
 import {Orders} from "./views/dashboard/orders.tsx";
 import {CartProvider} from "./views/dashboard/menu/CartContext.tsx";
+import ShoppingCartItems from "./views/orders/shoppingCartItems.tsx";
 
 function App() {
     return (
@@ -38,6 +39,7 @@ function App() {
                     <Route path={"/showMenuItem"} element={<ShowMenuItems/>}/>
                     <Route path={"/updateMenuItems"} element={<UpdateMenuItems/>}/>
                     <Route path={"/orders"} element={<Orders/>}/>
+                    <Route path={"/shoppingCartItems"} element={<ShoppingCartItems/>}/>
 
                 </Routes>
                 <Footer/>

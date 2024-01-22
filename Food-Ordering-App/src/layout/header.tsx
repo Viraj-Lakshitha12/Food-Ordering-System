@@ -101,7 +101,7 @@ const Header: React.FC<HeaderProps> = () => {
                 {accessToken && (
                     <div className="cursor-pointer flex" onClick={handleCartIconClick}>
                         <ShoppingCartIcon/>
-                        {cartCount > 0 && <span className="ml-1 text-sm font-semibold ">{cartCount}</span>}
+                        {cartCount > 0 && <Link to={'/'}><span className="ml-1 text-sm font-semibold ">{cartCount}</span></Link>}
                     </div>
                 )}
             </div>
@@ -125,7 +125,6 @@ const Header: React.FC<HeaderProps> = () => {
                     )}
                 </ul>
             </nav>
-            {/*{showAlert && showAlertAfterAction?.()}*/}
         </header>
     );
 };
