@@ -50,6 +50,7 @@ export default function HomeMenu() {
                         itemName={menuItem.itemName}
                         description={menuItem.description}
                         image={menuItem.image}
+                        //@ts-ignore
                         price={menuItem.price}
                     />
                 ))}
