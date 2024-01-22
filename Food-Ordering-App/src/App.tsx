@@ -16,29 +16,32 @@ import {Users} from "./views/dashboard/users.tsx";
 import {ShowMenuItems} from "./views/dashboard/menu/showMenuItems.tsx";
 import {UpdateMenuItems} from "./views/dashboard/menu/updateMenuItems.tsx";
 import {Orders} from "./views/dashboard/orders.tsx";
+import {CartProvider} from "./views/dashboard/menu/CartContext.tsx";
 
 function App() {
     return (
         <BrowserRouter>
-            <Header/>
-            <Routes>
-                <Route path={"/"} element={<Home/>}/>
-                <Route path={"/menu"} element={<HomeMenu/>}/>
-                <Route path={"/about"} element={<About/>}/>
-                <Route path={"/contact"} element={<Contact/>}/>
-                <Route path={"/login"} element={<Login/>}/>
-                <Route path={"/register"} element={<Register/>}/>
-                <Route path={"/profile"} element={<Profile/>}/>
-                <Route path={"/dashboard"} element={<Dashboard/>}/>
-                <Route path={"/categories"} element={<Categories/>}/>
-                <Route path={"/menuItems"} element={<MenuItems/>}/>
-                <Route path={"/users"} element={<Users/>}/>
-                <Route path={"/showMenuItem"} element={<ShowMenuItems/>}/>
-                <Route path={"/updateMenuItems"} element={<UpdateMenuItems/>}/>
-                <Route path={"/orders"} element={<Orders/>}/>
+            <CartProvider>
+                <Header/>
+                <Routes>
+                    <Route path={"/"} element={<Home/>}/>
+                    <Route path={"/menu"} element={<HomeMenu/>}/>
+                    <Route path={"/about"} element={<About/>}/>
+                    <Route path={"/contact"} element={<Contact/>}/>
+                    <Route path={"/login"} element={<Login/>}/>
+                    <Route path={"/register"} element={<Register/>}/>
+                    <Route path={"/profile"} element={<Profile/>}/>
+                    <Route path={"/dashboard"} element={<Dashboard/>}/>
+                    <Route path={"/categories"} element={<Categories/>}/>
+                    <Route path={"/menuItems"} element={<MenuItems/>}/>
+                    <Route path={"/users"} element={<Users/>}/>
+                    <Route path={"/showMenuItem"} element={<ShowMenuItems/>}/>
+                    <Route path={"/updateMenuItems"} element={<UpdateMenuItems/>}/>
+                    <Route path={"/orders"} element={<Orders/>}/>
 
-            </Routes>
-            <Footer/>
+                </Routes>
+                <Footer/>
+            </CartProvider>
         </BrowserRouter>
     )
 }

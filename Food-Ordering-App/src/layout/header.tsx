@@ -5,6 +5,7 @@ import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authS
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import ShoppingCartIcon from '../assets/icons/shoppingCart';
+import {useCart} from '../views/dashboard/menu/CartContext';
 
 interface HeaderProps {
 }
@@ -54,63 +55,53 @@ const ProfileLink: React.FC = () => {
     return <li><Link to="/profile">Profile</Link></li>;
 };
 
-const Dashboard: React.FC = () => {
+const DashboardLink: React.FC = () => {
     return <li><Link to="/dashboard">Dashboard</Link></li>;
 };
 
 const Header: React.FC<HeaderProps> = () => {
-    const [cartIconShow, setCartIconShow] = useState(false);
     // @ts-ignore
     const [showAlert, setShowAlert] = useState(false);
-
-    const dispatch = useDispatch();
     const accessToken = useSelector(selectAccessToken);
     // @ts-ignore
     const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
+    const {cartCount} = useCart();
+
+    const dispatch = useDispatch();
+
+    // const navigate = useNavigate();
+
     useEffect(() => {
         const token: any = Cookies.get('token');
-        const isAdmin: any = Cookies.get('admin');
-        console.log(isAdmin);
-        // @ts-ignore
-        const storedCartIcon = Cookies.get('cartIcon') === 'true' || Cookies.get('cartIcon') === true;
-        setCartIconShow(storedCartIcon);
         dispatch(setAccessToken(token));
     }, [dispatch]);
 
-    useEffect(() => {
-        if (showAlert) {
-            showAlertAfterAction();
-        }
-    }, [showAlert]);
-
-    const showAlertBeforeLogin = () => {
+    const handleCartIconClick = () => {
         if (!accessToken) {
-            Swal.fire({
-                title: 'Login Required',
-                text: 'Please log in to perform this action.',
-                icon: 'info',
-                confirmButtonText: 'OK',
-            });
+            showAlertBeforeLogin();
         }
     };
 
-    const showAlertAfterAction = () => {
+    const showAlertBeforeLogin = () => {
         Swal.fire({
-            title: 'Action Successful',
-            text: 'Your action was successful!',
-            icon: 'success',
+            title: 'Login Required',
+            text: 'Please log in to perform this action.',
+            icon: 'info',
             confirmButtonText: 'OK',
         });
     };
+
+
 
     return (
         <header className="flex items-center justify-between my-4 ml-5">
             <div className="flex items-center gap-3">
                 <strong className="text-4xl text-red-600 font-bold mb-1">PIZZA</strong>
                 {accessToken && (
-                    <div className="cursor-pointer" onClick={() => showAlertBeforeLogin()}>
-                        {cartIconShow && <ShoppingCartIcon/>}
+                    <div className="cursor-pointer flex" onClick={handleCartIconClick}>
+                        <ShoppingCartIcon/>
+                        {cartCount > 0 && <span className="ml-1 text-sm font-semibold ">{cartCount}</span>}
                     </div>
                 )}
             </div>
@@ -120,25 +111,21 @@ const Header: React.FC<HeaderProps> = () => {
                     <li><Link to="/menu">Menu</Link></li>
                     <li><Link to="/about">About</Link></li>
                     <li><Link to="/contact">Contact</Link></li>
-
                     {accessToken ? (
                         <>
                             <ProfileLink/>
-                            {isAdmin && <Dashboard/>}
+                            {isAdmin && <DashboardLink/>}
                             <LogoutButton/>
                         </>
                     ) : (
                         <>
-                            <LoginButton
-                                //@ts-ignore
-                                onClick={() => showAlertBeforeLogin()}/>
+                            <LoginButton/>
                             {!accessToken && <RegisterButton/>}
                         </>
-
                     )}
                 </ul>
             </nav>
-            {/* {showAlert && showAlertAfterAction()} */}
+            {/*{showAlert && showAlertAfterAction?.()}*/}
         </header>
     );
 };

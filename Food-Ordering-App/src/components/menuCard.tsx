@@ -1,23 +1,33 @@
-import {useState, useEffect} from 'react';
+import React from 'react';
+import {useCart, CartItem} from '../views/dashboard/menu/CartContext.tsx'; // Import CartItem type
 import Cookies from 'js-cookie';
 
-const MenuCard = ({itemName, description, image, price}: any) => {
-    const [cartIcon, setCartIcon] = useState(false);
+interface MenuCardProps {
+    id: number;
+    itemName: string;
+    description: string;
+    image: string;
+    price: number;
+}
 
-    useEffect(() => {
-        console.log('Cart Icon Updated:', cartIcon);
-    }, [cartIcon]);
+const MenuCard: React.FC<MenuCardProps> = ({id, itemName, description, image, price}) => {
+    const {addToCart} = useCart();
 
-    const addToCart = () => {
-        const data = {
-            itemName: itemName,
-            description: description,
-            image: image,
-            price: price,
+    const handleAddToCart = () => {
+        const item: CartItem = {
+            id,
+            name: itemName,
+            description,
+            image,
+            price,
         };
+
+        addToCart(item);
+
+        // Your existing logic to set cartIcon in Cookies and update state
         Cookies.set('cartIcon', String(true));
-        setCartIcon(true);
-        console.log(data);
+
+        console.log(item);
     };
 
     return (
@@ -29,7 +39,7 @@ const MenuCard = ({itemName, description, image, price}: any) => {
             <p className="text-gray-500 line-clamp-2 my-2">{description}</p>
             <p className="text-gray-500 font-bold text-4xl my-2">{price}$</p>
             <button
-                onClick={addToCart}
+                onClick={handleAddToCart}
                 className="rounded-full bg-red-600 px-8 font-semibold py-3 m-3 text-center text-white text-xl"
             >
                 Add to cart
