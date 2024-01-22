@@ -2,8 +2,8 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authSlice';
 import Cookies from 'js-cookie';
-import React from 'react';
-import Swal from "sweetalert2";
+import React, {useEffect, useState} from 'react';
+import Swal from 'sweetalert2';
 
 const LoginButton: React.FC = () => {
     return (
@@ -27,19 +27,19 @@ const LogoutButton: React.FC = () => {
 
     const handleLogout = () => {
         Swal.fire({
-            title: "Are you sure you want to logout?",
+            title: 'Are you sure you want to logout?',
             text: "You won't be able to revert this!",
-            icon: "info",
+            icon: 'info',
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, logout"
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout',
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: "Logged Out!",
-                    text: "You have been successfully logged out.",
-                    icon: "success"
+                    title: 'Logged Out!',
+                    text: 'You have been successfully logged out.',
+                    icon: 'success',
                 });
 
                 Cookies.remove('token');
@@ -73,17 +73,31 @@ const Dashboard: React.FC = () => {
     );
 };
 
+const CartLink: React.FC = () => {
+    return (
+        <li>
+            <Link to="/cart">Cart</Link>
+        </li>
+    );
+};
+
+
 const Header: React.FC = () => {
+    const [cartIconShow, setCartIconShow] = useState(false);
+
     const dispatch = useDispatch();
     const accessToken = useSelector(selectAccessToken);
     // @ts-ignore
     const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
-    React.useEffect(() => {
+    useEffect(() => {
         // Get token
         const token: any = Cookies.get('token');
         const isAdmin: any = Cookies.get('admin');
-        console.log("is admin : " + isAdmin);
+        // @ts-ignore
+        const storedCartIcon = Cookies.get('cartIcon') === 'true' || Cookies.get('cartIcon') === true;
+        setCartIconShow(storedCartIcon); // Set cartIcon state
+        console.log('is admin : ' + isAdmin);
         dispatch(setAccessToken(token));
     }, [dispatch]);
 
@@ -91,7 +105,7 @@ const Header: React.FC = () => {
         <header className="flex items-center justify-between my-4 ml-5">
             <div>
                 <strong className="text-4xl text-red-600 font-bold">PIZZA</strong>
-                {/*<strong className="text-4xl text-red-600 font-bold p-4">PIZZA</strong>*/}
+                {cartIconShow && <CartLink/>}
             </div>
             <nav>
                 <ul className="flex items-center mx-5 text-gray-500 text-lg gap-10 font-semibold">
