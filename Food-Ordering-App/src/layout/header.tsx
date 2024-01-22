@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearAccessToken, selectAccessToken, setAccessToken} from '../auth/authSlice';
@@ -60,17 +60,13 @@ const DashboardLink: React.FC = () => {
 };
 
 const Header: React.FC<HeaderProps> = () => {
-    // @ts-ignore
-    const [showAlert, setShowAlert] = useState(false);
     const accessToken = useSelector(selectAccessToken);
     // @ts-ignore
     const isAdmin = Cookies.get('admin') === 'true' || Cookies.get('admin') === true;
 
     const {cartCount} = useCart();
-
     const dispatch = useDispatch();
-
-    // const navigate = useNavigate();
+    const navigate = useNavigate(); // Add this line to get the navigate function
 
     useEffect(() => {
         const token: any = Cookies.get('token');
@@ -80,6 +76,9 @@ const Header: React.FC<HeaderProps> = () => {
     const handleCartIconClick = () => {
         if (!accessToken) {
             showAlertBeforeLogin();
+        } else {
+            // Navigate to /ShoppingCartItems when the cart icon is clicked
+            navigate('/ShoppingCartItems');
         }
     };
 
@@ -92,8 +91,6 @@ const Header: React.FC<HeaderProps> = () => {
         });
     };
 
-
-
     return (
         <header className="flex items-center justify-between my-4 ml-5">
             <div className="flex items-center gap-3">
@@ -101,7 +98,8 @@ const Header: React.FC<HeaderProps> = () => {
                 {accessToken && (
                     <div className="cursor-pointer flex" onClick={handleCartIconClick}>
                         <ShoppingCartIcon/>
-                        {cartCount > 0 && <Link to={'/'}><span className="ml-1 text-sm font-semibold ">{cartCount}</span></Link>}
+                        {cartCount > 0 && <Link to={'/ShoppingCartItems'}><span
+                            className="ml-1 text-sm font-semibold ">{cartCount}</span></Link>}
                     </div>
                 )}
             </div>
