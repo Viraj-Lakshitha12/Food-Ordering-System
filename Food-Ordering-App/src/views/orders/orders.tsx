@@ -4,11 +4,10 @@ import axios from "axios";
 
 export function Orders() {
 
-    const email="viraj.lakshitha.22222@gmail.com"
-    const date='2024-01-23'
-
     useEffect(() => {
-        axios.get(' http://localhost:3000/api/order/')
+        axios.get(`http://localhost:8080/api/order/getAllOrdersByEmailAndDate/viraj.lakshitha.22222@gmail.com`).then(r => {
+            console.log(r.data);
+        })
     }, []);
     return (
         <section>

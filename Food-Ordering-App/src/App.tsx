@@ -15,7 +15,7 @@ import {MenuItems} from "./views/dashboard/menu/menuItems.tsx";
 import {Users} from "./views/dashboard/users.tsx";
 import {ShowMenuItems} from "./views/dashboard/menu/showMenuItems.tsx";
 import {UpdateMenuItems} from "./views/dashboard/menu/updateMenuItems.tsx";
-import {Orders} from "./views/dashboard/orders.tsx";
+import {Orders} from "./views/orders/orders.tsx";
 import {CartProvider} from "./views/dashboard/menu/CartContext.tsx";
 import ShoppingCartItems from "./views/orders/shoppingCartItems.tsx";
 

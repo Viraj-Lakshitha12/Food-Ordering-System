@@ -63,6 +63,21 @@ export default function ShoppingCartItems() {
     {
         total > 0 ? fetchData() : null
     }
+
+    function handlePayButton(e: any): void {
+        e.preventDefault();
+        console.log("Request payload:", { cartItems, userData });
+
+        axios.post('http://localhost:8080/api/order/saveOrder', {cartItems, userData})
+            .then(r => {
+                console.log("Response:", r);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+
     return (
         <section className="mt-8 ml-8 mr-8">
             <div className="text-center text-red-600 mb-8 font-bold text-3xl">
@@ -99,7 +114,7 @@ export default function ShoppingCartItems() {
                     </div>
                 </div>
                 <div className={' p-8 bg-gray-100 rounded-xl'}>
-                    <h3 className={'text-2xl mb-2 text-red-600 font-bold text-center'}>Checkout</h3>
+                    <h3 className={'text-2xl text-red-600 font-bold text-center'}>Checkout</h3>
 
                     <form className="flex flex-col items-center">
                         <div className="my-2 ml-10 grid gap-5 min-w-full items-center">
@@ -148,8 +163,11 @@ export default function ShoppingCartItems() {
                             />
                         </div>
                         <div className={'mt-4 items-center max-w-full'}>
-                            <button type="submit"
-                                    className="text-white bg-red-600 rounded-md py-2 mr-8 px-24 text-xl">
+                            <button
+                                type="submit"
+                                onClick={handlePayButton}
+
+                                className="text-white bg-red-600 rounded-md py-2 mr-8 px-24 text-xl">
                                 Pay ${total}
                             </button>
 
