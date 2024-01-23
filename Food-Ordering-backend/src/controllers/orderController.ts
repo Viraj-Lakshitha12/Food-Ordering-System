@@ -3,6 +3,7 @@ import CustomResponse from "../util/customResponse";
 import {OrderModel} from "../models/order";
 
 
+//save orders
 export const saveOrder = async (req: express.Request, res: express.Response) => {
     try {
         const {cartItems, userData} = req.body;
@@ -31,3 +32,13 @@ export const saveOrder = async (req: express.Request, res: express.Response) => 
         res.status(500).send(new CustomResponse(500, 'Internal Server Error', error));
     }
 };
+
+//get orders
+export const getOrders = async (req: express.Request, res: any) => {
+    try {
+        const orders = await OrderModel.find();
+        res.status(200).send(new CustomResponse(200, "found orders", orders));
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+}
