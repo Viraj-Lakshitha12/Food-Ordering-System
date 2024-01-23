@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import dashboardRoutes from "./routes/dashboard";
+import order from "./routes/order";
 
 
 dotenv.config();
@@ -46,3 +47,6 @@ app.use('/api/user', userRoutes);
 
 //dashboard
 app.use('/api/dashboard', dashboardRoutes);
+
+//order
+app.use('/api/order',order)
