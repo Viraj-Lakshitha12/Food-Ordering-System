@@ -2,24 +2,55 @@ import {useCart} from '../dashboard/menu/CartContext.tsx';
 import Delete from '../../assets/icons/delete.tsx';
 import {Bounce, toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useEffect} from "react";
+import  {ChangeEvent, useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+interface UserData {
+    userName: string;
+    email: string;
+    address: string;
+    postalCode: string;
+    city: string;
+}
+
 export default function ShoppingCartItems() {
     const {cartItems, removeFromCart} = useCart();
+    const [userData, setUserData] = useState<UserData>({
+        userName: '',
+        email: '',
+        address: '',
+        postalCode: '',
+        city: '',
+    });
 
-
+    const handleInput = (e: ChangeEvent<HTMLInputElement>, type: keyof UserData): void => {
+        setUserData((prevData) => ({...prevData, [type]: e.target.value}));
+    };
 
     useEffect(() => {
         const fetchData = async () => {
-            let userEmail = Cookies.get('user');
-            const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail/${userEmail}`);
-            const userDetailData = response.data.data;
-            console.log(userDetailData);
-        }
+            try {
+                let userEmail = Cookies.get('user');
+                const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail/${userEmail}`);
+                const userDetailData = response.data.data;
+
+                // Set user details in the state
+                setUserData({
+                    userName: userDetailData.userName,
+                    email: userDetailData.email,
+                    address: userDetailData.address,
+                    postalCode: userDetailData.postalCode,
+                    city: userDetailData.city,
+                });
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        };
+
         fetchData();
     }, []);
+
 
     const notify = () => {
         toast('Product was removed');
@@ -71,6 +102,57 @@ export default function ShoppingCartItems() {
                 <div className={' p-8 bg-gray-200 rounded-xl'}>
                     <h3 className={'text-xl font-semibold text-center'}>Checkout</h3>
                     <form>
+                        <div className="grid items-center">
+                            <div className="my-2 grid grid-cols-2 gap-4">
+
+                                <input
+                                    id="firstName"
+                                    className="col-span-2 p-2 my-1 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                    type="text"
+                                    placeholder="First and last name"
+                                    value={userData.userName}
+                                    onChange={(e) => handleInput(e, 'userName')}
+                                />
+                                <input
+                                    id="email"
+                                    className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                    type="text"
+                                    placeholder="example@gmail.com"
+                                    value={userData.email}
+                                    onChange={(e) => handleInput(e, 'email')}
+                                    disabled
+                                />
+
+                                <input
+                                    id="address"
+                                    className="col-span-2 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                    type="text"
+                                    placeholder="street address"
+                                    value={userData.address}
+                                    onChange={(e) => handleInput(e, 'address')}
+                                />
+                            </div>
+                            <div className="my-1 grid grid-cols-2 gap-4">
+                                <input
+                                    id="postalCode"
+                                    className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                    type="text"
+                                    placeholder="postal code"
+                                    value={userData.postalCode}
+                                    onChange={(e) => handleInput(e, 'postalCode')}
+                                />
+                                <input
+                                    id="city"
+                                    className="mt-1 p-2 max-w-4xl mx-2 rounded-md bg-gray-200 text-black font-semibold hover:border-2 hover:border-blue-800 text-center"
+                                    type="text"
+                                    placeholder="city"
+                                    value={userData.city}
+                                    onChange={(e) => handleInput(e, 'city')}
+                                />
+                            </div>
+                        </div>
+
+
                         <button type={'submit'}
                                 className={'w-full text-white bg-red-600 rounded-md py-4 px-24 text-xl'}>Pay
                             ${total}</button>
