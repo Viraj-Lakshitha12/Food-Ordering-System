@@ -43,18 +43,21 @@ export default function HomeMenu() {
                 <h2 className={'font-bold text-red-600 text-4xl italic'}>Menu</h2>
             </div>
 
-            <div className="grid grid-cols-4 gap-4 p-8">
-                {menuItems.map((menuItem, index) => (
-                    <MenuCard
-                        key={index}
-                        itemName={menuItem.itemName}
-                        description={menuItem.description}
-                        image={menuItem.image}
-                        //@ts-ignore
-                        price={menuItem.price}
-                    />
-                ))}
+            <div className="flex overflow-x-auto p-8">
+                <div className="grid grid-cols-4 gap-16">
+                    {menuItems.map((menuItem, index) => (
+                        <MenuCard
+                            key={index}
+                            itemName={menuItem.itemName}
+                            description={menuItem.description}
+                            image={menuItem.image}
+                            //@ts-ignore
+                            price={menuItem.price}
+                         id={index}/>
+                    ))}
+                </div>
             </div>
+
         </section>
     )
 }

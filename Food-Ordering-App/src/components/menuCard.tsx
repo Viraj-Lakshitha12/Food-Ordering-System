@@ -32,7 +32,8 @@ const MenuCard: React.FC<MenuCardProps> = ({id, itemName, description, image, pr
 
     return (
         <div
-            className="hover:shadow-black hover:bg-white transition-all hover:shadow-2xl col-span-1 mx-auto bg-gray-200 rounded-lg text-center p-2 items-center max-w-[350px] grid grid-rows-1">
+            className="hover:shadow-black hover:bg-white transition-all hover:shadow-2xl col-span-1 mx-auto bg-gray-200
+            rounded-lg text-center p-2 items-center max-w-[350px] grid grid-rows-1">
             <img className="w-[320px] items-center h-[300px] object-cover rounded-3xl" src={image} alt="pizza"/>
 
             <h1 className="font-semibold text-xl mt-2">{itemName}</h1>
