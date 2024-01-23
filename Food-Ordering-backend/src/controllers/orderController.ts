@@ -42,3 +42,18 @@ export const getOrders = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
 }
+
+// get all order by email & date
+export const getAllOrderByEmailAndDate = async (req: express.Request, res: express.Response) => {
+    const {email} = req.params;
+    try {
+        const allOrdersByEmailAndDate = await OrderModel.find({email: email}).then(r => {
+            res.status(200).send(new CustomResponse(200, "found orders", r));
+        }).catch(e => {
+            res.status(500).send(new CustomResponse(500, "cannot found orders", e));
+        });
+
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+}
