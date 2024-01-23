@@ -1,11 +1,13 @@
 import {Dashboard} from "../../components/dashboard.tsx";
 import {useEffect} from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export function Orders() {
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/order/getAllOrdersByEmailAndDate/viraj.lakshitha.22222@gmail.com`).then(r => {
+        let email = Cookies.get('user');
+        axios.get(`http://localhost:8080/api/order/getAllOrdersByEmailAndDate/${email}`).then(r => {
             console.log(r.data);
         })
     }, []);
