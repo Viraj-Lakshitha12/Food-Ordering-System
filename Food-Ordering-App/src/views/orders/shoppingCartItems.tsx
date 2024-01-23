@@ -99,7 +99,7 @@ export default function ShoppingCartItems() {
                     </div>
                 </div>
                 <div className={' p-8 bg-gray-100 rounded-xl'}>
-                    <h3 className={'text-2xl text-red-600 font-bold text-center'}>Checkout</h3>
+                    <h3 className={'text-2xl mb-2 text-red-600 font-bold text-center'}>Checkout</h3>
 
                     <form className="flex flex-col items-center">
                         <div className="my-2 ml-10 grid gap-5 min-w-full items-center">
