@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ChangeEvent, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 interface UserData {
     userName: string;
@@ -66,14 +67,28 @@ export default function ShoppingCartItems() {
 
     function handlePayButton(e: any): void {
         e.preventDefault();
-        console.log("Request payload:", { cartItems, userData });
+        console.log("Request payload:", {cartItems, userData});
 
         axios.post('http://localhost:8080/api/order/saveOrder', {cartItems, userData})
             .then(r => {
                 console.log("Response:", r);
+                Swal.fire({
+                    title: "Order Placed!",
+                    text: "Your order has been successfully placed.",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 200);
+
             })
             .catch(error => {
                 console.error("Error:", error);
+                Swal.fire({
+                    title: "Order Failed!",
+                    text: "Something went wrong while placing the order. Please try again.",
+                    icon: "error"
+                });
             });
     }
 
