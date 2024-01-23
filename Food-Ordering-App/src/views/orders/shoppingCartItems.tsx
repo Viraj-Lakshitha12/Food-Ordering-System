@@ -2,9 +2,24 @@ import {useCart} from '../dashboard/menu/CartContext.tsx';
 import Delete from '../../assets/icons/delete.tsx';
 import {Bounce, toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useEffect} from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function ShoppingCartItems() {
     const {cartItems, removeFromCart} = useCart();
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let userEmail = Cookies.get('user');
+            const response = await axios.get(`http://localhost:8080/api/user/getUserDetailsByEmail/${userEmail}`);
+            const userDetailData = response.data.data;
+            console.log(userDetailData);
+        }
+        fetchData();
+    }, []);
 
     const notify = () => {
         toast('Product was removed');
@@ -56,7 +71,8 @@ export default function ShoppingCartItems() {
                 <div className={' p-8 bg-gray-200 rounded-xl'}>
                     <h3 className={'text-xl font-semibold text-center'}>Checkout</h3>
                     <form>
-                        <button type={'submit'} className={'w-full text-white bg-red-600 rounded-md py-4 px-24 text-xl'}>Pay
+                        <button type={'submit'}
+                                className={'w-full text-white bg-red-600 rounded-md py-4 px-24 text-xl'}>Pay
                             ${total}</button>
                     </form>
                 </div>
