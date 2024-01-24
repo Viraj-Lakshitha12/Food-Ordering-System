@@ -17,6 +17,7 @@ interface UserData {
 }
 
 export default function ShoppingCartItems() {
+    // const [netTotal, setNetTotal] = useState(0);
     const {cartItems, removeFromCart} = useCart();
     const [userData, setUserData] = useState<UserData>({
         userName: '',
@@ -24,10 +25,12 @@ export default function ShoppingCartItems() {
         address: '',
         postalCode: '',
         city: '',
+
     });
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>, type: keyof UserData): void => {
         setUserData((prevData) => ({...prevData, [type]: e.target.value}));
+
     };
 
 
@@ -68,9 +71,14 @@ export default function ShoppingCartItems() {
 
     function handlePayButton(e: any): void {
         e.preventDefault();
-        console.log("Request payload:", {cartItems, userData});
 
-        axios.post('http://localhost:8080/api/order/saveOrder', {cartItems, userData})
+        // Calculate total price
+        const total: number = cartItems.reduce((acc, item) => acc + item.price, 0);
+
+        // Log the payload before making the request
+        console.log(total);
+
+        axios.post('http://localhost:8080/api/order/saveOrder', {cartItems, userData, total})
             .then(r => {
                 console.log("Response:", r);
                 Swal.fire({
@@ -79,10 +87,8 @@ export default function ShoppingCartItems() {
                     icon: "success"
                 });
                 setTimeout(() => {
-                  window.location.reload();
+                    window.location.reload();
                 }, 2500);
-
-
             })
             .catch(error => {
                 console.error("Error:", error);
