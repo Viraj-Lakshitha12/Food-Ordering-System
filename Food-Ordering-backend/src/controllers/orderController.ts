@@ -1,14 +1,14 @@
 import express from "express";
 import CustomResponse from "../util/customResponse";
 import {OrderModel} from "../models/order";
-import {sendOrderConfirmationEmail} from "../service/EmailService";
 
 
-//save orders
+// save orders
 export const saveOrder = async (req: express.Request, res: express.Response) => {
     try {
-        const {cartItems, userData} = req.body;
+        const {cartItems, userData, total} = req.body;
 
+        // Check if required data is present
         if (!cartItems || !userData || !userData.email) {
             return res.status(400).send(new CustomResponse(400, 'Bad Request', 'Invalid data format'));
         }
@@ -20,6 +20,7 @@ export const saveOrder = async (req: express.Request, res: express.Response) => 
 
         const savedOrder = await OrderModel.create({
             items: savedItems,
+            total: total,
             email: userData.email,
         });
 
@@ -29,7 +30,6 @@ export const saveOrder = async (req: express.Request, res: express.Response) => 
         res.status(500).send(new CustomResponse(500, 'Internal Server Error', error));
     }
 };
-
 
 //get orders
 export const getOrders = async (req: express.Request, res: any) => {
