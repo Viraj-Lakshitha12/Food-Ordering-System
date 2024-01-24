@@ -4,7 +4,6 @@ import {OrderModel} from "../models/order";
 import {sendOrderConfirmationEmail} from "../service/EmailService";
 
 
-
 //save orders
 export const saveOrder = async (req: express.Request, res: express.Response) => {
     try {
@@ -14,20 +13,17 @@ export const saveOrder = async (req: express.Request, res: express.Response) => 
             return res.status(400).send(new CustomResponse(400, 'Bad Request', 'Invalid data format'));
         }
 
-        const savedItems = [];
+        const savedItems = cartItems.map((cartItem: any) => {
+            const {id, name, description, image, price} = cartItem;
+            return {id, name, description, image, price};
+        });
 
-        for (const cartItem of cartItems) {
-            const {id, name, description, image} = cartItem;
+        const savedOrder = await OrderModel.create({
+            items: savedItems,
+            email: userData.email,
+        });
 
-            const savedItem = await OrderModel.create({
-                items: [{id, name, description, image}],
-                email: userData.email,
-            });
-
-            savedItems.push(savedItem);
-        }
-
-        res.status(200).send(new CustomResponse(200, 'Save successful', savedItems));
+        res.status(200).send(new CustomResponse(200, 'Save successful', savedOrder));
     } catch (error) {
         console.error('Error saving order or sending email:', error);
         res.status(500).send(new CustomResponse(500, 'Internal Server Error', error));
