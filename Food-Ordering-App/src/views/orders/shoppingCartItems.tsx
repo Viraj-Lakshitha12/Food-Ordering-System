@@ -6,6 +6,7 @@ import {ChangeEvent, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 interface UserData {
     userName: string;
@@ -16,6 +17,7 @@ interface UserData {
 }
 
 export default function ShoppingCartItems() {
+    const navigate = useNavigate();
     const {cartItems, removeFromCart} = useCart();
     const [userData, setUserData] = useState<UserData>({
         userName: '',
@@ -77,9 +79,7 @@ export default function ShoppingCartItems() {
                     text: "Your order has been successfully placed.",
                     icon: "success"
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 200);
+                navigate('/');
 
             })
             .catch(error => {
