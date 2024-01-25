@@ -41,6 +41,8 @@ const LogoutButton: React.FC = () => {
 
                 Cookies.remove('token');
                 Cookies.remove('admin');
+                Cookies.remove('user');
+                Cookies.remove('orderId');
                 dispatch(clearAccessToken());
                 navigate('/login');
             }
