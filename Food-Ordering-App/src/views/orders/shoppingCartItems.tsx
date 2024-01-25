@@ -81,7 +81,10 @@ export default function ShoppingCartItems() {
 
         axios.post('http://localhost:8080/api/order/saveOrder', {cartItems, userData, total})
             .then(r => {
-                console.log("Response:", r);
+                Cookies.set('orderId', r.data.data.savedOrder._id);
+                // let orderId = Cookies.get('orderId');
+                // console.log(orderId);
+
                 Swal.fire({
                     title: "Order Placed!",
                     text: "Your order has been successfully placed.",
