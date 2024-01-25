@@ -100,6 +100,13 @@ export default function ShoppingCartItems() {
             });
     }
 
+    if (cartItems.length === 0) {
+        return (
+            <section>
+                <div className={'text-xl font-semibold my-10 text-center mt-16'}>Your shopping cart is empty !</div>
+            </section>
+        )
+    }
 
     return (
         <section className="mt-8 ml-8 mr-8">
