@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dashboard} from '../../components/dashboard.tsx';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 interface UsersData {
     userName: string;
@@ -14,7 +15,7 @@ interface UsersData {
 
 export function Users() {
     const [users, setUsers] = React.useState<UsersData[]>([]);
-
+    const navigate = useNavigate();
     React.useEffect(() => {
         axios
             .get('http://localhost:8080/api/user/getAllUserDetails')
@@ -25,6 +26,10 @@ export function Users() {
                 console.error(error);
             });
     }, []);
+
+    function handlerEditUser() {
+        navigate('/profile')
+    }
 
     return (
         <section>
@@ -44,6 +49,7 @@ export function Users() {
                                 <div className={'flex gap-1 '}>
                                     <button
                                         className={'px-4 py-1 rounded-xl bg-white'}
+                                        onClick={ handlerEditUser}
                                         type={"button"}>
                                         Edit
                                     </button>
