@@ -25,7 +25,6 @@ interface OrderData {
 
 export default function ViewOrder() {
     const [order, setOrder] = useState<OrderData | null>(null);
-    const [orderId, setOrderId] = useState<string | undefined>(undefined); // New state for order ID
 
     useEffect(() => {
         fetchData();
@@ -37,10 +36,6 @@ export default function ViewOrder() {
             const response = await axios.get(
                 `http://localhost:8080/api/order/getOrderDetails/${orderId}`
             );
-            const orderData: OrderData = response.data.data;
-            setOrderId(orderData.orderId);
-
-            console.log(orderId);
             setOrder(response.data.data);
 
         } catch (error) {
