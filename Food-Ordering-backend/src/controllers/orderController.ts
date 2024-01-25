@@ -83,3 +83,15 @@ export const getOrderDetailsByOrderId = async (req: express.Request, res: any) =
         res.status(500).send(new CustomResponse(500, "something went Wrong", error));
     }
 }
+
+//get all order details
+
+export const getAllOrderDetails = async (req: express.Request, res: any) => {
+    try {
+        await OrderDetailsModel.find().then(r => {
+            res.status(200).send(new CustomResponse(200, "all order details are fount", r));
+        });
+    } catch (error) {
+        res.status(500).send(new CustomResponse(500, "something went wrong", error));
+    }
+}
