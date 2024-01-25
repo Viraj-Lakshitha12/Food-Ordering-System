@@ -38,21 +38,27 @@ export function Orders() {
             <Dashboard/>
             <div className="max-w-2xl mx-auto">
                 {allOrders.map((order) => (
-                    <div key={order.order} className="border p-4 mb-4">
+                    <div key={order.order} className="border p-4 mb-4 bg-gray-200 rounded-lg">
                         <div className="flex justify-between text-center">
-                            <div>
-                                <p className="font-semibold">Order ID: {order.order}</p>
-                                <p className="font-semibold">User Email: {order.email}</p>
-                                <p className="font-semibold">Date: {order.createdAt}</p>
+                            <div className={'grow'}>
+                                <div>
+                                    <p><span className="font-semibold">order-Id :</span> {order.order}</p>
+                                </div>
+                                <div>
+                                    <p><span className="font-semibold">user email :</span> {order.email}</p>
+                                </div>
+                                <div>
+                                    <p><span className={'font-semibold'}>date :</span> {order.createdAt}</p>
+                                </div>
                             </div>
                             <p className="font-semibold">Total: ${order.total.toFixed(2)}</p>
                         </div>
-                        <div className="mt-4">
-                            {/* Iterate over all items in the order */}
+                        <div className="my-4">
+                            {/*<h1 className={'text-center'}>Product</h1>*/}
                             {order.items.map((item) => (
                                 <div key={item.id} className="flex justify-between">
-                                    <p className="font-semibold">Item Name: {item.name}</p>
-                                    <p className="font-semibold">Price: ${item.price.toFixed(2)}</p>
+                                    <p ><span className="font-semibold">Item Name :</span> {item.name}</p>
+                                    <p ><span className="font-semibold">Price :</span> ${item.price.toFixed(2)}</p>
                                 </div>
                             ))}
                         </div>
