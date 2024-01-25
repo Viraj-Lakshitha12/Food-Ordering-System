@@ -5,45 +5,47 @@ import {OrderDetailsModel} from "../models/orderDetails";
 import {mockSession} from "next-auth/client/__tests__/helpers/mocks";
 import user = mockSession.user;
 
-
 // save orders
 export const saveOrder = async (req: express.Request, res: express.Response) => {
-        try {
-            const {cartItems, userData, total} = req.body;
+    try {
+        const {cartItems, userData, total} = req.body;
 
-            // Check if required data is present
-            if (!cartItems || !userData || !userData.email) {
-                return res.status(400).send(new CustomResponse(400, 'Bad Request', 'Invalid data format'));
-            }
-
-            const savedItems = cartItems.map((cartItem: any) => {
-                const {id, name, description, image, price} = cartItem;
-                return {id, name, description, image, price};
-            });
-
-            const savedOrder = await OrderModel.create({
-                items: savedItems,
-                total: total,
-                email: userData.email,
-            });
-            const savedOrderDetails = await OrderDetailsModel.create({
-                items: savedItems,
-                total: total,
-                email: userData.email,
-                userName: userData.userName,
-                address: userData.address,
-                postalCode: userData.postalCode,
-                city: userData.city
-            })
-
-            res.status(200).send(new CustomResponse(200, 'Save successful', {savedOrder, savedOrderDetails}));
-        } catch
-            (error) {
-            console.error('Error saving order or sending email:', error);
-            res.status(500).send(new CustomResponse(500, 'Internal Server Error', error));
+        // Check if required data is present
+        if (!cartItems || !userData || !userData.email) {
+            return res.status(400).send(new CustomResponse(400, 'Bad Request', 'Invalid data format'));
         }
+
+        const savedItems = cartItems.map((cartItem: any) => {
+            const {id, name, description, image, price} = cartItem;
+            return {id, name, description, image, price};
+        });
+
+        // Create the order
+        const savedOrder = await OrderModel.create({
+            items: savedItems,
+            total: total,
+            email: userData.email,
+        });
+
+        // Now use the _id of the savedOrder when creating OrderDetails
+        const savedOrderDetails = await OrderDetailsModel.create({
+            order: savedOrder._id, // Use the _id of the savedOrder
+            items: savedItems,
+            total: total,
+            email: userData.email,
+            userName: userData.userName,
+            address: userData.address,
+            postalCode: userData.postalCode,
+            city: userData.city,
+        });
+
+        res.status(200).send(new CustomResponse(200, 'Save successful', {savedOrder, savedOrderDetails}));
+    } catch (error) {
+        console.error('Error saving order or sending email:', error);
+        res.status(500).send(new CustomResponse(500, 'Internal Server Error', error));
     }
-;
+};
+
 
 //get orders
 export const getOrders = async (req: express.Request, res: any) => {
