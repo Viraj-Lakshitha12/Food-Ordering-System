@@ -6,6 +6,7 @@ import {ChangeEvent, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 
 interface UserData {
@@ -17,7 +18,7 @@ interface UserData {
 }
 
 export default function ShoppingCartItems() {
-    // const [netTotal, setNetTotal] = useState(0);
+    let navigate = useNavigate();
     const {cartItems, removeFromCart} = useCart();
     const [userData, setUserData] = useState<UserData>({
         userName: '',
@@ -87,6 +88,7 @@ export default function ShoppingCartItems() {
                     icon: "success"
                 });
                 setTimeout(() => {
+                    navigate('/viewOrder');
                     window.location.reload();
                 }, 2500);
             })
