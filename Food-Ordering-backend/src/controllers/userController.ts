@@ -153,9 +153,10 @@ export const getAllUserDetails = async (req: express.Request, res: any) => {
 export const deleteUser = async (req: express.Request, res: any) => {
     const {email} = req.params;
     try {
-       await UserModel.findOneAndDelete({email: email}).then(r=>{
-           res.status(200).send(new CustomResponse(200, "Delete successfully", r));
-       })
+        await userDetailsModel.findOneAndDelete({email: email});
+        await UserModel.findOneAndDelete({email: email}).then(r => {
+            res.status(200).send(new CustomResponse(200, "Delete successfully", r));
+        });
     } catch (error) {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
