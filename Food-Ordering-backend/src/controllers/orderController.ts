@@ -92,21 +92,16 @@ export const getAllOrderDetails = async (req: express.Request, res: any) => {
     }
 }
 
-
-// Calculate and get income
-export const getIncomeData = async (req: express.Request, res: express.Response) => {
+// Calculate and get income for the last 4 days
+export const getIncomeDataForLast4Days = async (req: express.Request, res: express.Response) => {
     try {
-        const {interval}: any = req.params;
-        console.log(interval);
+        const incomes = await OrderModel.calculateIncomeForLastNDays(4); // Calculate income for the last 4 days
+        console.log(incomes);
 
-        // Add logic to fetch income data based on the interval
-        const incomeData = await OrderModel.calculateIncomeByInterval(interval);
-        console.log(incomeData);
-        res.status(200).send(new CustomResponse(200, `calculate ${interval} income`, incomeData));
+        res.json(incomes); // Send the income data to the frontend
     } catch (error) {
-        console.error('Error fetching income data:', error);
-        res.status(500).json({error: 'Internal Server Error'});
+        console.error('Error fetching income data for the last 4 days:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 

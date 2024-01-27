@@ -18,6 +18,7 @@ interface OrderDocument extends Document {
 
 interface OrderModel extends Model<OrderDocument> {
     calculateIncomeByInterval(interval: string): Promise<{ total: number }>;
+    calculateIncomeForLastNDays(days: number): Promise<{ date: string; total: number }[]>;
 }
 
 const orderSchema = new Schema({
@@ -38,6 +39,7 @@ orderSchema.pre('save', function (next) {
     this.createdAt = moment().format('YYYY-MM-DD HH:mm');
     next();
 });
+
 // Static method to calculate income based on the specified interval
 orderSchema.statics.calculateIncomeByInterval = async function (interval: string): Promise<{ total: number }> {
     try {
@@ -80,6 +82,43 @@ orderSchema.statics.calculateIncomeByInterval = async function (interval: string
         return { total: totalIncome };
     } catch (error) {
         console.error('Error calculating income:', error);
+        throw error;
+    }
+};
+
+// Static method to calculate income for the last N days
+orderSchema.statics.calculateIncomeForLastNDays = async function (days: number): Promise<{ date: string; total: number }[]> {
+    try {
+        const incomes: { date: string; total: number }[] = [];
+
+        for (let i = 0; i < days; i++) {
+            const currentDate = moment().subtract(i, 'days');
+            const match = {
+                createdAt: {
+                    $gte: currentDate.startOf('day').toISOString(),
+                    $lte: currentDate.endOf('day').toISOString()
+                }
+            };
+
+            const result: { _id: null; totalIncome: number }[] = await this.aggregate([
+                {
+                    $match: match
+                },
+                {
+                    $group: {
+                        _id: null,
+                        totalIncome: { $sum: '$total' }
+                    }
+                }
+            ]);
+
+            const totalIncome = result.length > 0 ? result[0].totalIncome : 0;
+            incomes.push({ date: currentDate.format('YYYY-MM-DD'), total: totalIncome });
+        }
+
+        return incomes;
+    } catch (error) {
+        console.error('Error calculating income for last N days:', error);
         throw error;
     }
 };
