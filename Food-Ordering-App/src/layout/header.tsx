@@ -58,7 +58,7 @@ const ProfileLink: React.FC = () => {
 };
 
 const DashboardLink: React.FC = () => {
-    return <li><Link to="/categories">Dashboard</Link></li>;
+    return <li><Link to="/income">Dashboard</Link></li>;
 };
 
 const Header: React.FC<HeaderProps> = () => {
