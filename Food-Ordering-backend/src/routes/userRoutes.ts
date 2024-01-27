@@ -1,6 +1,6 @@
 import express, {Router} from "express";
 import {
-    authUser,
+    authUser, deleteUser,
     getAllUserDetails,
     getUserDetailsByEmail,
     registerUser,
@@ -19,6 +19,9 @@ route.post('/auth', authUser);
 
 //save user Details
 route.post('/saveUserDetails', verifyToken, saveUserDetails);
+
+//delete user by email
+route.delete('/deleteUser/:email', deleteUser);
 
 //get user details by email
 route.get('/getUserDetailsByEmail/:email', getUserDetailsByEmail);

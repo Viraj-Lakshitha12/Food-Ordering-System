@@ -2,8 +2,6 @@ import express from "express";
 import CustomResponse from "../util/customResponse";
 import {OrderModel} from "../models/order";
 import {OrderDetailsModel} from "../models/orderDetails";
-import {mockSession} from "next-auth/client/__tests__/helpers/mocks";
-import user = mockSession.user;
 
 // save orders
 export const saveOrder = async (req: express.Request, res: express.Response) => {
@@ -46,7 +44,6 @@ export const saveOrder = async (req: express.Request, res: express.Response) => 
     }
 };
 
-
 //get orders
 export const getOrders = async (req: express.Request, res: any) => {
     try {
@@ -85,7 +82,6 @@ export const getOrderDetailsByOrderId = async (req: express.Request, res: any) =
 }
 
 //get all order details
-
 export const getAllOrderDetails = async (req: express.Request, res: any) => {
     try {
         await OrderDetailsModel.find().then(r => {
