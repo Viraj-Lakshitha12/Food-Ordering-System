@@ -91,3 +91,22 @@ export const getAllOrderDetails = async (req: express.Request, res: any) => {
         res.status(500).send(new CustomResponse(500, "something went wrong", error));
     }
 }
+
+
+// Calculate and get income
+export const getIncomeData = async (req: express.Request, res: express.Response) => {
+    try {
+        const {interval}: any = req.params;
+        console.log(interval);
+
+        // Add logic to fetch income data based on the interval
+        const incomeData = await OrderModel.calculateIncomeByInterval(interval);
+        console.log(incomeData);
+        res.status(200).send(new CustomResponse(200, `calculate ${interval} income`, incomeData));
+    } catch (error) {
+        console.error('Error fetching income data:', error);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+};
+
+

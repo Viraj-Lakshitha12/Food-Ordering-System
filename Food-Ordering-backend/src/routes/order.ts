@@ -1,6 +1,6 @@
 import express, {Router} from "express";
 import {
-    getAllOrderByEmailAndDate, getAllOrderDetails,
+    getAllOrderByEmailAndDate, getAllOrderDetails, getIncomeData,
     getOrderDetailsByOrderId,
     getOrders,
     saveOrder
@@ -22,4 +22,5 @@ route.get('/getOrderDetails/:orderId', getOrderDetailsByOrderId);
 //get all order details
 route.get('/getAllOrderDetails', getAllOrderDetails);
 
+route.get('/income/:interval', getIncomeData);
 export default route;
