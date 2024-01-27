@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";
 
 // const GOOGLE_CLIENT_ID =
@@ -11,6 +11,7 @@ interface UserData {
 }
 
 const RegisterForm = () => {
+    let navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -38,6 +39,7 @@ const RegisterForm = () => {
                     showConfirmButton: false,
                     timer: 2500
                 });
+
                 return;
             }
 
@@ -46,10 +48,12 @@ const RegisterForm = () => {
             Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Successfully registered user!!",
+                title: "Successfully registered!",
+                html: "You can now log in with your credentials.",
                 showConfirmButton: false,
                 timer: 2500
             });
+            navigate('/login')
             console.log(data);
         } catch (error) {
             console.error('Error:', error);
