@@ -1,5 +1,5 @@
-import {useCart} from '../dashboard/menu/CartContext.tsx';
-import Delete from '../../assets/icons/delete.tsx';
+import {useCart} from '../menu/CartContext.tsx';
+import Delete from '../../../assets/icons/delete.tsx';
 import {Bounce, toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {ChangeEvent, useState} from "react";
@@ -7,7 +7,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
-
+import emailjs from '@emailjs/browser';
+// Initialize EmailJS with your user ID
+emailjs.init('OY5UIbpCiOJ6Wao6i');
 
 interface UserData {
     userName: string;
@@ -16,6 +18,9 @@ interface UserData {
     postalCode: string;
     city: string;
 }
+
+
+
 
 export default function ShoppingCartItems() {
     let navigate = useNavigate();
@@ -104,6 +109,8 @@ export default function ShoppingCartItems() {
                 });
             });
     }
+
+
 
     if (cartItems.length === 0) {
         return (

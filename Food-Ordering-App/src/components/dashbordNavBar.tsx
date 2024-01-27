@@ -11,6 +11,10 @@ export function DashbordNavBar() {
                 </div>
                 <nav>
                     <ul className="flex mx-5 text-gray-500 text-lg gap-6 font-semibold my-7 ">
+                        <li className={`${location.pathname === '/income' ? 'bg-red-600 text-white' :
+                            'bg-gray-300 text-black'} rounded-2xl p-2 px-5`}>
+                            <Link to="/income">Income</Link>
+                        </li>
                         <li className={`${location.pathname === '/categories' ? 'bg-red-600 text-white' :
                             'bg-gray-300 text-black'} rounded-2xl p-2 px-5`}>
                             <Link to="/categories">Categories</Link>

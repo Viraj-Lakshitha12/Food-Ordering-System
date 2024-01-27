@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dashboard} from '../../components/dashboard.tsx';
+import {Dashboard} from '../../../components/dashboard.tsx';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";

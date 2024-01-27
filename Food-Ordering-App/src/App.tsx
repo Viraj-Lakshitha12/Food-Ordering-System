@@ -12,13 +12,14 @@ import Profile from "./views/profile/profile.tsx";
 import {Dashboard} from "./components/dashboard.tsx";
 import {Categories} from "./views/dashboard/categories.tsx";
 import {MenuItems} from "./views/dashboard/menu/menuItems.tsx";
-import {Users} from "./views/users/users.tsx";
+import {Users} from "./views/dashboard/users/users.tsx";
 import {ShowMenuItems} from "./views/dashboard/menu/showMenuItems.tsx";
 import {UpdateMenuItems} from "./views/dashboard/menu/updateMenuItems.tsx";
-import {Orders} from "./views/orders/orders.tsx";
+import {Orders} from "./views/dashboard/orders/orders.tsx";
 import {CartProvider} from "./views/dashboard/menu/CartContext.tsx";
-import ShoppingCartItems from "./views/orders/shoppingCartItems.tsx";
-import ViewOrder from "./views/orders/viewOrder.tsx";
+import ShoppingCartItems from "./views/dashboard/orders/shoppingCartItems.tsx";
+import ViewOrder from "./views/dashboard/orders/viewOrder.tsx";
+import Income from "./views/dashboard/income/income.tsx";
 
 function App() {
     return (
@@ -42,6 +43,7 @@ function App() {
                     <Route path={"/orders"} element={<Orders/>}/>
                     <Route path={"/shoppingCartItems"} element={<ShoppingCartItems/>}/>
                     <Route path={"/viewOrder"} element={<ViewOrder/>}/>
+                    <Route path={"/income"} element={<Income/>}/>
 
                 </Routes>
                 <Footer/>
