@@ -9,7 +9,7 @@ const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const Income = () => {
     const [incomeData, setIncomeData] = useState<{ date?: string; total?: number }[]>([]);
     const [loading, setLoading] = useState(true);
-    const interval = 'weekly'; // Set the desired interval (can be dynamic based on user input)
+    const interval = 'weekly';
 
     useEffect(() => {
         fetchIncomeData(interval);
@@ -57,10 +57,9 @@ const Income = () => {
     };
 
     return (
-        <section>
+        <section className={'my-10'}>
             <DashbordNavBar />
-            <div>
-                <h2>Income Report</h2>
+            <div className="max-w-[75vw] mx-auto my-8">
                 {loading ? (
                     <p>Loading income data...</p>
                 ) : (
@@ -69,6 +68,7 @@ const Income = () => {
             </div>
         </section>
     );
+
 };
 
 export default Income;
