@@ -1,10 +1,11 @@
 import Right from "../assets/icons/right.tsx";
+import {useNavigate} from "react-router-dom";
 
 
 export default function Hero() {
-
+    let navigate = useNavigate();
     function handleOrderNowButton() {
-
+        navigate('/manu')
     }
 
     return (
