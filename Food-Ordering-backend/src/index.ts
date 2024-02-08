@@ -33,8 +33,6 @@ app.listen(8080, () => {
     console.log("Server started 8080");
 });
 
-
-// cross error config (place this before bodyParser)
 app.use(cors({origin: '*'}));
 
 // body-parser middleware
@@ -50,4 +48,4 @@ app.use('/api/user', userRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
 //order
-app.use('/api/order',order)
+app.use('/api/order',order);

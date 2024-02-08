@@ -22,5 +22,6 @@ route.get('/getOrderDetails/:orderId', getOrderDetailsByOrderId);
 //get all order details
 route.get('/getAllOrderDetails', getAllOrderDetails);
 
+//calculate income
 route.get('/income/:interval', getIncomeDataForLast4Days);
 export default route;
