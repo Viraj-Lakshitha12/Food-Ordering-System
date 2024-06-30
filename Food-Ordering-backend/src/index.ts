@@ -7,18 +7,11 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes";
 import dashboardRoutes from "./routes/dashboard";
 import order from "./routes/order";
-// import order from "./routes/order";
-
-
 dotenv.config();
 
 let app = express();
-
-
 mongoose.connect(process.env.MONGO_URL as string);
-
 const db = mongoose.connection;
-
 
 db.on('error', (error) => {
     console.log("DB error : " + error);
@@ -27,7 +20,6 @@ db.on('error', (error) => {
 db.on('open', () => {
     console.log("DB OK");
 });
-
 //server started port
 app.listen(8080, () => {
     console.log("Server started 8080");
